@@ -5,10 +5,17 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- Compiled and minified CSS -->
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- favicon -->
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}"/>
+    <!-- google material icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Materialize CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
     <title>HOMEchopped</title>
 </head>
 
@@ -16,21 +23,90 @@
 <header>
 
     <nav>
-        <div class="nav-wrapper">
-            <a href="#" class="brand-logo">HOMEchopped</a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="#">TEST1</a></li>
-                <li><a href="#">TEST2</a></li>
-                <li><a href="#">TEST3</a></li>
-            </ul>
+        <div class="nav-wrapper grey lighten-1">
+            <div class="container">
+                <a href="/" class="brand-logo"><span class="logo-home-text">HOME</span><span class="logo-chopped-text">chopped</span></a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i
+                        class="fas fa-bars sidenav-menu-icon"></i></a>
+                <ul class="right hide-on-med-and-down nav-link-text ">
+                    <li class="active"><a href="/">HOME</a></li>
+                    <li><a href="/">FEATURED</a></li>
+                    <li><a href="/">LATEST</a></li>
+                    <li><a href="/">RATED</a></li>
+                    <li><a href="/"><i class="fas fa-search"></i></a></li>
+                    <li><a href="/"> login <i class="fas fa-user"></i></a></li>
+                </ul>
+                <ul class="sidenav" id="mobile-demo">
+                    <li><a href="/">login<i class="fas fa-user"></i></a></li>
+                    <li><a href="/">SEARCH<i class="fas fa-search"></i></a></li>
+                    <li class="active"><a href="/">HOME<i class="fas fa-home"></i></a></li>
+                    <li><a href="/">FEATURED<i class="fas fa-award"></i></a></li>
+                    <li><a href="/">LATEST<i class="material-icons">fiber_new</i></a></li>
+                    <li><a href="/">RATED<i class="far fa-star"></i></a></li>
+                </ul>
+            </div>
         </div>
     </nav>
 
+
 </header>
-<h1> My base template
-</h1>
+<div class="main">
+    <div class="container">
+
+        {% block content %}
+        {% endblock %}
+
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="page-footer grey lighten-1">
+
+    <div class="container">
+        <div class="row">
+            <!-- Social links-->
+            <div class="col s12 center">
+                <!-- facebook -->
+                <span>
+                    <a class="grey-text text-lighten-4 " href="https://www.facebook.com/">
+                        <i class="fab fa-facebook-f social-footer-icon"></i>
+                    </a>
+                </span>
+                <!-- twitter -->
+                <span>
+                    <a class="grey-text text-lighten-4 " href="https://twitter.com/">
+                        <i class="fab fa-twitter social-footer-icon"></i>
+                    </a>
+                </span>
+                <!-- instagram -->
+                <span>
+                    <a class="grey-text text-lighten-4 " href="https://www.instagram.com/">
+                        <i class="fab fa-instagram social-footer-icon"></i>
+                    </a>
+                </span>
+                <!-- pinterest -->
+                <span>
+                    <a class="grey-text text-lighten-4 " href="https://www.pinterest.co.uk/">
+                        <i class="fab fa-pinterest-p social-footer-icon"></i>
+                    </a>
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <!-- copyright -->
+            <div class="col s12 center copyright-text">
+                <p>© 2020 Copyright Nic Britz (for educational purposes only)</p>
+            </div>
+        </div>
+
+    </div>
+
+</footer>
+
 <!-- Compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<!-- Font Awesome -->
+<script src="https://kit.fontawesome.com/aca960b3f7.js" crossorigin="anonymous"></script>
 <!-- Custom JavaScript -->
 <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
