@@ -38,8 +38,8 @@
             </li>
         </ul>
     </div>
-    <h1>test</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. At consequuntur, cupiditate deleniti, dolore
-        dolorum est et excepturi exercitationem fugiat harum in mollitia natus non officia omnis placeat provident
-        repellat voluptatibus?</p>
+    <h1>Recipes</h1>
+    {% for recipe in recipes %}
+        <h4>{{ recipe.name }}</h4>
+    {% endfor %}
 {% endblock %}
