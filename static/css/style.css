@@ -35,10 +35,11 @@ body {
 
 .sidenav-menu-icon {
     color: #424242;
-
 }
 
 /* Footer */
+
+/* social icons */
 .social-footer-icon {
     font-size: 2em;
     margin: 0;
@@ -52,11 +53,31 @@ body {
     color: #757575;
 }
 
+/* copyright */
 .copyright-text p {
     font-size: 1em;
     color: #424242;
     margin: 0;
     padding-bottom: 10px;
+}
+
+/* index main slider image */
+
+/* indicators */
+.slider .indicators .indicator-item{
+    background-color: #757575;
+}
+
+.slider .indicators .indicator-item.active {
+    background-color: #424242;
+}
+
+/* image captions */
+.slider .slides li .caption{
+    background-color: rgba(255,255,255,0.5);
+    color: #616161;
+    width: 100%;
+    left: 0;
 }
 
 /* Media Queries */

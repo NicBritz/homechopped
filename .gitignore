@@ -1,0 +1,11 @@
+
+.idea/.gitignore
+.idea/.name
+.idea/homechopped.iml
+.idea/inspectionProfiles/
+.idea/jsLibraryMappings.xml
+.idea/misc.xml
+.idea/modules.xml
+__pycache__/
+venv/
+.idea/dictionaries/
