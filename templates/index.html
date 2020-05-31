@@ -38,8 +38,63 @@
             </li>
         </ul>
     </div>
-    <h1>Recipes</h1>
-    {% for recipe in recipes %}
-        <h4>{{ recipe.name }}</h4>
-    {% endfor %}
+
+    <hr class="divider">
+
+    <!-- Recipe cards-->
+    <div class="row">
+        {% for recipe in recipes %}
+            <div class="col s12 m6 l3">
+                <div class="card ">
+                    <div class="card-image">
+                    <!-- display correct number of stars -->
+                        {% for i in range(1,6) %}
+                            {% if recipe.current_rating|int < i %}
+                                <i class="far fa-star left rating-star"></i>
+                            {% else %}
+                                <i class="fas fa-star left rating-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                        <!-- add card image -->
+                        <span>
+                        <a href="/"><img src="{{ recipe.image_url }}" alt="{{ recipe.name }}"></a>
+                        </span>
+                    </div>
+                    <div class="card-content">
+                        <!--recipe title-->
+                            <span class="card-title activator grey-text text-darken-4">{{ recipe.name|upper }}
+                                <i class="material-icons right">more_vert</i>
+                            </span>
+                        <!-- recipe info-->
+                        <div class="row">
+                            <div class="col s4 recipe-card-info-text">
+                                <p>SERVES</p>
+                                <i class="fas fa-utensils"></i>
+                                <span> {{ recipe.serves }}</span>
+                            </div>
+                            <div class="col s4 recipe-card-info-text">
+                                <p>PREP TIME</p>
+                                <i class="fas fa-clock"></i>
+                                <span> {{ recipe.preptime }}</span>
+                            </div>
+                            <div class="col s4 recipe-card-info-text">
+                                <p>COOK TIME</p>
+                                <i class="far fa-clock"></i>
+                                <span> {{ recipe.cooktime }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <a href="#">View Recipe</a>
+                    </div>
+                    <div class="card-reveal">
+                        <span class="card-title grey-text text-darken-4">{{ recipe.name|upper }}<i
+                                class="material-icons right">close</i></span>
+                        <p>{{ recipe.description }}</p>
+                        <a href="#">VIEW RECIPE</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
