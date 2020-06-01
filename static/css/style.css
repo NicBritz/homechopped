@@ -9,14 +9,15 @@
 body {
     background-color: #e0e0e0;
 }
+
 .container {
     margin: 0 6rem 0 6rem;
     max-width: none;
     width: auto;
 }
 
-.divider{
-    background-color:#fafafa;
+.divider {
+    background-color: #fafafa;
 }
 
 /* Header */
@@ -85,7 +86,7 @@ body {
 
 /* Cards */
 
-.card{
+.card {
     background-color: #f5f5f5;
 }
 
@@ -95,6 +96,7 @@ body {
     object-fit: cover;
     overflow: hidden;
     top: -30px !important;
+    bottom: -30px !important;
 }
 
 .rating-star {
@@ -113,18 +115,38 @@ body {
 }
 
 .card .card-content .card-title {
-    top: -20px;
-    position: relative;
+    margin-top: 0.2em;
+    font-size: 1.6em;
+    font-weight: 600;
 }
 
 .recipe-card-info-text p {
-    font-weight: bold;
+    font-weight: 500;
     font-size: 1em;
+}
+
+.recipe-card-info-text {
+    padding: 0.5em !important;
+}
+
+/* Featured page */
+.filter-icon a{
+    font-size: 2em;
+    color: #424242;
+}
+
+.filter-icon a:hover{
+    font-size: 2em;
+    color: #757575;
+}
+
+.filter-bar{
+    padding-bottom: 0;
 }
 
 /* Media Queries */
 
-/* Small Portrait */
+/* Small */
 @media (max-width: 991px) {
     /* globals*/
     .container {
@@ -146,9 +168,21 @@ body {
         font-size: 0.6em;
         font-weight: 500;
     }
+
+    /* cards */
+    .card .card-content .card-title {
+        margin-top: 0.2em;
+        font-size: 0.9em;
+        font-weight: 600;
+    }
+
+    .recipe-card-info-text p {
+        font-weight: 600;
+        font-size: 0.6em;
+    }
 }
 
-/* med Portrait */
+/* med  */
 @media (min-width: 768px) {
     /*  header */
     .logo-home-text {
@@ -163,9 +197,58 @@ body {
     .copyright-text p {
         font-size: 0.8em;
     }
+
+    /* cards */
+    .card .card-content .card-title {
+        margin-top: 0.2em;
+        font-size: 1.2em;
+        font-weight: 600;
+    }
+
+    .recipe-card-info-text p {
+        font-weight: 600;
+        font-size: 0.8em;
+    }
 }
 
-/* Lg Portrait */
+/*lg*/
+@media (min-width: 1024px) {
+    /* cards */
+
+    /* content box*/
+    .card-content {
+        padding: 0 1em !important;
+    }
+
+    /* title text */
+    .card .card-content .card-title {
+        margin-top: 0.2em;
+        font-size: 1em;
+        font-weight: 600;
+    }
+
+    /* more icon*/
+    .card .card-content .card-title i {
+        margin-top: 0.2em;
+        font-size: 1.2em;
+        font-weight: 600;
+    }
+
+    /*Heading of info texts*/
+    .recipe-card-info-text p {
+        font-weight: 600;
+        font-size: 0.7em;
+    }
+
+    /*icon and info text*/
+    .recipe-card-info-text > span, i {
+        font-weight: 500;
+        font-size: 0.5em;
+    }
+
+}
+
+/* xl  */
 @media (min-width: 1140px) {
     /* Header */
     .logo-home-text {
@@ -177,6 +260,17 @@ body {
     .logo-chopped-text {
         color: #616161;
         font-weight: 400;
+    }
+
+    /*Heading of info texts*/
+    .recipe-card-info-text p {
+        font-weight: 600;
+        font-size: 0.7em;
+    }
+
+    /*icon and info text*/
+    .recipe-card-info-text > span, i {
+        font-size: 0.7em;
     }
 
     /* footer */
