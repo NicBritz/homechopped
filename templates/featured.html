@@ -1,48 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <!-- Slider Section -->
-    <div class="section">
-        <div class="slider">
-            <ul class="slides">
-                <!-- random image 1 -->
-                <li>
-                    <img src="https://res.cloudinary.com/dajuujhvs/image/upload/v1590918265/homechopped/burger.jpg">
-                    <div class="caption center-align ">
-                        <h3>This is our big Tagline!</h3>
-                        <h5>Here's our small slogan.</h5>
-                    </div>
-                </li>
-                <!-- random image 2 -->
-                <li>
-                    <img src="https://res.cloudinary.com/dajuujhvs/image/upload/v1590918405/homechopped/japanese-food.jpg">
-                    <div class="caption center-align ">
-                        <h3>This is our big Tagline!</h3>
-                        <h5>Here's our small slogan.</h5>
-                    </div>
-                </li>
-                <!-- random image 3 -->
-                <li>
-                    <img src="https://res.cloudinary.com/dajuujhvs/image/upload/v1590918516/homechopped/good-food.jpg">
-                    <div class="caption center-align ">
-                        <h3>This is our big Tagline!</h3>
-                        <h5>Here's our small slogan.</h5>
-                    </div>
-                </li>
-                <!-- random image 4 -->
-                <li>
-                    <img src="https://res.cloudinary.com/dajuujhvs/image/upload/v1590918606/homechopped/french-patisserie.jpg">
-                    <div class="caption center-align ">
-                        <h3>This is our big Tagline!</h3>
-                        <h5>Here's our small slogan.</h5>
-                    </div>
-                </li>
-            </ul>
+    <!-- Filter Bar -->
+    <div class="section filter-bar">
+
+        <div class="row">
+            <div class="col s12 filter-icon">
+                {% if a_to_z == 'z-a' %}
+                    <a href="{{ url_for('featured_sorted', sortby='a-z') }}"><i
+                            class="fas fa-sort-alpha-down right"></i></a>
+                {% elif a_to_z == 'a-z' %}
+                    <a href="{{ url_for('featured_sorted', sortby='z-a') }}"><i class="fas fa-sort-alpha-down-alt right"></i></a>
+                {% endif %}
+            </div>
         </div>
     </div>
 
-    <hr class="divider">
-
+    <div class="divider"></div>
     <!-- Recipe cards-->
     <div class="section">
         <div class="row">
