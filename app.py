@@ -15,21 +15,6 @@ app.config["SECRET_KEY"] = "uF_a0HhS1HAneZoA0XeGw"
 mongo = PyMongo(app)
 
 
-# temp
-
-# users = {
-#
-#     'nic': {
-#         'username': 'nic',
-#         'password': '12345'
-#     },
-#     'sam': {
-#         'username': 'sam',
-#         'password': '54321'
-#     }
-# }
-
-
 @app.route('/')
 def index():
     # Returns the index.html and passes in all recipes from the database
@@ -40,42 +25,53 @@ def index():
     return render_template('index.html', recipes=all_recipes, )
 
 
+# login routes
+
+# sign in
 @app.route('/sign-in', methods=['POST', 'GET'])
 def sign_in():
+    # This function renders the sign in template and checks the users credentials against the database.
+
+    # Creates a blank feedback message
+    message = ''
+
     if request.method == 'POST':
+
         # search the database for the username
         login_user = mongo.db.users.find_one({'username': request.form.get('username')})
 
-    if login_user:
-        # compare hashed password src:
-        # https://stackoverflow.com/questions/27413248/why-can-bcrypt-hashpw-be-used-both-for-hashing-and-verifying-passwords
-        if bcrypt.hashpw(request.form['password'].encode('utf-8'),
-                         login_user['password']) == login_user['password']:
+        if login_user:
+            # compare the hashed password in the database with the users entered password src:
+            # https://stackoverflow.com/questions/27413248/why-can-bcrypt-hashpw-be-used-both-for-hashing-and-verifying-passwords
+            if bcrypt.hashpw(request.form['password'].encode('utf-8'),
+                             login_user['password']) == login_user['password']:
+                session['USERNAME'] = request.form['username']
+                return redirect(url_for('profile'))
+        # authentication failed
+        message = 'Invalid username or password.'
+
+    # if the request is a get request render the sign in template
+    return render_template('sign-in.html', message=message)
+
+
+# register
+@app.route('/register', methods=['POST', 'GET'])
+def register():
+    if request.method == 'POST':
+        db_users = mongo.db.users
+        # check if user already exists
+        existing_user = db_users.find_one({'username': request.form['username']})
+        # if the user does not already exist
+        if existing_user is None:
+            hashpass = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
+            # add to mongodb
+            db_users.insert({'username': request.form['username'], 'password': hashpass})
             session['USERNAME'] = request.form['username']
             return redirect(url_for('profile'))
-    # failed
-    return 'Invalid username/password combination'
-
-    # if not username in users:
-    #     print('username not found')
-    #     return redirect(request.url)
-    # else:
-    #     # assign username from the form to the user var
-    #     user = users[username]
-    #
-    # if not password == user['password']:
-    #     print('password incorrect')
-    #     return redirect(request.url)
-    #
-    # else:
-    #     # store database id here!
-    #     session['USERNAME'] = user['username']
-    #     print('user added to session')
-    #     return redirect(url_for('profile'))
-
-
-# if request is a get request
-return render_template('sign-in.html')
+        else:
+            return 'that username already exists!'
+    # if it is a get request return registration template
+    return render_template('register.html')
 
 
 @app.route('/profile')
@@ -99,25 +95,6 @@ def profile():
 def sign_out():
     session.clear()
     return redirect(url_for('sign_in'))
-
-
-@app.route('/register', methods=['POST', 'GET'])
-def register():
-    if request.method == 'POST':
-        db_users = mongo.db.users
-        # check if user already exists
-        existing_user = db_users.find_one({'username': request.form['username']})
-        # if the user does not already exist
-        if existing_user is None:
-            hashpass = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
-            # add to mongodb
-            db_users.insert({'username': request.form['username'], 'password': hashpass})
-            session['USERNAME'] = request.form['username']
-            return redirect(url_for('profile'))
-        else:
-            return 'that username already exists!'
-    # if it is a get request return registration template
-    return render_template('register.html')
 
 
 @app.route('/featured/<sortby>')
