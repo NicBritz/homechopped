@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{%  block content %}
+    <div class="container">
+    <div class="row">
+    <h3>User Profile page</h3>
+        <hr>
+        <div class="card">
+            <div class="card-body">
+                <h4>{{ userdata.username }}</h4>
+                <hr>
+                <a class="waves-effect waves-light btn" href="{{ url_for('sign_out') }}">Sign Out <i class="material-icons right">cloud</i></a>
+            </div>
+        </div>
+
+    </div>
+    </div>
+{% endblock %}

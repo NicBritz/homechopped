@@ -30,14 +30,29 @@
                         class="fas fa-bars sidenav-menu-icon"></i></a>
                 <ul class="right hide-on-med-and-down nav-link-text ">
                     <li class="active"><a href="/">HOME</a></li>
-                    <li><a href="{{url_for('featured_sorted', sortby='a-z')}}">FEATURED</a></li>
+                    <li><a href="{{ url_for('featured_sorted', sortby='a-z') }}">FEATURED</a></li>
                     <li><a href="/">LATEST</a></li>
                     <li><a href="/">RATED</a></li>
                     <li><a href="/"><i class="fas fa-search"></i></a></li>
-                    <li><a href="/"> login <i class="fas fa-user"></i></a></li>
+                    <!-- If user is logged in display username and link to profile page else link to login page -->
+                    {% if session['USERNAME'] %}
+                        <li><a href="{{ url_for('profile') }}"> {{ session['USERNAME'] }} <i
+                                class="fas fa-user"></i></a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('sign_in') }}"> {{ session['USERNAME'] }} <i
+                                class="fas fa-user"></i></a></li>
+                    {% endif %}
+
                 </ul>
                 <ul class="sidenav" id="mobile-demo">
-                    <li><a href="/">login<i class="fas fa-user"></i></a></li>
+                    <!-- If user is logged in display username and link to profile page else link to login page -->
+                    {% if session['USERNAME'] %}
+                        <li><a href="{{ url_for('profile') }}"> {{ session['USERNAME'] }} <i
+                                class="fas fa-user"></i></a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('sign_in') }}"> {{ session['USERNAME'] }} <i
+                                class="fas fa-user"></i></a></li>
+                    {% endif %}
                     <li><a href="/">SEARCH<i class="fas fa-search"></i></a></li>
                     <li class="active"><a href="/">HOME<i class="fas fa-home"></i></a></li>
                     <li><a href="/">FEATURED<i class="fas fa-award"></i></a></li>
