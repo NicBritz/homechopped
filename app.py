@@ -1,16 +1,26 @@
 import os
 from flask import Flask, render_template, session, request, redirect, url_for
+from bson.objectid import ObjectId
 from flask_pymongo import PyMongo
+import cloudinary as cloudinary
+from cloudinary.uploader import upload
 import bcrypt
+
+# cloudinary config
+cloudinary.config(
+    cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    api_key=os.environ.get('CLOUDINARY_API_KEY'),
+    api_secret=os.environ.get('CLOUDINARY_API_SECRET')
+)
 
 app = Flask(__name__)
 
-# mongoDB config 
+# mongoDB config
 app.config["MONGO_DBNAME"] = os.environ.get('HC_MONGO_DBNAME')
 app.config["MONGO_URI"] = os.environ.get('HC_MONGO_URI')
 
 # secret key
-app.config["SECRET_KEY"] = "uF_a0HhS1HAneZoA0XeGw"
+app.config["SECRET_KEY"] = os.environ.get('SESSION_SECRET')
 
 mongo = PyMongo(app)
 
@@ -18,6 +28,7 @@ mongo = PyMongo(app)
 @app.route('/')
 def index():
     # Returns the index.html and passes in all recipes from the database
+    #
     all_recipes = mongo.db.recipes.find()
     return render_template('index.html', recipes=all_recipes, )
 
@@ -106,22 +117,60 @@ def profile():
         # get the user from the database
         existing_user = db_users.find_one({'username': username})
 
-        return render_template('profile.html', userdata=existing_user)
+        return render_template('profile.html', user_data=existing_user)
     else:
         # if the user is not signed the are redirected to the sign in page
         return redirect(url_for('sign_in'))
+
 
 # Sign out
 @app.route('/sign-out')
 def sign_out():
     # clears the session variables and redirects to the sign in page
+    #
     session.clear()
     return redirect(url_for('sign_in'))
+
+
+# Edit profile
+@app.route('/edit-profile/<user_id>')
+def edit_profile(user_id):
+    # renders the edit profile page
+    #
+    # create a variable of the users database
+    db_users = mongo.db.users
+
+    # get the user from the database
+    user_data = db_users.find_one({'_id': ObjectId(user_id)})
+
+    return render_template('edit-profile.html', user_data=user_data)
+
+
+# upload profile image
+@app.route('/upload-profile-image/<user_id>', methods=['POST'])
+def upload_profile_image(user_id):
+    # This function uses the cloudinary framework yo upload a profile image and add it to the users profile
+    #
+    # src: https://github.com/tiagocordeiro/flask-cloudinary
+
+    # users database variable
+    db_users = mongo.db.users
+    # get the file from the POST request
+    file_to_upload = request.files['file']
+    # upload the file and get the url of the uploaded file
+    if file_to_upload:
+        upload_result = upload(file_to_upload)
+        url = upload_result['secure_url']
+        #  update the profile picture of the users account and add it is user has no picture.
+        db_users.update_one({'_id': ObjectId(user_id)}, {"$set": {'profile_image': url}}, upsert=True)
+
+    return redirect(url_for('edit_profile', user_id=user_id))
 
 
 @app.route('/featured/<sortby>')
 def featured_sorted(sortby):
     # Returns the featured.html and passes in featured recipes from the database
+    #
     # with a variable for some sorting options
     featured_recipes = None
     if sortby == 'a-z':

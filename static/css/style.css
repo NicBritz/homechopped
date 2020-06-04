@@ -165,8 +165,9 @@ body {
 
 /* Profile page */
 .profile-img-lg {
-    display: inline-block;
+
     position: relative;
+    left: 0;
 }
 
 .profile-title-text h4 {
@@ -189,7 +190,7 @@ body {
     color: #757575;
 }
 
-.profile-link-btn{
+.profile-link-btn {
     font-size: 1em;
 
 }
@@ -200,6 +201,11 @@ body {
     right: -0.9em;
 }
 
+/* Edit profile */
+
+.edit-textarea-label {
+    font-size: 1.5em!important;
+}
 
 /* Media Queries */
 
