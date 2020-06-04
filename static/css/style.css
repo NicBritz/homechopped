@@ -144,6 +144,28 @@ body {
     padding-bottom: 0;
 }
 
+/* sign in page*/
+.sign-in-header h4{
+    font-weight: 600;
+    color: #424242;
+    background: #bdbdbd;
+    padding: 5px;
+    margin: 0;
+    margin-top: 1em;
+}
+
+.sign-in-btn{
+    width: 100%;
+}
+
+.btn{
+    /*color: #bdbdbd;*/
+    /*background: #424242;*/
+    font-weight: 500;
+    font-size: 1.3em;
+}
+
+
 /* Media Queries */
 
 /* Small */
