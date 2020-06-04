@@ -8,4 +8,5 @@ document.addEventListener('DOMContentLoaded', function () {
     let sliderElems = document.querySelectorAll('.slider');
     let instances = M.Slider.init(sliderElems);
 
+
 });
