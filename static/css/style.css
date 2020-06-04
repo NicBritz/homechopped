@@ -130,22 +130,22 @@ body {
 }
 
 /* Featured page */
-.filter-icon a{
+.filter-icon a {
     font-size: 2em;
     color: #424242;
 }
 
-.filter-icon a:hover{
+.filter-icon a:hover {
     font-size: 2em;
     color: #757575;
 }
 
-.filter-bar{
+.filter-bar {
     padding-bottom: 0;
 }
 
 /* sign in page*/
-.sign-in-header h4{
+.sign-in-header h4 {
     font-weight: 600;
     color: #424242;
     background: #bdbdbd;
@@ -154,15 +154,50 @@ body {
     margin-top: 1em;
 }
 
-.sign-in-btn{
-    width: 100%;
+.sign-in-btn {
+    width: 100px;
 }
 
-.btn{
-    /*color: #bdbdbd;*/
-    /*background: #424242;*/
+.btn {
     font-weight: 500;
     font-size: 1.3em;
+}
+
+/* Profile page */
+.profile-img-lg {
+    display: inline-block;
+    position: relative;
+}
+
+.profile-title-text h4 {
+    font-weight: 600;
+    margin: 0;
+}
+
+.profile-bio-text p {
+    padding: 1em;
+    font-size: 1em;
+    background: #eeeeee;
+    border-radius: 3px;
+}
+
+.edit-icon {
+    color: #424242;
+}
+
+.edit-icon :hover {
+    color: #757575;
+}
+
+.profile-link-btn{
+    font-size: 1em;
+
+}
+
+.bio-icon {
+    position: relative;
+    bottom: -0.9em;
+    right: -0.9em;
 }
 
 
@@ -236,7 +271,6 @@ body {
 /*lg*/
 @media (min-width: 1024px) {
     /* cards */
-
     /* content box*/
     .card-content {
         padding: 0 1em !important;

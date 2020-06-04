@@ -1,17 +1,45 @@
 {% extends 'base.html' %}
-{%  block content %}
-    <div class="container">
-    <div class="row">
-    <h3>User Profile page</h3>
-        <hr>
-        <div class="card">
-            <div class="card-body">
-                <h4>{{ userdata.username }}</h4>
-                <hr>
-                <a class="waves-effect waves-light btn" href="{{ url_for('sign_out') }}">Sign Out <i class="material-icons right">cloud</i></a>
+{% block content %}
+    <div class="section">
+        <br>
+        <!-- Profile area -->
+        <div class="row">
+            <!-- Profile image -->
+            <div class="col m3 center">
+                <img class="center profile-img-lg" width="100"
+                     src="https://res.cloudinary.com/dajuujhvs/image/upload/v1591278246/homechopped/profile-pics/default_pic.png"
+                     lt="profile image">
+            </div>
+            <!-- Profile name -->
+            <div class="col m3 profile-title-text">
+                <h5>Welcome,</h5>
+                <h4>{{ userdata.username|upper }}</h4>
+            </div>
+            <!-- Profile Bio -->
+            <div class="col m6 profile-bio-text">
+                <h5>Bio:</h5>
+                <p>{{ userdata.bio }}</p>
+
             </div>
         </div>
+        <div class="row">
+            <!-- Profile buttons-->
+            <div class="col s12">
+                <a class="waves-effect waves-light btn grey darken-3 grey-text text-lighten-2 right profile-link-btn"
+                   href="{{ url_for('sign_out') }}">Sign Out</a>
+                <a class="waves-effect waves-light btn grey darken-3 grey-text text-lighten-2 left profile-link-btn"
+                   href="{{ url_for('sign_out') }}">edit</a>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <div class="row">
+    <!-- Users recipe area -->
+        <div class="col s12">
+            <h4>My Recipes</h4>
+            <a class="waves-effect waves-light btn grey darken-3 grey-text text-lighten-2 left profile-link-btn"
+               href="{{ url_for('sign_out') }}">ADD</a>
+        </div>
+    </div>
 
-    </div>
-    </div>
 {% endblock %}
