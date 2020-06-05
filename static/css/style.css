@@ -165,7 +165,8 @@ body {
 
 /* Profile page */
 .profile-img-lg {
-
+    width: 150px;
+    height: 150px;
     position: relative;
     left: 0;
 }
@@ -191,7 +192,7 @@ body {
 }
 
 .profile-link-btn {
-    font-size: 1em;
+    font-size: 0.9em;
 
 }
 
@@ -204,7 +205,25 @@ body {
 /* Edit profile */
 
 .edit-textarea-label {
-    font-size: 1.5em!important;
+    font-size: 1.5em !important;
+}
+
+.del-profile {
+    font-size: 2em;
+}
+
+.del-profile i {
+    color: #e0e0e0;
+}
+
+.profile-link-btn span {
+    font-weight: 500;
+    color: #e0e0e0;
+    font-size: 0.9em;
+}
+
+.modal {
+    width: 35%;
 }
 
 /* Media Queries */
