@@ -167,6 +167,31 @@ def upload_profile_image(user_id):
     return redirect(url_for('edit_profile', user_id=user_id))
 
 
+# Update User profile
+@app.route('/update-profile/<user_id>', methods=['POST'])
+def update_profile(user_id):
+    # Updates the user profile information
+
+    # users database variable
+    db_users = mongo.db.users
+    #  update the profile information and redirect to profile.
+    db_users.update_one({'_id': ObjectId(user_id)}, {"$set": {'bio': request.form['bio']}}, upsert=True)
+
+    return redirect(url_for('profile'))
+
+
+# Delete user profile
+@app.route('/delete_user/<user_id>')
+def delete_user(user_id):
+    # deleted the user profile from the database
+    #
+    # users database variable
+    db_users = mongo.db.users
+    #  update the profile information and redirect to profile.
+    db_users.remove({'_id': ObjectId(user_id)})
+    return redirect(url_for('sign_out'))
+
+
 @app.route('/featured/<sortby>')
 def featured_sorted(sortby):
     # Returns the featured.html and passes in featured recipes from the database
