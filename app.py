@@ -4,6 +4,7 @@ from bson.objectid import ObjectId
 from flask_pymongo import PyMongo
 import cloudinary as cloudinary
 from cloudinary.uploader import upload
+from cloudinary.uploader import destroy
 import bcrypt
 from datetime import date
 
@@ -90,7 +91,9 @@ def register():
             # Hash the password for better security
             hashpass = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
             # add record to mongodb
-            db_users.insert({'username': request.form['username'], 'password': hashpass})
+            db_users.insert({'username': request.form['username'], 'password': hashpass,
+                             'profile_image': 'https://res.cloudinary.com/dajuujhvs/image/upload/v1591443059/xbv453shlvxycy399dcc.png',
+                             'profile_image_id': 'xbv453shlvxycy399dcc'})
             session['USERNAME'] = request.form['username']
             return redirect(url_for('profile'))
         # if the user already exists
@@ -162,12 +165,35 @@ def upload_profile_image(user_id):
     file_to_upload = request.files['file']
     # upload the file and get the url of the uploaded file
     if file_to_upload:
-        upload_result = upload(file_to_upload)
-        url = upload_result['secure_url']
+        # find current user record
+        current_user = db_users.find_one({'_id': ObjectId(user_id)})
+        # find current image id
+        current_image_id = current_user['profile_image_id']
+        # update the current image
+        new_image = update_image(current_image_id, file_to_upload)
+
         #  update the profile picture of the users account and add it is user has no picture.
-        db_users.update_one({'_id': ObjectId(user_id)}, {"$set": {'profile_image': url}}, upsert=True)
+        db_users.update_one({'_id': ObjectId(user_id)},
+                            {"$set": {'profile_image': new_image['url'], 'profile_image_id': new_image['url_id']}},
+                            upsert=True)
 
     return redirect(url_for('edit_profile', user_id=user_id))
+
+
+# UPDATE IMAGE FUNCTION
+def update_image(current_image_id, file):
+    """
+    Finds the current image on cloudinary and replaces it with the new image.
+    :arg - current image id, new image file
+    :return - type: dict
+    value - new image url and id
+    """
+    # delete the current image
+    destroy(current_image_id, invalidate=True)
+    # upload new image
+    upload_result = upload(file)
+
+    return {'url': upload_result['secure_url'], 'url_id': upload_result['public_id']}
 
 
 # Update User profile
@@ -196,51 +222,141 @@ def delete_user(user_id):
     return redirect(url_for('sign_out'))
 
 
-# Add recipe
-@app.route('/add-recipe/<user_id>', methods=['POST', 'GET'])
-def add_recipe(user_id):
-    # users database variable
-    current_user = mongo.db.users.find_one({'_id': ObjectId(user_id)})
+# create temp recipe
+@app.route('/add_temp_recipe/<user_id>')
+def add_temp_recipe(user_id):
     db_recipes = mongo.db.recipes
-
-    if request.method == 'POST':
-        # upload image and get the url
-        image_url = None
-        file_to_upload = request.files['file']
-        # If no image is uploaded
-        if file_to_upload.filename == '':
-            # default url
-            image_url = 'https://res.cloudinary.com/dajuujhvs/image/upload/v1591433093/homechopped/photo-placeholder-icon-6_q4zywi.png'
-        else:
-            upload_result = upload(file_to_upload)
-            image_url = upload_result['secure_url']
-
-        # prep time calc
-        prep_time = f"{request.form['prep-hours']}h : {request.form['prep-minutes']}m"
-        # cook time calc
-        cook_time = f"{request.form['cook-hours']}h : {request.form['cook-minutes']}m"
-
-        #get the date
-        today = date.today().strftime("%d/%m/%Y")
-
-        # insert record
-        db_recipes.insert_one({
+    image_url = 'https://res.cloudinary.com/dajuujhvs/image/upload/v1591442613/pa9cybxloavqafbrktlf.png'
+    image_url_id = 'pa9cybxloavqafbrktlf'
+    db_recipes.insert_one(
+        {
+            'name': 'placeholder',
             'image_url': image_url,
-            'name': request.form['recipe-name'],
-            'description': request.form['recipe-description'],
-            'notes': request.form['recipe-notes'],
-            'preptime': prep_time,
-            'cooktime': cook_time,
-            'serves': request.form['serves'],
-            'author': current_user['username'],
+            'image_url_id': image_url_id,
             'featured': 'false',
             'current_rating': '0',
             'total_ratings': 0,
-            'date_created': today
         })
-        return redirect(url_for('profile'))
+    current_recipe = db_recipes.find_one({'name': 'placeholder'})
+    return redirect(url_for('edit_recipe', user_id=user_id, recipe_id=current_recipe['_id']))
 
-    return render_template('add-recipe.html')
+
+# edit recipe
+@app.route('/edit_recipe/<user_id>/<recipe_id>')
+def edit_recipe(user_id, recipe_id):
+    db_recipes = mongo.db.recipes
+    current_recipe = db_recipes.find_one({'_id': ObjectId(recipe_id)})
+    db_ingredients = mongo.db.ingredients
+    current_ingredients = db_ingredients.find({'recipe_id': current_recipe['_id']})
+    db_methods = mongo.db.methods
+    current_methods = db_methods.find({'recipe_id': current_recipe['_id']})
+    return render_template('edit-recipe.html', user_id=user_id, recipe_id=recipe_id, current_recipe=current_recipe,
+                           current_ingredients=current_ingredients, current_methods=current_methods)
+
+
+# update recipe
+@app.route('/update_recipe/<user_id>/<recipe_id>', methods=['POST'])
+def update_recipe(user_id, recipe_id):
+    current_user = mongo.db.users.find_one({'_id': ObjectId(user_id)})
+    db_recipes = mongo.db.recipes
+    current_recipe = db_recipes.find_one({'_id': ObjectId(recipe_id)})
+    db_ingredients = mongo.db.ingredients
+    current_ingredients = db_ingredients.find({'recipe_id': current_recipe['_id']})
+    # upload image and get the url
+    image_url = None
+
+    file_to_upload = request.files['file']
+    # If no image is uploaded
+    if file_to_upload.filename == '':
+        # default url
+        image_url = current_recipe['image_url']
+        image_url_id = current_recipe['image_url_id']
+    else:
+        destroy(current_recipe['image_url_id'], invalidate=True)
+        upload_result = upload(file_to_upload)
+        image_url = upload_result['secure_url']
+        image_url_id = upload_result['public_id']
+
+    # get the date
+    today = date.today().strftime("%d/%m/%Y")
+
+    # update record
+    db_recipes.update_one({'_id': ObjectId(recipe_id)}, {"$set": {
+        'image_url': image_url,
+        'image_url_id': image_url_id,
+        'name': request.form['recipe-name'],
+        'description': request.form['recipe-description'],
+        'notes': request.form['recipe-notes'],
+        'preptime_hrs': request.form['prep-hours'],
+        'preptime_min': request.form['prep-minutes'],
+        'cooktime_hrs': request.form['cook-hours'],
+        'cooktime_min': request.form['cook-minutes'],
+        'serves': request.form['serves'],
+        'author': current_user['username'],
+        'date_updated': today
+    }}, upsert=True)
+    return redirect(
+        url_for('edit_recipe', user_id=user_id, recipe_id=recipe_id))
+
+
+# edit ingredients
+@app.route('/edit_ingredient_list/<user_id>/<recipe_id>', methods=['POST', 'GET'])
+def edit_ingredient_list(user_id, recipe_id):
+    db_recipes = mongo.db.recipes
+    current_recipe = db_recipes.find_one({'_id': ObjectId(recipe_id)})
+    db_ingredients = mongo.db.ingredients
+    current_ingredients = db_ingredients.find({'recipe_id': current_recipe['_id']})
+    if request.method == 'POST':
+        # find any ingredients for this recipe
+        db_ingredients = mongo.db.ingredients
+        db_ingredients.insert_one(
+            {'ingredient_item': request.form['ingredient_item'], 'recipe_id': current_recipe['_id']})
+
+    return render_template('edit-ingredient-list.html', user_id=user_id, recipe_id=current_recipe['_id'],
+                           current_ingredients=current_ingredients)
+
+
+# delete ingredient item
+@app.route('/delete_ingredient_item/<user_id>/<recipe_id>/<ingredient_id>')
+def del_ingredient_item(user_id, recipe_id, ingredient_id):
+    db_ingredients = mongo.db.ingredients
+    db_ingredients.remove({'_id': ObjectId(ingredient_id)})
+    return redirect(url_for('edit_ingredient_list', user_id=user_id, recipe_id=recipe_id))
+
+
+# delete recipe
+@app.route('/delete_recipe/<recipe_id>')
+def del_recipe(recipe_id):
+    db_recipes = mongo.db.recipes
+    db_recipes.remove({'_id': ObjectId(recipe_id)})
+    db_ingredients = mongo.db.ingredients
+    db_ingredients.delete_many({'recipe_id': ObjectId(recipe_id)})
+    return redirect(url_for('profile'))
+
+
+# edit methods
+@app.route('/edit_method_list/<user_id>/<recipe_id>', methods=['POST', 'GET'])
+def edit_method_list(user_id, recipe_id):
+    db_recipes = mongo.db.recipes
+    current_recipe = db_recipes.find_one({'_id': ObjectId(recipe_id)})
+    db_methods = mongo.db.methods
+    current_methods = db_methods.find({'recipe_id': current_recipe['_id']})
+    if request.method == 'POST':
+        # find any methods for this recipe
+        db_methods = mongo.db.methods
+        db_methods.insert_one(
+            {'method_name': request.form['method_name'], 'recipe_id': current_recipe['_id']})
+
+    return render_template('edit-method-list.html', user_id=user_id, recipe_id=current_recipe['_id'],
+                           current_methods=current_methods)
+
+
+# delete method item
+@app.route('/delete_method_item/<user_id>/<recipe_id>/<method_id>')
+def del_method_item(user_id, recipe_id, method_id):
+    db_methods = mongo.db.methods
+    db_methods.remove({'_id': ObjectId(method_id)})
+    return redirect(url_for('edit_method_list', user_id=user_id, recipe_id=recipe_id))
 
 
 @app.route('/featured/<sortby>')

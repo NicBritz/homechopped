@@ -6,13 +6,13 @@
         <div class="row">
             <!-- Profile image -->
             <div class="col m2 center">
-                    {% if not user_data.profile_image  %}
+                {% if not user_data.profile_image %}
                     <img class=" profile-img-lg" width="100"
-                         src="https://res.cloudinary.com/dajuujhvs/image/upload/v1591278246/homechopped/profile-pics/default_pic.png"
+                         src="https://res.cloudinary.com/dajuujhvs/image/upload/v1591443059/xbv453shlvxycy399dcc.png"
                          alt="profile image">
                 {% else %}
-                        <img class=" profile-img-lg" width="100"
-                         src="{{ user_data.profile_image}}"
+                    <img class=" profile-img-lg" width="100"
+                         src="{{ user_data.profile_image }}"
                          alt="profile image">
                 {% endif %}
 
@@ -45,7 +45,7 @@
         <div class="col s12">
             <h4>My Recipes</h4>
             <a class="waves-effect waves-light btn grey darken-3 grey-text text-lighten-2 left profile-link-btn"
-               href="{{ url_for('add_recipe', user_id=user_data._id) }}">ADD</a>
+               href="{{ url_for('add_temp_recipe', user_id=user_data._id) }}">ADD</a>
             {% for recipe in users_recipes %}
                 <div class="col s12 m6 l4 xl3">
                     <div class="card large">
@@ -89,6 +89,9 @@
                         </div>
                         <div class="card-action">
                             <a href="#">View Recipe</a>
+                            <br>
+                            <p></p>
+                            <a href="{{ url_for('edit_recipe', user_id=user_data._id, recipe_id=recipe._id) }}">EDIT RECIPE</a>
                         </div>
                         <div class="card-reveal">
                         <span class="card-title grey-text text-darken-4">{{ recipe.name|upper }}<i

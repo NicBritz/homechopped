@@ -226,6 +226,19 @@ body {
     width: 35%;
 }
 
+/*  Edit Ingredients */
+.ingredient-item{
+    font-size: 2em;
+    display: inline;
+    padding-left: 1em;
+}
+
+.secondary-content-l{
+  float: left;
+  color: #26a69a;
+}
+
+
 /* Media Queries */
 
 /* Small */
