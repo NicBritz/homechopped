@@ -5,6 +5,7 @@ from flask_pymongo import PyMongo
 import cloudinary as cloudinary
 from cloudinary.uploader import upload
 import bcrypt
+from datetime import date
 
 # cloudinary config
 cloudinary.config(
@@ -108,16 +109,18 @@ def profile():
     #
     # create a variable of the users database
     db_users = mongo.db.users
+    db_recipes = mongo.db.recipes
 
     # if user exists in the database and in the session variable
     if session.get('USERNAME', None) is not None:
         # assigns session var to username variable
         username = session['USERNAME']
 
-        # get the user from the database
+        # get the user and users recipes from the database
         existing_user = db_users.find_one({'username': username})
+        users_recipes = db_recipes.find({'author': username})
 
-        return render_template('profile.html', user_data=existing_user)
+        return render_template('profile.html', user_data=existing_user, users_recipes=users_recipes)
     else:
         # if the user is not signed the are redirected to the sign in page
         return redirect(url_for('sign_in'))
@@ -181,7 +184,7 @@ def update_profile(user_id):
 
 
 # Delete user profile
-@app.route('/delete_user/<user_id>')
+@app.route('/delete-user/<user_id>')
 def delete_user(user_id):
     # deleted the user profile from the database
     #
@@ -189,7 +192,55 @@ def delete_user(user_id):
     db_users = mongo.db.users
     #  update the profile information and redirect to profile.
     db_users.remove({'_id': ObjectId(user_id)})
+
     return redirect(url_for('sign_out'))
+
+
+# Add recipe
+@app.route('/add-recipe/<user_id>', methods=['POST', 'GET'])
+def add_recipe(user_id):
+    # users database variable
+    current_user = mongo.db.users.find_one({'_id': ObjectId(user_id)})
+    db_recipes = mongo.db.recipes
+
+    if request.method == 'POST':
+        # upload image and get the url
+        image_url = None
+        file_to_upload = request.files['file']
+        # If no image is uploaded
+        if file_to_upload.filename == '':
+            # default url
+            image_url = 'https://res.cloudinary.com/dajuujhvs/image/upload/v1591433093/homechopped/photo-placeholder-icon-6_q4zywi.png'
+        else:
+            upload_result = upload(file_to_upload)
+            image_url = upload_result['secure_url']
+
+        # prep time calc
+        prep_time = f"{request.form['prep-hours']}h : {request.form['prep-minutes']}m"
+        # cook time calc
+        cook_time = f"{request.form['cook-hours']}h : {request.form['cook-minutes']}m"
+
+        #get the date
+        today = date.today().strftime("%d/%m/%Y")
+
+        # insert record
+        db_recipes.insert_one({
+            'image_url': image_url,
+            'name': request.form['recipe-name'],
+            'description': request.form['recipe-description'],
+            'notes': request.form['recipe-notes'],
+            'preptime': prep_time,
+            'cooktime': cook_time,
+            'serves': request.form['serves'],
+            'author': current_user['username'],
+            'featured': 'false',
+            'current_rating': '0',
+            'total_ratings': 0,
+            'date_created': today
+        })
+        return redirect(url_for('profile'))
+
+    return render_template('add-recipe.html')
 
 
 @app.route('/featured/<sortby>')

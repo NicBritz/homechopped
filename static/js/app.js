@@ -6,10 +6,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Slider init
     let sliderElems = document.querySelectorAll('.slider');
-    let instances = M.Slider.init(sliderElems);
+    let sliderInstances = M.Slider.init(sliderElems);
 
     // Modal Init
     let modalElems = document.querySelectorAll('.modal');
     let modalInstances = M.Modal.init(modalElems);
+
+    // Dropdown Init
+    let dropdownElems = document.querySelectorAll('select');
+    let dropdownInstances = M.FormSelect.init(dropdownElems);
+
 
 });
