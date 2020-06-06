@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block content %}
+    <!-- Page Title -->
+    <h5> Add recipe </h5>
+    <!-- Recipe form -->
+    <div class="row">
+        <form class="col s6 " enctype="multipart/form-data" method="POST">
+            <div class="row">
+                <div class="col s6 center">
+                    <!-- Recipe image upload -->
+                    <div class="row file-field input-field">
+                        <!-- filename -->
+                        <div class="col s8 file-path-wrapper right">
+                            <input class="file-path validate" type="text">
+                        </div>
+                        <!-- browse -->
+                        <button class="waves-effect waves-light btn grey darken-3 grey-text text-lighten-2 right profile-link-btn"
+                                type="file" name="file">
+                            Browse
+                            <input type="file" name="file">
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="recipe_name" type="text" class="validate" name="recipe-name">
+                    <label for="recipe_name">Recipe Name</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <textarea id="recipe_description" class="materialize-textarea" name="recipe-description"></textarea>
+                    <label for="recipe_description">Description</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <textarea id="recipe_notes" class="materialize-textarea" name="recipe-notes"></textarea>
+                    <label for="recipe_notes">Notes</label>
+                </div>
+            </div>
+            <!--Prep-Time-->
+            <div class="row">
+                <p>Prep-Time</p>
+                <!--Hours-->
+                <div class="input-field col s6">
+                    <select name="prep-hours">
+                        <option value="0" selected></option>
+                        {% for i in range(24) %}
+                            <option value="{{ i }}">{{ i }}</option>
+                        {% endfor %}
+                    </select>
+                    <label>Hours</label>
+                </div>
+                <!--Minutes-->
+                <div class="input-field col s6">
+                    <select name="prep-minutes">
+                        <option value="0"  selected></option>
+                        {% for i in range(60) %}
+                            <option value="{{ i }}">{{ i }}</option>
+                        {% endfor %}
+                    </select>
+                    <label>Minutes</label>
+                </div>
+            </div>
+            <!--Cook-Time-->
+            <div class="row">
+                <p>Cook Time</p>
+                <!--Hours-->
+                <div class="input-field col s6">
+                    <select name="cook-hours">
+                        <option value="0" selected></option>
+                        {% for i in range(24) %}
+                            <option value="{{ i }}">{{ i }}</option>
+                        {% endfor %}
+                    </select>
+                    <label>Hours</label>
+                </div>
+                <!--Minutes-->
+                <div class="input-field col s6">
+                    <select name="cook-minutes">
+                        <option value="0"  selected></option>
+                        {% for i in range(60) %}
+                            <option value="{{ i }}">{{ i }}</option>
+                        {% endfor %}
+                    </select>
+                    <label>Minutes</label>
+                </div>
+            </div>
+            <!--Serves-->
+            <div class="row">
+                <div class="input-field col s6">
+                    <select name="serves">
+                        <option value="0"  selected></option>
+                        {% for i in range(11) %}
+                            <option value="{{ i }}">{{ i }}</option>
+                        {% endfor %}
+                    </select>
+                    <label>Serves</label>
+                </div>
+            </div>
+            <button class="waves-effect waves-light btn grey darken-3 grey-text text-lighten-2 right profile-link-btn"
+                    type="submit" name="action">
+                Submit
+            </button>
+        </form>
+    </div>
+{% endblock %}
