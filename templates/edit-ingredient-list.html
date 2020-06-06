@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+    <div class="section">
+        <br>
+        <ul class="collection with-header">
+            <li class="collection-header"><h4>Edit Ingredients</h4></li>
+            <!-- Current ingredients -->
+            {% for ingredient in current_ingredients %}
+                <li class="collection-item">
+                    <div>
+                        {{ ingredient.ingredient_item }}
+                        <a href="
+                                {{ url_for('del_ingredient_item',user_id=user_id, recipe_id=recipe_id, ingredient_id=ingredient._id) }}"
+                           class="secondary-content">
+                            <i class="material-icons">delete</i></a></div>
+                </li>
+            {% endfor %}
+        </ul>
+
+
+        <!-- Form -->
+        <div class="row">
+            <form method="POST" action="{{ url_for('edit_ingredient_list',user_id=user_id, recipe_id=recipe_id) }}"
+                  class="col s4 ">
+                <div class="row">
+                    <!-- Ingredient-->
+                    <div class="input-field col s12">
+                        <input id="icon_username" type="text" class="validate" name="ingredient_item">
+                        <label for="icon_username">Ingredient</label>
+                    </div>
+
+                    <div class="col s12 center">
+                        <!-- ADD button -->
+                        <button class="btn waves-effect waves-light grey darken-3 grey-text text-lighten-2
+                        sign-in-btn " type="submit" name="action">ADD
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        <!-- DONE -->
+        <a href="{{ url_for('edit_recipe', user_id=user_id, recipe_id=recipe_id) }}"
+           class="waves-effect waves-light btn grey darken-3 grey-text text-lighten-2 left profile-link-btn left">
+            DONE
+        </a>
+    </div>
+{% endblock %}
