@@ -155,7 +155,11 @@ body {
 }
 
 .sign-in-btn {
-    width: 100px;
+    width: 100%;
+}
+
+.sign-in-label {
+    padding: 0;
 }
 
 .btn {
@@ -165,36 +169,71 @@ body {
 
 /* Profile page */
 .profile-img-lg {
-    width: 150px;
-    height: 150px;
+    width: 160px;
+    height: 160px;
     position: relative;
     left: 0;
+    border-radius: 50%;
+    box-shadow: -2px 2px 10px #757575;
 }
 
 .profile-title-text h4 {
     font-weight: 600;
     margin: 0;
+    position: relative;
+}
+
+.folder-btn {
+    position: absolute !important;
+    height: 50px !important;
+    width: 50px !important;
+    left: 20px;
+}
+
+
+.edit-profile-icon {
+    padding: 0 !important;
+    margin: 0;
+    width: 40px;
+    height: 40px;
+}
+
+.edit-profile-icon i {
+    line-height: 50px !important;
 }
 
 .profile-bio-text p {
     padding: 1em;
     font-size: 1em;
-    background: #eeeeee;
-    border-radius: 3px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    border: 1px solid #bdbdbd;
+    font-weight: 500;
 }
 
-.edit-icon {
-    color: #424242;
-}
-
-.edit-icon :hover {
-    color: #757575;
-}
 
 .profile-link-btn {
-    font-size: 0.9em;
-
+    font-size: 1.6em;
+    font-weight: 500;
+    font-family: 'Montserrat', sans-serif;
+    transition: all 0.3s linear;
 }
+
+.profile-link-btn :hover {
+    text-shadow: 2px 2px 5px #bdbdbd;
+    transition: all 0.3s linear;
+}
+
+.btn-flat {
+    font-size: 1em;
+}
+
+
+.save-icon {
+    font-size: 1.5em !important;
+    float: left;
+}
+
 
 .bio-icon {
     position: relative;
@@ -227,15 +266,15 @@ body {
 }
 
 /*  Edit Ingredients */
-.ingredient-item{
+.ingredient-item {
     font-size: 2em;
     display: inline;
     padding-left: 1em;
 }
 
-.secondary-content-l{
-  float: left;
-  color: #26a69a;
+.secondary-content-l {
+    float: left;
+    color: #26a69a;
 }
 
 
@@ -274,6 +313,10 @@ body {
     .recipe-card-info-text p {
         font-weight: 600;
         font-size: 0.6em;
+    }
+
+    .modal {
+        width: 80%!important;
     }
 }
 

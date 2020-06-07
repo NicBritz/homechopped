@@ -3,100 +3,109 @@
 {% block content %}
     <div class="section">
         <br>
-        <!-- Profile name -->
+        <!-- Title -->
         <div class="row">
             <div class="col s12 center profile-title-text">
                 <h4>{{ user_data.username|upper }}</h4>
             </div>
         </div>
-
-
+        <!-- page elements -->
         <div class="row">
-            <div class="col m3 center">
-                <!-- Profile image -->
-                <div class="row">
-                    <div class="col s12">
-                        {% if not user_data.profile_image %}
-                            <!-- default image -->
-                            <img class=" profile-img-lg"
-                                 src="https://res.cloudinary.com/dajuujhvs/image/upload/v1591278246/homechopped/profile-pics/default_pic.png"
-                                 alt="profile image">
-                        {% else %}
-                            <!-- users image -->
-                            <img class=" profile-img-lg"
-                                 src="{{ user_data.profile_image }}"
-                                 alt="profile image">
-                        {% endif %}
-                    </div>
-                </div>
-                <!-- Profile image upload -->
-                <div class="row">
-                    <div class="col s12">
-                        <form class='col s12' method="POST"
-                              action="{{ url_for('upload_profile_image',user_id=user_data._id) }}"
-                              enctype="multipart/form-data">
-                            <div class="row file-field input-field">
-                                <!-- filename -->
-                                <div class="col s8 file-path-wrapper right">
-                                    <input class="file-path validate" type="text">
-                                </div>
-                                <!-- browse -->
-                                <button class="waves-effect waves-light btn grey darken-3 grey-text text-lighten-2 right profile-link-btn"
-                                        type="file" name="file">
-                                    Browse
-                                    <input type="file" name="file" onchange="this.form.submit()">
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- Edit Bio -->
-            <div class="col m6">
-
-                <form class="col s12" method="POST"
-                      action="{{ url_for('update_profile',user_id=user_data._id) }}">
+            <div class="col s12">
+                <form method="POST"
+                      action="{{ url_for('update_profile',user_id=user_data._id) }}"
+                      enctype="multipart/form-data">
                     <div class="row">
-                        <div class="input-field ">
-                            <textarea id="textarea1" class="materialize-textarea"
-                                      name="bio">{{ user_data.bio }}</textarea>
-                            <label for="textarea1 " class="edit-textarea-label">Bio</label>
+                        <!-- Profile Image -->
+                        <div class="col s12 center">
+                            <img class=" profile-img-lg" src="{{ user_data.profile_image }}" alt="user profile image">
+                        </div>
+                        <br>
+                        <br>
+                        <div class="col s12">
+                            <div class="row">
+                                <!-- File Browser -->
+                                <div class="col s12 m6 ">
+                                    <div class="file-field input-field">
+                                        <div class="row">
+                                            <!-- Icon -->
+                                            <div class="col s1 xl1">
+                                                <div class="btn-floating btn-large waves-effect waves-light blue folder-btn">
+                                                    <i class="material-icons" type="file" name="file">folder</i>
+                                                    <input type="file" name="file" accept="image/png, image/jpeg"></div>
+                                            </div>
+                                            <!-- File Path -->
+                                            <div class="col s8 offset-s2 xl10 offset-xl1">
+                                                <div class="file-path-wrapper">
+                                                    <input class="file-path validate" type="text"
+                                                           placeholder="Upload profile picture">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Email Field -->
+                                <div class="col s12 m6 ">
+                                    <div class="input-field ">
+                                        <i class="material-icons prefix">alternate_email</i>
+                                        <input id="icon_email" type="email" class="validate"
+                                               value="{{ user_data.email }}"
+                                               name="email">
+                                        <label for="icon_email">Email</label>
+                                        <span class="helper-text" data-error="please enter a valid email address"
+                                              data-success="correct"></span>
+                                    </div>
+                                </div>
+                                <!-- About Me Field -->
+                                <div class="col s12">
+                                    <div class="input-field">
+                                        <i class="material-icons prefix">mode_edit</i>
+                                        <textarea id="textarea1" class="materialize-textarea t-counter ar-text"
+                                                  name="bio" data-length="250"
+                                                  maxlength="250" autofocus>{{ user_data.bio }}</textarea>
+                                        <label for="textarea1 " class="edit-textarea-label">About me</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div>
-
-                        <button class="waves-effect waves-light btn grey darken-3 grey-text text-lighten-2 right profile-link-btn"
-                                type="submit" name="action">
-                            Submit
-                        </button>
+                    <div class="row">
+                        <!-- Save Button -->
+                        <div class="col s12 m5 l6 save-btn  profile-link-btn">
+                            <button class=" btn-flat left green-text"
+                                    type="submit" name="action">
+                                SAVE
+                                <i class=" save-icon material-icons ">save</i>
+                            </button>
+                        </div>
+                        <div class="col s12 m7 l5 xl6">
+                            <!-- Delete Profile Modal Trigger -->
+                            <a class="btn-floating btn-large waves-effect waves-light red right modal-trigger"
+                               href="#delete-profile-modal"><i class="material-icons">delete_forever</i></a>
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
-        <div class="row">
-            <div class="col s12">
-                <!-- Delete Modal Trigger -->
-                <a class="btn-floating btn-large waves-effect waves-light grey darken-3 grey-text text-lighten-2 del-profile right modal-trigger"
-                   href="#delete-profile-modal"><i class="far fa-trash-alt"></i></a>
-
-
-                <!-- Delete Modal Structure -->
-                <div id="delete-profile-modal" class="modal">
-                    <div class="modal-content ">
-
-                        <h4>Delete user profile?</h4>
-                        <p>Deleting the userprofile is permanent and cannot be undone, <strong>are you sure you want to
-                            delete your profile?</strong></p>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="{{ url_for('delete_user',user_id=user_data._id) }}" class="modal-close waves-effect waves-green btn-flat red-text">DELETE</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 
+    <!-- Delete Modal Structure -->
+    <div id="delete-profile-modal" class="modal">
+        <div class="modal-content ">
+            <h4>Delete user profile?</h4>
+            <p>Deleting the userprofile is permanent and cannot be undone, all your recipes will also be
+                erased. <strong>Are you sure you want
+                    to
+                    delete your profile?</strong></p>
+        </div>
+        <div class="modal-footer">
+            <!-- Cancel -->
+            <a class="modal-close waves-effect waves-green btn-flat green-text">Cancel</a>
+            <!-- Delete -->
+            <a href="{{ url_for('delete_user',user_id=user_data._id) }}"
+               class="modal-close waves-effect waves-green btn-flat red-text">DELETE</a>
+        </div>
+    </div>
 
 
 {% endblock %}

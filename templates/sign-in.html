@@ -5,41 +5,62 @@
     <div class="section">
         <!-- Title -->
         <div class="row">
-            <div class="col s4 offset-s4 center sign-in-header">
+            <div class="col s12 m8 offset-m2 l6 offset-l3 xl4 offset-xl4 center sign-in-header">
                 <h4>Sign-in</h4>
             </div>
         </div>
         <!-- Form -->
         <div class="row">
-            <form method="POST" action="{{ url_for('sign_in') }}" class="col s4 offset-s4">
+            <form method="POST" action="{{ url_for('sign_in') }}"
+                  class="col s12 m8 offset-m2 l6 offset-l3 xl4 offset-xl4">
                 <div class="row">
-                    <!-- Username field-->
-                    <div class="input-field col s12">
-                        <i class="material-icons prefix">account_circle</i>
-                        <input id="icon_username" type="text" class="validate" name="username">
-                        <label for="icon_username">Username</label>
+
+                    <!-- Invalid Username field-->
+                    {% if failed == True %}
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">account_circle</i>
+                            <input id="icon_username" type="text" class="validate invalid" name="username" required>
+                            <label for="icon_username">Username</label>
+                            <span class="helper-text" data-error="Invalid username password."
+                                  data-success="">3 - 15 characters</span>
+                        </div>
+
+                        <!-- Invalid Password field-->
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">vpn_key</i>
+                            <input id="icon_password" type="password" class="validate invalid" name="password" required>
+                            <label for="icon_password">Password</label>
+                        </div>
+                        <div class="col s12 center">
+                    {% else %}
+
+                        <!-- Username field-->
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">account_circle</i>
+                            <input id="icon_username" type="text" class="validate" name="username" required>
+                            <label for="icon_username">Username</label>
+                        </div>
+
+                        <!-- Password field-->
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">vpn_key</i>
+                            <input id="icon_password" type="password" class="validate" name="password" required>
+                            <label for="icon_password">Password</label>
+                        </div>
+                        <div class="col s12 center">
+                    {% endif %}
+
+                    <!-- Submit button -->
+                    <button class="btn waves-effect waves-light grey darken-3 grey-text text-lighten-2
+                        sign-in-btn " type="submit" name="action">Login
+                    </button>
                     </div>
-                    <!-- Message area -->
-                    <div class=".col s12 red-text center">
-                        <p>{{ message }}</p>
                     </div>
-                    <!-- Password field-->
-                    <div class="input-field col s12">
-                        <i class="material-icons prefix">vpn_key</i>
-                        <input id="icon_password" type="password" class="validate" name="password">
-                        <label for="icon_password">Password</label>
-                    </div>
-                    <div class="col s12 center">
-                        <!-- Submit button -->
-                        <button class="btn waves-effect waves-light grey darken-3 grey-text text-lighten-2
-                        sign-in-btn " type="submit" name="action">Login</button>
-                    </div>
-                </div>
             </form>
         </div>
         <!-- link to sign up -->
         <div class="row">
-            <div class="col s12 offset-s4">
+            <div class="col s12 m8 offset-m2 l6 offset-l3 xl4 offset-xl4 center">
                 <p>Don't have an account? <a href="{{ url_for('register') }}">Sign up here.</a></p>
             </div>
         </div>
