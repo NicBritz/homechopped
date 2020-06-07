@@ -45,7 +45,7 @@ def sign_in():
     # SRC - https://www.youtube.com/watch?v=vVx1737auSE && https://www.youtube.com/watch?v=PYILMiGxpAU
 
     # Creates a blank feedback message
-    message = ''
+
     if request.method == 'POST':
 
         # search the database for the username
@@ -59,10 +59,12 @@ def sign_in():
                 session['USERNAME'] = request.form['username']
                 return redirect(url_for('profile'))
         # authentication failed
-        message = 'Invalid username or password.'
+
+        # if the request is a get then render the sign in template
+        return render_template('sign-in.html', failed=True)
 
     # if the request is a get then render the sign in template
-    return render_template('sign-in.html', message=message)
+    return render_template('sign-in.html', failf=False)
 
 
 # Registration Page
@@ -73,7 +75,7 @@ def register():
     # SRC - https://www.youtube.com/watch?v=vVx1737auSE && https://www.youtube.com/watch?v=PYILMiGxpAU
 
     # Creates a blank feedback message
-    message = ''
+
     if request.method == 'POST':
         # create a variable of the users database
         db_users = mongo.db.users
@@ -98,11 +100,10 @@ def register():
             return redirect(url_for('profile'))
         # if the user already exists
         else:
-            message = 'username already exists.'
-            return render_template('register.html', message=message)
+            return render_template('register.html', exists=True)
 
     # if it is a get request return registration template
-    return render_template('register.html', message=message)
+    return render_template('register.html', exists=False)
 
 
 # Profile page
@@ -121,7 +122,7 @@ def profile():
 
         # get the user and users recipes from the database
         existing_user = db_users.find_one({'username': username})
-        users_recipes = db_recipes.find({'author': username})
+        users_recipes = db_recipes.find({'author_id': existing_user['_id']})
 
         return render_template('profile.html', user_data=existing_user, users_recipes=users_recipes)
     else:
@@ -152,9 +153,9 @@ def edit_profile(user_id):
     return render_template('edit-profile.html', user_data=user_data)
 
 
-# upload profile image
-@app.route('/upload-profile-image/<user_id>', methods=['POST'])
-def upload_profile_image(user_id):
+# Update User profile
+@app.route('/update-profile/<user_id>', methods=['POST'])
+def update_profile(user_id):
     # This function uses the cloudinary framework yo upload a profile image and add it to the users profile
     #
     # src: https://github.com/tiagocordeiro/flask-cloudinary
@@ -169,42 +170,20 @@ def upload_profile_image(user_id):
         current_user = db_users.find_one({'_id': ObjectId(user_id)})
         # find current image id
         current_image_id = current_user['profile_image_id']
-        # update the current image
-        new_image = update_image(current_image_id, file_to_upload)
+
+        # delete the current image
+        destroy(current_user['profile_image_id'], invalidate=True)
+        # upload new image
+        upload_result = upload(file_to_upload)
 
         #  update the profile picture of the users account and add it is user has no picture.
         db_users.update_one({'_id': ObjectId(user_id)},
-                            {"$set": {'profile_image': new_image['url'], 'profile_image_id': new_image['url_id']}},
+                            {"$set": {'profile_image': upload_result['secure_url'],
+                                      'profile_image_id': upload_result['public_id']}},
                             upsert=True)
-
-    return redirect(url_for('edit_profile', user_id=user_id))
-
-
-# UPDATE IMAGE FUNCTION
-def update_image(current_image_id, file):
-    """
-    Finds the current image on cloudinary and replaces it with the new image.
-    :arg - current image id, new image file
-    :return - type: dict
-    value - new image url and id
-    """
-    # delete the current image
-    destroy(current_image_id, invalidate=True)
-    # upload new image
-    upload_result = upload(file)
-
-    return {'url': upload_result['secure_url'], 'url_id': upload_result['public_id']}
-
-
-# Update User profile
-@app.route('/update-profile/<user_id>', methods=['POST'])
-def update_profile(user_id):
-    # Updates the user profile information
-
-    # users database variable
-    db_users = mongo.db.users
     #  update the profile information and redirect to profile.
-    db_users.update_one({'_id': ObjectId(user_id)}, {"$set": {'bio': request.form['bio']}}, upsert=True)
+    db_users.update_one({'_id': ObjectId(user_id)},
+                        {"$set": {'bio': request.form['bio'], 'email': request.form['email']}}, upsert=True)
 
     return redirect(url_for('profile'))
 
@@ -216,9 +195,17 @@ def delete_user(user_id):
     #
     # users database variable
     db_users = mongo.db.users
-    #  update the profile information and redirect to profile.
+    db_recipes = mongo.db.recipes
+    db_ingredients = mongo.db.ingredients
+    db_methods = mongo.db.methods
+    db_recipes.delete_many({'author_id': ObjectId(user_id)})
+    db_ingredients.delete_many({'author_id': ObjectId(user_id)})
+    db_methods.delete_many({'author_id': ObjectId(user_id)})
+    # delete the current image form cloudinary
+    current_user = db_users.find_one({'_id': ObjectId(user_id)})
+    destroy(current_user['profile_image_id'], invalidate=True)
+    # delete the user
     db_users.remove({'_id': ObjectId(user_id)})
-
     return redirect(url_for('sign_out'))
 
 
@@ -236,6 +223,7 @@ def add_temp_recipe(user_id):
             'featured': 'false',
             'current_rating': '0',
             'total_ratings': 0,
+            'author_id': ObjectId(user_id)
         })
     current_recipe = db_recipes.find_one({'name': 'placeholder'})
     return redirect(url_for('edit_recipe', user_id=user_id, recipe_id=current_recipe['_id']))
@@ -293,6 +281,7 @@ def update_recipe(user_id, recipe_id):
         'cooktime_min': request.form['cook-minutes'],
         'serves': request.form['serves'],
         'author': current_user['username'],
+        'author_id': ObjectId(user_id),
         'date_updated': today
     }}, upsert=True)
     return redirect(
@@ -310,7 +299,8 @@ def edit_ingredient_list(user_id, recipe_id):
         # find any ingredients for this recipe
         db_ingredients = mongo.db.ingredients
         db_ingredients.insert_one(
-            {'ingredient_item': request.form['ingredient_item'], 'recipe_id': current_recipe['_id']})
+            {'ingredient_item': request.form['ingredient_item'], 'recipe_id': current_recipe['_id'],
+             'author_id': ObjectId(user_id)})
 
     return render_template('edit-ingredient-list.html', user_id=user_id, recipe_id=current_recipe['_id'],
                            current_ingredients=current_ingredients)
@@ -331,6 +321,8 @@ def del_recipe(recipe_id):
     db_recipes.remove({'_id': ObjectId(recipe_id)})
     db_ingredients = mongo.db.ingredients
     db_ingredients.delete_many({'recipe_id': ObjectId(recipe_id)})
+    db_methods = mongo.db.methods
+    db_methods.delete_many({'recipe_id': ObjectId(recipe_id)})
     return redirect(url_for('profile'))
 
 
@@ -345,7 +337,8 @@ def edit_method_list(user_id, recipe_id):
         # find any methods for this recipe
         db_methods = mongo.db.methods
         db_methods.insert_one(
-            {'method_name': request.form['method_name'], 'recipe_id': current_recipe['_id']})
+            {'method_name': request.form['method_name'], 'recipe_id': current_recipe['_id'],
+             'author_id': ObjectId(user_id)})
 
     return render_template('edit-method-list.html', user_id=user_id, recipe_id=current_recipe['_id'],
                            current_methods=current_methods)

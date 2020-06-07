@@ -1,107 +1,117 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="section">
-        <br>
+
         <!-- Profile area -->
         <div class="row">
-            <!-- Profile image -->
-            <div class="col m2 center">
-                {% if not user_data.profile_image %}
-                    <img class=" profile-img-lg" width="100"
-                         src="https://res.cloudinary.com/dajuujhvs/image/upload/v1591443059/xbv453shlvxycy399dcc.png"
-                         alt="profile image">
-                {% else %}
-                    <img class=" profile-img-lg" width="100"
-                         src="{{ user_data.profile_image }}"
-                         alt="profile image">
-                {% endif %}
-
+            <div class="col s12 lx6">
+                <!-- Sign out -->
+                <a class="btn-floating btn-large waves-effect waves-light purple right tooltipped"
+                   href="{{ url_for('sign_out') }}" data-position="left" data-tooltip="Sign out"><i
+                        class="material-icons">exit_to_app</i></a>
             </div>
             <!-- Profile name -->
-            <div class="col m3 profile-title-text">
+            <div class="col s12 profile-title-text center">
                 <h5>Welcome,</h5>
                 <h4>{{ user_data.username|upper }}</h4>
+                <BR>
             </div>
-            <!-- Profile Bio -->
-            <div class="col m6 profile-bio-text">
-                <h5>Bio:</h5>
+            <!-- Profile image -->
+            <div class="col s12 center">
+                <img class=" profile-img-lg" src="{{ user_data.profile_image }}" alt="user profile image">
+            </div>
+
+            <!-- About -->
+            <div class="col s12 xl8 profile-bio-text offset-xl2">
+                <h5>About</h5>
                 <p>{{ user_data.bio }}</p>
 
             </div>
         </div>
         <div class="row">
-            <!-- Profile buttons-->
-            <div class="col s12">
-                <a class="waves-effect waves-light btn grey darken-3 grey-text text-lighten-2 right profile-link-btn"
-                   href="{{ url_for('sign_out') }}">Sign Out</a>
-                <a class="waves-effect waves-light btn grey darken-3 grey-text text-lighten-2 left profile-link-btn"
-                   href="{{ url_for('edit_profile', user_id=user_data._id) }}">edit</a>
+            <!-- Edit profile -->
+            <div class="col s12 xl8 offset-xl2">
+                <a class="btn-floating btn-large waves-effect waves-light orange tooltipped"
+                   href="{{ url_for('edit_profile', user_id=user_data._id) }}" data-position="left"
+                   data-tooltip="Edit profile"><i class="material-icons">edit</i></a>
             </div>
         </div>
         <hr>
     </div>
+
     <div class="row">
         <!-- Users recipe area -->
-        <div class="col s12">
+        <div class="col s12 ">
+            <!-- Heading -->
             <h4>My Recipes</h4>
-            <a class="waves-effect waves-light btn grey darken-3 grey-text text-lighten-2 left profile-link-btn"
-               href="{{ url_for('add_temp_recipe', user_id=user_data._id) }}">ADD</a>
-            {% for recipe in users_recipes %}
-                <div class="col s12 m6 l4 xl3">
-                    <div class="card large">
-                        <div class="card-image">
-                            <!-- display correct number of stars -->
-                            {% for i in range(1,6) %}
-                                {% if recipe.current_rating|int < i %}
-                                    <i class="far fa-star left rating-star"></i>
-                                {% else %}
-                                    <i class="fas fa-star left rating-star"></i>
-                                {% endif %}
-                            {% endfor %}
-                            <!-- add card image -->
-                            <span>
+        </div>
+        <!-- Add Recipe -->
+        <div class="col s12 left">
+            <a class="btn-floating btn-large waves-effect waves-light green tooltipped"
+               href="{{ url_for('add_temp_recipe', user_id=user_data._id) }}" data-position="right"
+               data-tooltip="Add Recipe"><i class="material-icons">add</i></a>
+        </div>
+        <div class="section">
+            <div class="row">
+                <!-- List Cards -->
+                {% for recipe in users_recipes %}
+                    <div class="col s12 m6 l4 xl3 ">
+                        <div class="card large">
+                            <div class="card-image">
+                                <!-- display correct number of stars -->
+                                {% for i in range(1,6) %}
+                                    {% if recipe.current_rating|int < i %}
+                                        <i class="far fa-star left rating-star"></i>
+                                    {% else %}
+                                        <i class="fas fa-star left rating-star"></i>
+                                    {% endif %}
+                                {% endfor %}
+                                <!-- add card image -->
+                                <span>
                         <a href="/"><img src="{{ recipe.image_url }}" alt="{{ recipe.name }}"></a>
                         </span>
-                        </div>
-                        <div class="card-content">
-                            <!--recipe title-->
-                            <span class="card-title activator grey-text text-darken-4">{{ recipe.name|upper }}
+                            </div>
+                            <div class="card-content">
+                                <!--recipe title-->
+                                <span class="card-title activator grey-text text-darken-4">{{ recipe.name|upper }}
                                 <i class="material-icons right">more_vert</i>
                             </span>
-                            <!-- recipe info-->
-                            <div class="row">
-                                <div class="col s6 recipe-card-info-text">
-                                    <p>SERVES</p>
-                                    <i class="fas fa-utensils"></i>
-                                    <span> {{ recipe.serves }}</span>
-                                </div>
-                                <div class="col s6 recipe-card-info-text">
-                                    <p>PREP TIME</p>
-                                    <i class="fas fa-clock"></i>
-                                    <span> {{ recipe.preptime }}</span>
-                                </div>
-                                <div class="col s6 recipe-card-info-text">
-                                    <p>COOK TIME</p>
-                                    <i class="far fa-clock"></i>
-                                    <span> {{ recipe.cooktime }}</span>
+                                <!-- recipe info-->
+                                <div class="row">
+                                    <div class="col s6 recipe-card-info-text">
+                                        <p>SERVES</p>
+                                        <i class="fas fa-utensils"></i>
+                                        <span> {{ recipe.serves }}</span>
+                                    </div>
+                                    <div class="col s6 recipe-card-info-text">
+                                        <p>PREP TIME</p>
+                                        <i class="fas fa-clock"></i>
+                                        <span> {{ recipe.preptime }}</span>
+                                    </div>
+                                    <div class="col s6 recipe-card-info-text">
+                                        <p>COOK TIME</p>
+                                        <i class="far fa-clock"></i>
+                                        <span> {{ recipe.cooktime }}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-action">
-                            <a href="#">View Recipe</a>
-                            <br>
-                            <p></p>
-                            <a href="{{ url_for('edit_recipe', user_id=user_data._id, recipe_id=recipe._id) }}">EDIT RECIPE</a>
-                        </div>
-                        <div class="card-reveal">
+                            <div class="card-action">
+                                <a href="#">View Recipe</a>
+                                <br>
+                                <p></p>
+                                <a href="{{ url_for('edit_recipe', user_id=user_data._id, recipe_id=recipe._id) }}">EDIT
+                                    RECIPE</a>
+                            </div>
+                            <div class="card-reveal">
                         <span class="card-title grey-text text-darken-4">{{ recipe.name|upper }}<i
                                 class="material-icons right">close</i></span>
-                            <p>{{ recipe.description }}</p>
-                            <a href="#">VIEW RECIPE</a>
+                                <p>{{ recipe.description }}</p>
+                                <a href="#">VIEW RECIPE</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     </div>
 

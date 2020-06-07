@@ -16,5 +16,13 @@ document.addEventListener('DOMContentLoaded', function () {
     let dropdownElems = document.querySelectorAll('select');
     let dropdownInstances = M.FormSelect.init(dropdownElems);
 
+    //Character count
+    let textNeedCount = document.querySelectorAll('.t-counter');
+    let textNeedCountInstances = M.CharacterCounter.init(textNeedCount);
 
-});
+    // Tool Tips
+    let toolElems = document.querySelectorAll('.tooltipped');
+    let toolInstances = M.Tooltip.init(toolElems);
+
+})
+;
