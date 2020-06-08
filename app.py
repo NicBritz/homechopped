@@ -217,7 +217,7 @@ def add_temp_recipe(user_id):
     image_url_id = 'pa9cybxloavqafbrktlf'
     db_recipes.insert_one(
         {
-            'name': 'placeholder',
+            'name': 'My Awesome Recipe',
             'image_url': image_url,
             'image_url_id': image_url_id,
             'featured': 'false',
@@ -225,7 +225,7 @@ def add_temp_recipe(user_id):
             'total_ratings': 0,
             'author_id': ObjectId(user_id)
         })
-    current_recipe = db_recipes.find_one({'name': 'placeholder'})
+    current_recipe = db_recipes.find_one({'name': 'My Awesome Recipe'})
     return redirect(url_for('edit_recipe', user_id=user_id, recipe_id=current_recipe['_id']))
 
 
@@ -247,31 +247,12 @@ def edit_recipe(user_id, recipe_id):
 def update_recipe(user_id, recipe_id):
     current_user = mongo.db.users.find_one({'_id': ObjectId(user_id)})
     db_recipes = mongo.db.recipes
-    current_recipe = db_recipes.find_one({'_id': ObjectId(recipe_id)})
-    db_ingredients = mongo.db.ingredients
-    current_ingredients = db_ingredients.find({'recipe_id': current_recipe['_id']})
-    # upload image and get the url
-    image_url = None
-
-    file_to_upload = request.files['file']
-    # If no image is uploaded
-    if file_to_upload.filename == '':
-        # default url
-        image_url = current_recipe['image_url']
-        image_url_id = current_recipe['image_url_id']
-    else:
-        destroy(current_recipe['image_url_id'], invalidate=True)
-        upload_result = upload(file_to_upload)
-        image_url = upload_result['secure_url']
-        image_url_id = upload_result['public_id']
 
     # get the date
     today = date.today().strftime("%d/%m/%Y")
 
     # update record
     db_recipes.update_one({'_id': ObjectId(recipe_id)}, {"$set": {
-        'image_url': image_url,
-        'image_url_id': image_url_id,
         'name': request.form['recipe-name'],
         'description': request.form['recipe-description'],
         'notes': request.form['recipe-notes'],
@@ -284,26 +265,48 @@ def update_recipe(user_id, recipe_id):
         'author_id': ObjectId(user_id),
         'date_updated': today
     }}, upsert=True)
-    return redirect(
-        url_for('edit_recipe', user_id=user_id, recipe_id=recipe_id))
+    return redirect(url_for('edit_recipe', _anchor='overview', user_id=user_id, recipe_id=recipe_id))
 
 
-# edit ingredients
-@app.route('/edit_ingredient_list/<user_id>/<recipe_id>', methods=['POST', 'GET'])
-def edit_ingredient_list(user_id, recipe_id):
+# Update recipe image
+@app.route('/update_recipe_image/<user_id>/<recipe_id>', methods=['POST'])
+def update_recipe_image(user_id, recipe_id):
     db_recipes = mongo.db.recipes
     current_recipe = db_recipes.find_one({'_id': ObjectId(recipe_id)})
-    db_ingredients = mongo.db.ingredients
-    current_ingredients = db_ingredients.find({'recipe_id': current_recipe['_id']})
-    if request.method == 'POST':
-        # find any ingredients for this recipe
-        db_ingredients = mongo.db.ingredients
-        db_ingredients.insert_one(
-            {'ingredient_item': request.form['ingredient_item'], 'recipe_id': current_recipe['_id'],
-             'author_id': ObjectId(user_id)})
+    # get the date
+    today = date.today().strftime("%d/%m/%Y")
 
-    return render_template('edit-ingredient-list.html', user_id=user_id, recipe_id=current_recipe['_id'],
-                           current_ingredients=current_ingredients)
+    file_to_upload = request.files['file']
+    # If no image is uploaded
+    if file_to_upload.filename == '':
+        # default url
+        image_url = current_recipe['image_url']
+        image_url_id = current_recipe['image_url_id']
+    else:
+        destroy(current_recipe['image_url_id'], invalidate=True)
+        upload_result = upload(file_to_upload)
+        image_url = upload_result['secure_url']
+        image_url_id = upload_result['public_id']
+        # update record
+    db_recipes.update_one({'_id': ObjectId(recipe_id)}, {"$set": {
+        'image_url': image_url,
+        'image_url_id': image_url_id,
+        'date_updated': today
+    }}, upsert=True)
+    return redirect(url_for('edit_recipe', _anchor='image', user_id=user_id, recipe_id=recipe_id))
+
+
+# add ingredient item
+@app.route('/add_ingredient_item/<user_id>/<recipe_id>', methods=['POST'])
+def add_ingredient_item(user_id, recipe_id):
+    db_recipes = mongo.db.recipes
+    current_recipe = db_recipes.find_one({'_id': ObjectId(recipe_id)})
+    # find any ingredients for this recipe
+    db_ingredients = mongo.db.ingredients
+    db_ingredients.insert_one(
+        {'ingredient_item': request.form['ingredient_item'], 'recipe_id': current_recipe['_id'],
+         'author_id': ObjectId(user_id)})
+    return redirect(url_for('edit_recipe', _anchor='ingredients', user_id=user_id, recipe_id=recipe_id))
 
 
 # delete ingredient item
@@ -311,7 +314,7 @@ def edit_ingredient_list(user_id, recipe_id):
 def del_ingredient_item(user_id, recipe_id, ingredient_id):
     db_ingredients = mongo.db.ingredients
     db_ingredients.remove({'_id': ObjectId(ingredient_id)})
-    return redirect(url_for('edit_ingredient_list', user_id=user_id, recipe_id=recipe_id))
+    return redirect(url_for('edit_recipe', _anchor='ingredients', user_id=user_id, recipe_id=recipe_id))
 
 
 # delete recipe
@@ -342,6 +345,22 @@ def edit_method_list(user_id, recipe_id):
 
     return render_template('edit-method-list.html', user_id=user_id, recipe_id=current_recipe['_id'],
                            current_methods=current_methods)
+
+
+# add method item
+@app.route('/add_method_item/<user_id>/<recipe_id>', methods=['POST'])
+def add_method_item(user_id, recipe_id):
+    db_recipes = mongo.db.recipes
+    current_recipe = db_recipes.find_one({'_id': ObjectId(recipe_id)})
+    db_methods = mongo.db.methods
+    current_methods = db_methods.find({'recipe_id': current_recipe['_id']})
+
+    # find any methods for this recipe
+    db_methods = mongo.db.methods
+    db_methods.insert_one(
+        {'method_name': request.form['method_name'], 'recipe_id': current_recipe['_id'],
+         'author_id': ObjectId(user_id)})
+    return redirect(url_for('edit_recipe', _anchor='method', user_id=user_id, recipe_id=recipe_id))
 
 
 # delete method item

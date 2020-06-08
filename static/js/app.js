@@ -24,5 +24,9 @@ document.addEventListener('DOMContentLoaded', function () {
     let toolElems = document.querySelectorAll('.tooltipped');
     let toolInstances = M.Tooltip.init(toolElems);
 
-})
-;
+    // Tabs
+    let tabElms = document.querySelectorAll('.tabs')
+    let tabInstance = M.Tabs.init(tabElms);
+
+
+});

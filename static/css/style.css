@@ -190,6 +190,36 @@ body {
     left: 20px;
 }
 
+.folder-btn2 {
+    height: 50px !important;
+    width: 50px !important;
+}
+
+.recipe-tab {
+    background: #bdbdbd;
+}
+
+.recipe-tab i {
+    font-size: 2.5em;
+    position: relative;
+    top: 5px;
+}
+.done-btn{
+    position: absolute!important;
+    top: 80px!important;
+}
+.recipe-tab a {
+    color: #424242 !important;
+    font-weight: 500;
+}
+
+.tabs .indicator {
+    background: #fafafa !important;
+}
+
+.tabs .tab a:focus, .tabs .tab a:focus.active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
 
 .edit-profile-icon {
     padding: 0 !important;
@@ -211,6 +241,25 @@ body {
     font-weight: 500;
 }
 
+.del-recipe {
+    position: absolute;
+    right: 36px;
+    top: 100px;
+}
+
+.save-recipe button {
+    position: absolute;
+    left: 36px;
+    top: 100px;
+}
+
+/* edit recipe image*/
+.edit-recipe-img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: -2px 2px 10px #757575;
+}
 
 .profile-link-btn {
     font-size: 1.6em;
@@ -316,7 +365,7 @@ body {
     }
 
     .modal {
-        width: 80%!important;
+        width: 80% !important;
     }
 }
 
