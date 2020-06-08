@@ -1,23 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
-    <!-- Page Title -->
-
-    <h5 class="center"> EDIT RECIPE </h5>
-    <div class="row">
-    <!-- Page Title -->
-
-        <div class="col s12">
-            <!-- Add  -->
-            <a id='editIngredients' href="{{ url_for('profile') }}"
-               class="waves-effect waves-light btn grey darken-3 grey-text text-lighten-2 left profile-link-btn left">
-                back
-            </a>
-        </div>
+    <div class="col s12">
+        <br>
+        <h5 class="center"> EDIT RECIPE </h5>
+        <a class="btn-floating btn-medium waves-effect waves-light light-green done-btn tooltipped"
+           href="{{ url_for('profile') }}" data-position="right" data-tooltip="Done"><i class="material-icons">done</i></a>
     </div>
-
-    <!-- DELETE  -->
-    <a class="btn-floating btn-large waves-effect waves-light red right modal-trigger" href="#delete-recipe-modal"><i
-            class="material-icons">delete</i></a>
 
     <!-- Delete Modal Structure -->
     <div id="delete-recipe-modal" class="modal">
@@ -35,150 +23,256 @@
         </div>
     </div>
 
-    <!-- Recipe form -->
+    <!-- Page Tabs -->
     <div class="row">
-        <form class="col s6 " enctype="multipart/form-data" method="POST"
-              action="{{ url_for('update_recipe', user_id=user_id, recipe_id=recipe_id) }}">
-            <div class="row">
-                <div class="col s6 center">
-                    <!-- Recipe image upload -->
-                    <div class="row file-field input-field">
-                        <!-- filename -->
-                        <div class="col s8 file-path-wrapper right">
-                            <input class="file-path validate" type="text">
+        <div class="col s12">
+            <ul class="tabs">
+                <li class="tab col s3 recipe-tab "><a href="#image" class="active"><i class="medium material-icons">monochrome_photos</i></a>
+                </li>
+                <li class="tab col s3 recipe-tab"><a href="#overview"><i class="medium material-icons">import_contacts
+                </i></a></li>
+                <li class="tab col s3 recipe-tab"><a href="#ingredients"><i
+                        class="medium material-icons">kitchen</i></a>
+                </li>
+                <li class="tab col s3 recipe-tab"><a href="#method" ><i class="medium material-icons">assignment_turned_in</i></a>
+                </li>
+            </ul>
+        </div>
+
+        <form class="col s12" id="edit-recipe-form" enctype="multipart/form-data" method="POST"
+              action="{{ url_for('update_recipe_image', user_id=user_id, recipe_id=recipe_id) }}">
+
+            <!--IMAGE-->
+            <div id="image" class="col s12">
+
+                <div class="col s12">
+                    <h6 class="center text-accent-1"> EDIT IMAGE </h6>
+                </div>
+
+                <div class="section">
+                    <br>
+                    <div class="row">
+                        <div class="col s12 m8 offset-m2 l6 offset-l3  center">
+                            <img class="edit-recipe-img" src="{{ current_recipe.image_url }}" alt="recipe image">
                         </div>
-                        <!-- browse -->
-                        <button class="waves-effect waves-light btn grey darken-3 grey-text text-lighten-2 right profile-link-btn"
-                                type="file" name="file">
-                            Browse
-                            <input type="file" name="file">
-                        </button>
+                    </div>
+
+                    <!-- Recipe image upload -->
+                    <div class="file-field input-field ">
+                        <div class="row ">
+                            <div class="col s12">
+                                <div class="row">
+                                    <!-- Icon -->
+                                    <div class="col s1 ">
+                                        <div class="btn-floating btn-large waves-effect waves-light blue folder-btn2 tooltipped"
+                                             data-position="bottom" data-tooltip="Upload Image">
+                                            <i class="material-icons" type="file" name="file">folder</i>
+                                            <input type="file" name="file" accept="image/png, image/jpeg"></div>
+                                    </div>
+                                    <!-- filename -->
+                                    <div class="col s8 offset-s2 file-path-wrapper ">
+                                        <input class="file-path validate" type="text" placeholder="Choose image"
+                                               onchange="this.form.submit()">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="input-field col s12">
-                    <input id="recipe_name" type="text" class="validate" name="recipe-name"
-                           value="{{ current_recipe.name }}">
-                    <label for="recipe_name">Recipe Name</label>
+        </form>
+
+        <div id="overview" class="col s12">
+            <form action="{{ url_for('update_recipe', user_id=user_id, recipe_id=recipe_id) }}" method="POST">
+                <!-- Recipe Info Section Title -->
+                <div class="col s12">
+                    <h6 class="center text-accent-1"> RECIPE INFO </h6>
                 </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s12">
-                    <textarea id="recipe_description" class="materialize-textarea"
-                              name="recipe-description">{{ current_recipe.description }}</textarea>
-                    <label for="recipe_description">Description</label>
+                <br>
+                <div class="row">
+                    <!-- Recipe Name -->
+                    <div class="input-field col s12">
+                        <input id="recipe_name" type="text" class="validate" name="recipe-name"
+                               value="{{ current_recipe.name }}">
+                        <label for="recipe_name">Recipe Name</label>
+                    </div>
+                    <!-- Recipe Description -->
+                    <div class="input-field col s12">
+                        <textarea id="recipe_description" class="materialize-textarea"
+                                  name="recipe-description">{{ current_recipe.description }}</textarea>
+                        <label for="recipe_description">Description</label>
+                    </div>
+
                 </div>
-            </div>
-            <div class="row">
+                <!--Prep-Time-->
+                <div class="row">
+                    <div class="col s12">
+                        <h6> Prep-Time </h6>
+                    </div>
+                    <!--Hours-->
+                    <div class="input-field col s6">
+                        <select name="prep-hours">
+                            <option value="{{ current_recipe.preptime_hrs }}"
+                                    selected>{{ current_recipe.preptime_hrs }}</option>
+                            {% for i in range(24) %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                        <label>Hours</label>
+                    </div>
+                    <!--Minutes-->
+                    <div class="input-field col s6">
+                        <select name="prep-minutes">
+                            <option value="{{ current_recipe.preptime_min }}"
+                                    selected>{{ current_recipe.preptime_min }}</option>
+                            {% for i in range(60) %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                        <label>Minutes</label>
+                    </div>
+                    <div class="col s12">
+                        <h6> Cook-Time </h6>
+                    </div>
+                    <!--Hours-->
+                    <div class="input-field col s6">
+                        <select name="cook-hours">
+                            <option value="{{ current_recipe.cooktime_hrs }}"
+                                    selected>{{ current_recipe.cooktime_hrs }}</option>
+                            {% for i in range(24) %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                        <label>Hours</label>
+                    </div>
+                    <!--Minutes-->
+                    <div class="input-field col s6">
+                        <select name="cook-minutes">
+                            <option value="{{ current_recipe.cooktime_min }}"
+                                    selected>{{ current_recipe.cooktime_min }}</option>
+                            {% for i in range(60) %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                        <label>Minutes</label>
+                    </div>
+                </div>
+                <!--Serves-->
+                <div class="row">
+                    <div class="input-field col s6">
+                        <select name="serves">
+                            <option value="{{ current_recipe.serves }}" selected>{{ current_recipe.serves }}</option>
+                            {% for i in range(11) %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                        <label>Serves</label>
+                    </div>
+                </div>
+                <!-- Recipe Notes -->
                 <div class="input-field col s12">
-                    <textarea id="recipe_notes" class="materialize-textarea"
-                              name="recipe-notes">{{ current_recipe.notes }}</textarea>
+                        <textarea id="recipe_notes" class="materialize-textarea"
+                                  name="recipe-notes">{{ current_recipe.notes }}</textarea>
                     <label for="recipe_notes">Notes</label>
                 </div>
-            </div>
-            <!--Prep-Time-->
-            <div class="row">
-                <p>Prep-Time</p>
-                <!--Hours-->
-                <div class="input-field col s6">
-                    <select name="prep-hours">
-                        <option value="{{ current_recipe.preptime_hrs }}"
-                                selected>{{ current_recipe.preptime_hrs }}</option>
-                        {% for i in range(24) %}
-                            <option value="{{ i }}">{{ i }}</option>
-                        {% endfor %}
-                    </select>
-                    <label>Hours</label>
-                </div>
-                <!--Minutes-->
-                <div class="input-field col s6">
-                    <select name="prep-minutes">
-                        <option value="{{ current_recipe.preptime_min }}"
-                                selected>{{ current_recipe.preptime_min }}</option>
-                        {% for i in range(60) %}
-                            <option value="{{ i }}">{{ i }}</option>
-                        {% endfor %}
-                    </select>
-                    <label>Minutes</label>
-                </div>
-            </div>
-            <!--Cook-Time-->
-            <div class="row">
-                <p>Cook Time</p>
-                <!--Hours-->
-                <div class="input-field col s6">
-                    <select name="cook-hours">
-                        <option value="{{ current_recipe.cooktime_hrs }}"
-                                selected>{{ current_recipe.cooktime_hrs }}</option>
-                        {% for i in range(24) %}
-                            <option value="{{ i }}">{{ i }}</option>
-                        {% endfor %}
-                    </select>
-                    <label>Hours</label>
-                </div>
-                <!--Minutes-->
-                <div class="input-field col s6">
-                    <select name="cook-minutes">
-                        <option value="{{ current_recipe.cooktime_min }}"
-                                selected>{{ current_recipe.cooktime_min }}</option>
-                        {% for i in range(60) %}
-                            <option value="{{ i }}">{{ i }}</option>
-                        {% endfor %}
-                    </select>
-                    <label>Minutes</label>
-                </div>
-            </div>
-            <!--Serves-->
-            <div class="row">
-                <div class="input-field col s6">
-                    <select name="serves">
-                        <option value="{{ current_recipe.serves }}" selected>{{ current_recipe.serves }}</option>
-                        {% for i in range(11) %}
-                            <option value="{{ i }}">{{ i }}</option>
-                        {% endfor %}
-                    </select>
-                    <label>Serves</label>
-                </div>
-            </div>
+                <div class="row">
+                    <div class="col s12">
 
-
-            <!-- Submit -->
-            <button class="waves-effect waves-light btn grey darken-3 grey-text text-lighten-2 right profile-link-btn"
-                    type="submit" name="action">
-                SAVE
-            </button>
-        </form>
-    <!-- Ingredients -->
-        <div class="section">
-            <h6>Ingredient List</h6>
-            <br>
-            <!-- Current ingredients -->
-            {% for ingredient in current_ingredients %}
-
-                <p>{{ ingredient.ingredient_item|upper }}</p>
-            {% endfor %}
-            <!-- Add  -->
-            <a id='editIngredients' href="{{ url_for('edit_ingredient_list', recipe_id=recipe_id, user_id=user_id) }}"
-               class="waves-effect waves-light btn grey darken-3 grey-text text-lighten-2 left profile-link-btn left">
-                EDIT
-            </a>
+                        <!-- Save Button -->
+                        <button class="btn-floating btn-large waves-effect waves-light green left tooltipped"
+                                type="submit"
+                                name="action" data-position="top" data-tooltip="Save Recipe Info"><i
+                                class="material-icons">save</i></button>
+                        <!-- DELETE  -->
+                        <a class="btn-floating btn-large waves-effect waves-light red right modal-trigger tooltipped"
+                           href="#delete-recipe-modal" data-position="top" data-tooltip="Delete Recipe"><i
+                                class="material-icons">delete</i></a>
+                    </div>
+                </div>
+            </form>
         </div>
 
-        <!-- Method -->
-        <div class="section">
-            <br>
-            <h6>Method List</h6>
-            <br>
-            <!-- Current methods -->
-            {% for method  in current_methods %}
-                <p>{{ loop.index }}. {{ method.method_name|upper}}</p>
-            {% endfor %}
-            <!-- Add  -->
-            <a id='editMethod' href="{{ url_for('edit_method_list', recipe_id=recipe_id, user_id=user_id) }}"
-               class="waves-effect waves-light btn grey darken-3 grey-text text-lighten-2 left profile-link-btn left">
-                EDIT
-            </a>
+
+        <!-- INGREDIENTS -->
+        <div id="ingredients" class="col s12">
+            <ul class="collection with-header">
+                <li class="collection-header center grey lighten-1"><h4>INGREDIENTS</h4></li>
+                <!-- Current ingredients -->
+                {% for ingredient in current_ingredients %}
+                    <li class="collection-item">
+                        <div>
+                            {{ ingredient.ingredient_item }}
+                            <a href="
+                                {{ url_for('del_ingredient_item',user_id=user_id, recipe_id=recipe_id, ingredient_id=ingredient._id) }}"
+                               class="secondary-content red-text">
+                                <i class="material-icons">delete</i></a></div>
+                    </li>
+                {% endfor %}
+            </ul>
+            <form method="POST" action="{{ url_for('add_ingredient_item',user_id=user_id, recipe_id=recipe_id) }}"
+                  class="col s12 ">
+                <div class="row">
+                    <!-- Ingredient-->
+                    <div class="input-field col s12">
+                        <input id="icon_username" type="text" class="validate" name="ingredient_item" minlength="3"
+                               required>
+                        <label for="icon_username">Ingredient</label>
+                    </div>
+
+                    <!-- ADD button -->
+                    <div class="col s12 center">
+                        <button class="btn-floating btn-large waves-effect waves-light green tooltipped"
+                                data-position="bottom" data-tooltip="Add Ingredient" type="submit"
+                                name="action"><i class="material-icons">add</i></button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        <!-- METHODS -->
+        <div id="method" class="col s12">
+
+
+            <ul class="collection with-header">
+                <li class="collection-header center grey lighten-1"><h4>METHODS</h4></li>
+                <!-- Current methods -->
+                {% for method in current_methods %}
+                    <li class="collection-item">
+                        <div>
+                            {{ method.method_name }}
+                            <a href="
+                                {{ url_for('del_method_item',user_id=user_id, recipe_id=recipe_id, method_id=method._id) }}"
+                               class="secondary-content red-text">
+                                <i class="material-icons">delete</i></a></div>
+                    </li>
+                {% endfor %}
+            </ul>
+
+
+            <!-- Form -->
+            <div class="row">
+                <form method="POST" action="{{ url_for('add_method_item',user_id=user_id, recipe_id=recipe_id) }}"
+                      class="col s12 ">
+                    <div class="row">
+                        <!-- method-->
+                        <div class="input-field col s12">
+                            <input id="icon_username" type="text" class="validate" name="method_name" minlength="3"
+                                   required>
+                            <label for="icon_username">Method</label>
+                        </div>
+                         <!-- ADD button -->
+                    <div class="col s12 center">
+                        <button class="btn-floating btn-large waves-effect waves-light green tooltipped"
+                                data-position="bottom" data-tooltip="Add Method" type="submit"
+                                name="action"><i class="material-icons">add</i></button>
+                    </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
+    </div>
+
+
 {% endblock %}
