@@ -36,7 +36,7 @@
                     <li><a href="/"><i class="fas fa-search"></i></a></li>
                     <!-- If user is logged in display username and link to profile page else link to login page -->
                     {% if session['USERNAME'] %}
-                        <li><a href="{{ url_for('profile') }}"> {{ session['USERNAME']|upper }} <i
+                        <li><a href="{{ url_for('profile') }}"> {{ session['USERNAME']|upper }}  <i
                                 class="fas fa-user"></i></a></li>
                     {% else %}
                         <li><a href="{{ url_for('sign_in') }}"> {{ session['USERNAME']|upper }} <i

@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row">
+        <!-- Recipe Title -->
+        <div class="col s12 center">
+            <h4>{{ current_recipe.name|upper }}</h4>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Prep Time -->
+        <div class="col s4 center">
+            <p>PREP: {{ current_recipe.preptime_hrs }}hrs {{ current_recipe.preptime_min }}min</p>
+        </div>
+        <!-- Cook Time -->
+        <div class="col s4 center">
+            <p>COOK: {{ current_recipe.cooktime_hrs }}hrs {{ current_recipe.cooktime_min }}min</p>
+        </div>
+        <!-- Serves -->
+        <div class="col s4 center">
+            <p>SERVES: {{ current_recipe.serves }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s6">
+            <img class="main-recipe-img" src="{{ current_recipe.image_url }}" alt="Recipe image">
+        </div>
+        <div class="col s6">
+            <div class="row">
+                <div class="col s12">
+                    <p>{{ current_recipe.description }}</p>
+                </div>
+            </div>
+            <div class="row">
+                 <br>
+            </div>
+
+            <div class="row">
+                <div class="col s12">
+                    <div class="col s3 center">
+                        <!-- Profile image -->
+                        <img class="author-img" src="{{ current_recipe_author.profile_image }}"
+                             alt="user profile image">
+                    </div>
+                    <div class="col s3">
+                        <p>{{ current_recipe_author.username }}</p>
+                        <p>{{ current_recipe.date_updated }}</p>
+                    </div>
+                    <div class="col s6">
+                        <!-- display correct number of stars -->
+                        {% for i in range(1,6) %}
+                            {% if current_recipe.current_rating|int < i %}
+                                <i class="material-icons yellow-text left">star_border</i>
+                            {% else %}
+                                <i class="material-icons yellow-text left">star</i>
+                            {% endif %}
+                        {% endfor %}
+                        <p class="left">({{ current_recipe.total_ratings }})</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <br>
+                        <div class="col s4 center">
+                            <a href="#"><i class="material-icons">stars</i>rate</a>
+                        </div>
+                        <div class="col s4 center">
+                            <a href="#"><i class="material-icons">favorite</i>favorite</a>
+                        </div>
+                        <div class="col s4 center">
+
+                            <a href="#"><i class="material-icons">share</i>share</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <!-- INGREDIENTS -->
+        <div class="col s6">
+            <ul class="collection with-header">
+                <li class="collection-header center"><h4>Ingredients</h4></li>
+                {% for ingredient in current_recipe_ingredients %}
+                    <li class="collection-item">{{ ingredient.ingredient_item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <!-- METHODS -->
+        <div class="col s6">
+            <ul class="collection with-header">
+                <li class="collection-header center"><h4>Methods</h4></li>
+                {% for method in current_recipe_methods %}
+                    <li class="collection-item">{{ method.method_name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <h5>Notes:</h5>
+            <p>{{ current_recipe.notes }}</p>
+        </div>
+    </div>
+{% endblock %}

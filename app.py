@@ -32,7 +32,7 @@ def index():
     # Returns the index.html and passes in all recipes from the database
     #
     all_recipes = mongo.db.recipes.find()
-    return render_template('index.html', recipes=all_recipes, )
+    return render_template('index.html', recipes=all_recipes)
 
 
 # login routes
@@ -98,6 +98,7 @@ def register():
                              'profile_image_id': 'xbv453shlvxycy399dcc'})
             session['USERNAME'] = request.form['username']
             return redirect(url_for('profile'))
+
         # if the user already exists
         else:
             return render_template('register.html', exists=True)
@@ -369,6 +370,22 @@ def del_method_item(user_id, recipe_id, method_id):
     db_methods = mongo.db.methods
     db_methods.remove({'_id': ObjectId(method_id)})
     return redirect(url_for('edit_method_list', user_id=user_id, recipe_id=recipe_id))
+
+
+# Recipe View
+@app.route('/recipe/<recipe_id>')
+def recipe(recipe_id):
+    db_recipes = mongo.db.recipes
+    current_recipe = db_recipes.find_one({'_id': ObjectId(recipe_id)})
+    db_users = mongo.db.users
+    current_recipe_author = db_users.find_one({'_id': ObjectId(current_recipe['author_id'])})
+    db_ingredients = mongo.db.ingredients
+    current_recipe_ingredients = db_ingredients.find({'recipe_id': ObjectId(recipe_id)})
+    db_methods = mongo.db.methods
+    current_recipe_methods = db_methods.find({'recipe_id': ObjectId(recipe_id)})
+    return render_template('recipe.html', current_recipe=current_recipe, current_recipe_author=current_recipe_author,
+                           current_recipe_ingredients=current_recipe_ingredients,
+                           current_recipe_methods=current_recipe_methods)
 
 
 @app.route('/featured/<sortby>')

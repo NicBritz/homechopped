@@ -60,7 +60,7 @@
                             {% endfor %}
                             <!-- add card image -->
                             <span>
-                        <a href="/"><img src="{{ recipe.image_url }}" alt="{{ recipe.name }}"></a>
+                        <a href="{{ url_for('recipe', recipe_id=recipe._id) }}"><img src="{{ recipe.image_url }}" alt="{{ recipe.name }}"></a>
                         </span>
                         </div>
                         <div class="card-content">
