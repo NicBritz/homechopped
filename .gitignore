@@ -1,5 +1,6 @@
 .idea/
 .idea/dictionaries/
 .idea/workspace.xml
+.vscode/
 __pycache__/
 venv/
