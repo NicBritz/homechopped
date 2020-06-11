@@ -47,22 +47,21 @@
                             <input id="icon_password" type="password" class="validate" name="password" required>
                             <label for="icon_password">Password</label>
                         </div>
-                        <div class="col s12 center">
-                    {% endif %}
 
+                    {% endif %}
+                    </div>
                     <!-- Submit button -->
                     <button class="btn waves-effect waves-light grey darken-3 grey-text text-lighten-2
                         sign-in-btn " type="submit" name="action">Login
                     </button>
-                    </div>
-                    </div>
+                </div>
             </form>
         </div>
-        <!-- link to sign up -->
-        <div class="row">
-            <div class="col s12 m8 offset-m2 l6 offset-l3 xl4 offset-xl4 center">
-                <p>Don't have an account? <a href="{{ url_for('register') }}">Sign up here.</a></p>
-            </div>
+    </div>
+    <!-- link to sign up -->
+    <div class="row">
+        <div class="col s12 m8 offset-m2 l6 offset-l3 xl4 offset-xl4 center">
+            <p>Don't have an account? <a href="{{ url_for('register') }}">Sign up here.</a></p>
         </div>
     </div>
 

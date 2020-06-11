@@ -1,6 +1,6 @@
-from flask import render_template, session, request, redirect, url_for
 from app import app
 from app.setup import MONGO, DB_USERS
+from flask import render_template, session, request, redirect, url_for
 import bcrypt
 
 
