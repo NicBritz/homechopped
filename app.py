@@ -7,24 +7,24 @@ from cloudinary.uploader import upload
 from cloudinary.uploader import destroy
 import bcrypt
 from datetime import date
-
+from app import app
 # cloudinary config
-cloudinary.config(
-    cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME'),
-    api_key=os.environ.get('CLOUDINARY_API_KEY'),
-    api_secret=os.environ.get('CLOUDINARY_API_SECRET')
-)
+# cloudinary.config(
+#     cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME'),
+#     api_key=os.environ.get('CLOUDINARY_API_KEY'),
+#     api_secret=os.environ.get('CLOUDINARY_API_SECRET')
+# )
 
-app = Flask(__name__)
+# app = Flask(__name__)
 
 # mongoDB config
-app.config["MONGO_DBNAME"] = os.environ.get('HC_MONGO_DBNAME')
-app.config["MONGO_URI"] = os.environ.get('HC_MONGO_URI')
+# app.config["MONGO_DBNAME"] = os.environ.get('HC_MONGO_DBNAME')
+# app.config["MONGO_URI"] = os.environ.get('HC_MONGO_URI')
 
-# secret key
-app.config["SECRET_KEY"] = os.environ.get('SESSION_SECRET')
+# # secret key
+# app.config["SECRET_KEY"] = os.environ.get('SESSION_SECRET')
 
-mongo = PyMongo(app)
+# mongo = PyMongo(app)
 
 
 @app.route('/')
@@ -32,7 +32,7 @@ def index():
     # Returns the index.html and passes in all recipes from the database
     #
     all_recipes = mongo.db.recipes.find()
-    return render_template('index.html', recipes=all_recipes)
+    return render_template('app/templates/index.html', recipes=all_recipes)
 
 
 # login routes
