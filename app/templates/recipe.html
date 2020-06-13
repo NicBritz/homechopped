@@ -1,105 +1,203 @@
 {% extends 'base.html' %}
+{% block head_content %}
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/rating.css') }}">
+    <link rel="stylesheet" media="print" type="text/css"
+          href="{{ url_for('static', filename='css/print-recipe.css') }}">
+{% endblock %}
 {% block content %}
-    <div class="row">
-        <!-- Recipe Title -->
-        <div class="col s12 center">
-            <h4>{{ current_recipe.name|upper }}</h4>
+    <!-- Recipe Title -->
+    <div class="section print">
+        <div class="row">
+            <div class="col s12 m8 offset-m2 center recipe-title">
+                <h4>{{ current_recipe.name|upper }}</h4>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <!-- Prep Time -->
-        <div class="col s4 center">
-            <p>PREP: {{ current_recipe.preptime_hrs }}hrs {{ current_recipe.preptime_min }}min</p>
-        </div>
-        <!-- Cook Time -->
-        <div class="col s4 center">
-            <p>COOK: {{ current_recipe.cooktime_hrs }}hrs {{ current_recipe.cooktime_min }}min</p>
-        </div>
-        <!-- Serves -->
-        <div class="col s4 center">
-            <p>SERVES: {{ current_recipe.serves }}</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col s6">
-            <img class="main-recipe-img" src="{{ current_recipe.image_url }}" alt="Recipe image">
-        </div>
-        <div class="col s6">
-            <div class="row">
-                <div class="col s12">
-                    <p>{{ current_recipe.description }}</p>
+    <!--Author and ratings -->
+    <div class="section ">
+        <div class="row">
+            <div class="col s12 m3 ">
+                <!-- Author image -->
+                <div class="col s6 center print">
+                    <img class="recipe-author-img" src="{{ current_recipe_author.profile_image }}"
+                         alt="Recipe author image">
+                </div>
+                <!-- Author info -->
+                <div class="col s6 recipe-author-details print">
+                    <p><strong>by {{ current_recipe_author.username }}</strong></p>
+                    <p><em>updated {{ current_recipe.date_updated }}</em></p>
                 </div>
             </div>
-            <div class="row">
-                 <br>
-            </div>
 
-            <div class="row">
-                <div class="col s12">
-                    <div class="col s3 center">
-                        <!-- Profile image -->
-                        <img class="author-img" src="{{ current_recipe_author.profile_image }}"
-                             alt="user profile image">
-                    </div>
-                    <div class="col s3">
-                        <p>{{ current_recipe_author.username }}</p>
-                        <p>{{ current_recipe.date_updated }}</p>
-                    </div>
-                    <div class="col s6">
-                        <!-- display correct number of stars -->
+            <!-- Socials -->
+            <div class="col s12 m6 skip-print">
+                <div class="col s12 m6">
+                    <a class="waves-effect waves-light btn btn-flat recipe-social modal-trigger" href="#RateModal"><i
+                            class="material-icons left">stars</i>rate</a>
+                </div>
+                <div class="col s12 m6">
+                    <!-- add to favorites, display red if in favorites-->
+                    {% if current_recipe._id in favorites %}
+                        <a class="waves-effect waves-light btn btn-flat recipe-social"
+                           href="{{ url_for('add_favorite', recipe_id=current_recipe._id) }}"><i
+                                class="material-icons left red-text">
+                            favorite</i>favorite</a>
+                    {% else %}
+                        <a class="waves-effect waves-light btn btn-flat recipe-social"
+                           href="{{ url_for('add_favorite', recipe_id=current_recipe._id) }}"><i
+                                class="material-icons left">
+                            favorite</i>favorite</a>
+                    {% endif %}
+                </div>
+                <div class="col s12 m6">
+                    <a class="waves-effect waves-light btn btn-flat dropdown-trigger recipe-social"
+                       data-target='share-dropdown'><i
+                            class="material-icons left">share</i>share</a>
+
+                    <!-- Dropdown Structure -->
+                    <ul id='share-dropdown' class='dropdown-content'>
+                        <li class="share-dd-link">
+                            <!-- Share facebook -->
+                            <a href="https://www.facebook.com/sharer.php?u={{ url_for('recipe', recipe_id=current_recipe._id) }}"
+                               target="_blank"><i class="small fab fa-facebook-square fb-col"></i><strong>share</strong></a>
+                        </li>
+                        <li class="share-dd-link">
+                            <!-- Share twitter -->
+                            <a href="https://twitter.com/intent/tweet?url={{ url_for('recipe', recipe_id=current_recipe._id) }}"
+                               target="_blank"><i
+                                    class="small fab fa-twitter-square tw-col"></i><strong>tweet</strong></a>
+                        </li>
+                        <li class="share-dd-link">
+                            <!-- Pinterest  -->
+                            <a href="https://pinterest.com/pin/create/button/?url={{ url_for('recipe', recipe_id=current_recipe._id) }}/&media={{ current_recipe.image_url }}&description={{ current_recipe.description }}"
+                               count-layout="none" target="_blank"><i class="small fab fa-pinterest-square pin-col"></i><strong>pin
+                                it</strong></a>
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="col s12 m6">
+                    <a class="waves-effect waves-light btn btn-flat recipe-social"
+                       onclick="window.print();return false;"><i
+                            class="material-icons left">print</i>print</a>
+                </div>
+            </div>
+            <!-- Recipe rating -->
+            <div class="col s12 m3 ">
+                <div class="row">
+                    <div class="col s12 rating-box">
+                        <!-- displays correct number of shaded/unshaded stars -->
                         {% for i in range(1,6) %}
                             {% if current_recipe.current_rating|int < i %}
-                                <i class="material-icons yellow-text left">star_border</i>
+                                <i class="material-icons blue-text text-darken-2 left recipe-rating">star_border</i>
                             {% else %}
-                                <i class="material-icons yellow-text left">star</i>
+                                <i class="material-icons  blue-text text-darken-2 left recipe-rating">star</i>
                             {% endif %}
                         {% endfor %}
-                        <p class="left">({{ current_recipe.total_ratings }})</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s12">
-                        <br>
-                        <div class="col s4 center">
-                            <a href="#"><i class="material-icons">stars</i>rate</a>
-                        </div>
-                        <div class="col s4 center">
-                            <a href="#"><i class="material-icons">favorite</i>favorite</a>
-                        </div>
-                        <div class="col s4 center">
-
-                            <a href="#"><i class="material-icons">share</i>share</a>
-                        </div>
+                        <span class="left">({{ current_recipe.total_ratings }})</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <hr>
-    <div class="row">
-        <!-- INGREDIENTS -->
-        <div class="col s6">
-            <ul class="collection with-header">
-                <li class="collection-header center"><h4>Ingredients</h4></li>
-                {% for ingredient in current_recipe_ingredients %}
-                    <li class="collection-item">{{ ingredient.ingredient_item }}</li>
-                {% endfor %}
-            </ul>
+    <!--Recipe image -->
+    <div class="section print">
+        <div class="row">
+            <div class="col s12 m8 offset-m2">
+                <img class="main-recipe-img" src="{{ current_recipe.image_url }}" alt="Recipe image">
+            </div>
         </div>
-        <!-- METHODS -->
-        <div class="col s6">
-            <ul class="collection with-header">
-                <li class="collection-header center"><h4>Methods</h4></li>
-                {% for method in current_recipe_methods %}
-                    <li class="collection-item">{{ method.method_name }}</li>
-                {% endfor %}
-            </ul>
+        <!--Recipe timings -->
+        <div class="row">
+            <div class="col s12 m8 offset-m2 ">
+                <div class="col s4 center">
+                    <i class="material-icons">query_builder</i>
+                    <p class="recipe-time">{{ current_recipe.preptime_hrs }}h{{ current_recipe.preptime_min }}m</p>
+                    <p class="recipe-time-heading">PREP</p>
+                </div>
+                <div class="col s4 center">
+                    <i class="material-icons">hourglass_empty</i>
+                    <p class="recipe-time">{{ current_recipe.cooktime_hrs }}h{{ current_recipe.cooktime_min }}m</p>
+                    <p class="recipe-time-heading">COOK</p>
+                </div>
+                <div class="col s4 center">
+                    <i class="material-icons">restaurant</i>
+                    <p class="recipe-time">{{ current_recipe.serves }}</p>
+                    <p class="recipe-time-heading">SERVES</p>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col s12">
-            <h5>Notes:</h5>
-            <p>{{ current_recipe.notes }}</p>
+    <!--Recipe description -->
+    <div class="section print">
+        <div class="row">
+            <div class="col s12 m8 offset-m2 ">
+                <p>{{ current_recipe.description }}</p>
+            </div>
         </div>
+    </div>
+    <!-- Ingredients -->
+    <div class="section print">
+        <div class="row">
+            <div class="col s12 m8 offset-m2 ">
+                <h4>Ingredients</h4>
+                <ul>
+                    {% for ingredient in current_recipe_ingredients %}
+                        <li class="ingredient">{{ ingredient.ingredient_item }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- Methods -->
+    <div class="section print">
+        <div class="row">
+            <div class="col s12 m8 offset-m2 ">
+                <h4>Methods</h4>
+                <ul>
+                    {% for method in current_recipe_methods %}
+                        <li class="method"><span class="method-num">{{ loop.index }}.</span> {{ method.method_name }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- Notes -->
+    <div class="section print">
+        <div class="row">
+            <div class="col s12 m8 offset-m2">
+                <h5>Notes</h5>
+                <blockquote>
+                    {{ current_recipe.notes }}
+                </blockquote>
+            </div>
+        </div>
+    </div>
+    <!-- Rate modal -->
+    <div id="RateModal" class="modal">
+        <form method="POST" action="{{ url_for('rate_recipe', recipe_id=current_recipe._id) }}">
+            <div class=" modal-content modal-rating">
+                <p>How much do you like this recipe?</p>
+                <div class="rating">
+                    <input id="rating5" type="radio" name="rating" value="5">
+                    <label for="rating5">5</label>
+                    <input id="rating4" type="radio" name="rating" value="4">
+                    <label for="rating4">4</label>
+                    <input id="rating3" type="radio" name="rating" value="3">
+                    <label for="rating3">3</label>
+                    <input id="rating2" type="radio" name="rating" value="2">
+                    <label for="rating2">2</label>
+                    <input id="rating1" type="radio" name="rating" value="1" checked>
+                    <label for="rating1">1</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-close waves-effect waves-green btn-flat " type="submit"
+                        name="action">Rate
+                </button>
+            </div>
+        </form>
     </div>
 {% endblock %}

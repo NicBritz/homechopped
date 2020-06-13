@@ -1,6 +1,6 @@
 from app import app
 from app.setup import DB_RECIPES, DB_INGREDIENTS, DB_METHODS, DB_USERS, TODAY_STR
-from flask import redirect, url_for, render_template, request
+from flask import redirect, url_for, render_template, request, session
 from bson.objectid import ObjectId
 from cloudinary.uploader import upload, destroy
 
@@ -20,10 +20,16 @@ def recipe(recipe_id):
     current_recipe_author = DB_USERS.find_one({'_id': ObjectId(current_recipe['author_id'])})
     current_recipe_ingredients = DB_INGREDIENTS.find({'recipe_id': ObjectId(recipe_id)})
     current_recipe_methods = DB_METHODS.find({'recipe_id': ObjectId(recipe_id)})
+    if session.get('USERNAME', None) is not None:
+        username = session['USERNAME']
+        user = DB_USERS.find_one({'username': username})
+        favorites = user['favorites']
+    else:
+        favorites = []
 
     return render_template('recipe.html', current_recipe=current_recipe, current_recipe_author=current_recipe_author,
                            current_recipe_ingredients=current_recipe_ingredients,
-                           current_recipe_methods=current_recipe_methods)
+                           current_recipe_methods=current_recipe_methods, favorites=favorites)
 
 
 ###############
@@ -50,6 +56,7 @@ def add_temp_recipe(user_id):
             'featured': 'false',
             'current_rating': '0',
             'total_ratings': 0,
+            'sum_ratings': 0,
             'author_id': ObjectId(user_id)
         })
 
@@ -220,11 +227,37 @@ def add_method_item(user_id, recipe_id):
 def del_method_item(user_id, recipe_id, method_id):
     """ Deletes an method to the database from the recipe id reference
 
-        :return
-            returns the edit-recipe.html form method tab with updated method list
+    :return
+        returns the edit-recipe.html form method tab with updated method list
 
-        """
+    """
     # Remove method record
     DB_METHODS.remove({'_id': ObjectId(method_id)})
 
     return redirect(url_for('edit_recipe', _anchor='method', user_id=user_id, recipe_id=recipe_id))
+
+
+###############
+# RATE RECIPE #
+###############
+@app.route('/rate_recipe/<recipe_id>', methods=['POST'])
+def rate_recipe(recipe_id):
+    """ Updates the recipe rating and number of ratings
+
+    :return
+        Redirect to recipe page
+    """
+    # calculate new rating
+    current_recipe = DB_RECIPES.find_one({'_id': ObjectId(recipe_id)})
+    calculated_rating_total = int(current_recipe['total_ratings']) + 1
+    calculated_sum = int(current_recipe['sum_ratings']) + int(request.form.get('rating'))
+    # rounded average for simplicity
+    calculated_avg = round(calculated_sum / calculated_rating_total)
+    # update record
+    DB_RECIPES.update_one({'_id': ObjectId(recipe_id)}, {"$set": {
+        'total_ratings': calculated_rating_total,
+        'sum_ratings': calculated_sum,
+        'current_rating': calculated_avg
+    }}, upsert=True)
+
+    return redirect(url_for('recipe', recipe_id=recipe_id))
