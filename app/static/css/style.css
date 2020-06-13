@@ -124,8 +124,25 @@ body {
 }
 
 .rating-box {
-    padding-left: 2em!important;
-    padding-top: 1em!important;
+    padding-left: 2em !important;
+    padding-top: 1em !important;
+}
+
+.fb-col{
+    color: #3b5998;
+}
+
+.tw-col{
+    color: #3b5998;
+}
+
+.pin-col{
+    color: #c8232c!important;
+}
+
+.share-dd-link strong{
+    color: #424242!important;
+    font-size: 0.8em;
 }
 
 .recipe-time {
@@ -152,7 +169,6 @@ body {
     padding: 5px;
 }
 
-
 /* Cards */
 
 .card {
@@ -170,7 +186,7 @@ body {
 
 .rating-star {
     position: relative;
-    color: #ffff00;
+    color: #0096ff;
     font-size: 1.6em;
     z-index: 2;
     margin-right: 0 !important;

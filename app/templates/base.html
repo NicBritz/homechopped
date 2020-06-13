@@ -6,7 +6,8 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap"
+          rel="stylesheet">
     <!-- favicon -->
     <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}"/>
     <!-- google material icons -->
@@ -15,6 +16,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Custom head content per view -->
+    {% block head_content %}{% endblock %}
 
     <title>HOMEchopped</title>
 </head>
@@ -36,7 +39,7 @@
                     <li><a href="/"><i class="fas fa-search"></i></a></li>
                     <!-- If user is logged in display username and link to profile page else link to login page -->
                     {% if session['USERNAME'] %}
-                        <li><a href="{{ url_for('profile') }}"> {{ session['USERNAME']|upper }}  <i
+                        <li><a href="{{ url_for('profile') }}"> {{ session['USERNAME']|upper }} <i
                                 class="fas fa-user"></i></a></li>
                     {% else %}
                         <li><a href="{{ url_for('sign_in') }}"> {{ session['USERNAME']|upper }} <i

@@ -39,7 +39,8 @@ def register():
             DB_USERS.insert({'username': request.form.get('username'), 'password': hashpass,
                              'profile_image': 'https://res.cloudinary.com/dajuujhvs/image/upload/v1591443059'
                                               '/xbv453shlvxycy399dcc.png',
-                             'profile_image_id': 'xbv453shlvxycy399dcc'})
+                             'profile_image_id': 'xbv453shlvxycy399dcc',
+                             'favorites': []})
             # create a session cookie
             session['USERNAME'] = request.form.get('username')
             # redirect to profile page

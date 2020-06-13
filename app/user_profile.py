@@ -1,5 +1,5 @@
 from app import app
-from app.setup import DB_USERS, DB_RECIPES, DB_METHODS, DB_INGREDIENTS
+from app.setup import DB_USERS, DB_RECIPES, DB_METHODS, DB_INGREDIENTS, DB_FAVORITES
 from flask import render_template, session, redirect, url_for, abort, request
 from bson.objectid import ObjectId
 from cloudinary.uploader import upload, destroy
@@ -135,3 +135,34 @@ def delete_user(user_id):
 
     return redirect(url_for('sign_out'))
 
+
+#################
+# ADD FAVORITE  #
+#################
+@app.route('/add_favorite/<recipe_id>')
+def add_favorite(recipe_id):
+    """ Adds the recipe to the users favorites list in the users profile
+
+     :return
+         Redirect to recipe url with updated favorites list
+
+    """
+    updated_favorites = []
+    # User is signed in and exists in the database
+    if session.get('USERNAME', None) is not None:
+        username = session['USERNAME']
+        user = DB_USERS.find_one({'username': username})
+        recipe = DB_RECIPES.find_one({'_id': ObjectId(recipe_id)})
+        #  Update users favorites
+        current_favorites = user['favorites']
+        # if the recipe is not already in the list
+        if ObjectId(recipe_id) not in current_favorites:
+            current_favorites.append(ObjectId(recipe_id))
+
+        DB_USERS.update_one({'_id': user['_id']},
+                            {"$set": {'favorites': current_favorites, }}, upsert=True)
+
+        updated_user = DB_USERS.find_one({'username': username})
+        updated_favorites = updated_user['favorites']
+
+    return redirect(url_for('recipe', recipe_id=recipe_id, favorites=updated_favorites))

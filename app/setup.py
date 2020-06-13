@@ -30,3 +30,4 @@ DB_RECIPES = MONGO.db.recipes
 DB_USERS = MONGO.db.users
 DB_INGREDIENTS = MONGO.db.ingredients
 DB_METHODS = MONGO.db.methods
+DB_FAVORITES = MONGO.db.favorites

@@ -28,5 +28,9 @@ document.addEventListener('DOMContentLoaded', function () {
     let tabElms = document.querySelectorAll('.tabs')
     let tabInstance = M.Tabs.init(tabElms);
 
+    // Dropdown Menu
+    let menuDropElems = document.querySelectorAll('.dropdown-trigger');
+    let menuDropInstances = M.Dropdown.init(menuDropElems)
+
 
 });

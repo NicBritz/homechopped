@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
+{% block head_content %}
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/rating.css') }}">
+    <link rel="stylesheet" media="print" type="text/css"
+          href="{{ url_for('static', filename='css/print-recipe.css') }}">
+{% endblock %}
 {% block content %}
     <!-- Recipe Title -->
-    <div class="section">
+    <div class="section print">
         <div class="row">
             <div class="col s12 m8 offset-m2 center recipe-title">
                 <h4>{{ current_recipe.name|upper }}</h4>
@@ -9,37 +15,71 @@
         </div>
     </div>
     <!--Author and ratings -->
-    <div class="section">
+    <div class="section ">
         <div class="row">
             <div class="col s12 m3 ">
                 <!-- Author image -->
-                <div class="col s6 center">
+                <div class="col s6 center print">
                     <img class="recipe-author-img" src="{{ current_recipe_author.profile_image }}"
                          alt="Recipe author image">
                 </div>
                 <!-- Author info -->
-                <div class="col s6 recipe-author-details">
+                <div class="col s6 recipe-author-details print">
                     <p><strong>by {{ current_recipe_author.username }}</strong></p>
                     <p><em>updated {{ current_recipe.date_updated }}</em></p>
                 </div>
             </div>
 
             <!-- Socials -->
-            <div class="col s12 m6">
+            <div class="col s12 m6 skip-print">
                 <div class="col s12 m6">
-                    <a class="waves-effect waves-light btn btn-flat recipe-social"><i
+                    <a class="waves-effect waves-light btn btn-flat recipe-social modal-trigger" href="#RateModal"><i
                             class="material-icons left">stars</i>rate</a>
                 </div>
                 <div class="col s12 m6">
-                    <a class="waves-effect waves-light btn btn-flat recipe-social"><i class="material-icons left">
-                        favorite</i>favorite</a>
+                    <!-- add to favorites, display red if in favorites-->
+                    {% if current_recipe._id in favorites %}
+                        <a class="waves-effect waves-light btn btn-flat recipe-social"
+                           href="{{ url_for('add_favorite', recipe_id=current_recipe._id) }}"><i
+                                class="material-icons left red-text">
+                            favorite</i>favorite</a>
+                    {% else %}
+                        <a class="waves-effect waves-light btn btn-flat recipe-social"
+                           href="{{ url_for('add_favorite', recipe_id=current_recipe._id) }}"><i
+                                class="material-icons left">
+                            favorite</i>favorite</a>
+                    {% endif %}
                 </div>
                 <div class="col s12 m6">
-                    <a class="waves-effect waves-light btn btn-flat recipe-social"><i
+                    <a class="waves-effect waves-light btn btn-flat dropdown-trigger recipe-social"
+                       data-target='share-dropdown'><i
                             class="material-icons left">share</i>share</a>
+
+                    <!-- Dropdown Structure -->
+                    <ul id='share-dropdown' class='dropdown-content'>
+                        <li class="share-dd-link">
+                            <!-- Share facebook -->
+                            <a href="https://www.facebook.com/sharer.php?u={{ url_for('recipe', recipe_id=current_recipe._id) }}"
+                               target="_blank"><i class="small fab fa-facebook-square fb-col"></i><strong>share</strong></a>
+                        </li>
+                        <li class="share-dd-link">
+                            <!-- Share twitter -->
+                            <a href="https://twitter.com/intent/tweet?url={{ url_for('recipe', recipe_id=current_recipe._id) }}"
+                               target="_blank"><i
+                                    class="small fab fa-twitter-square tw-col"></i><strong>tweet</strong></a>
+                        </li>
+                        <li class="share-dd-link">
+                            <!-- Pinterest  -->
+                            <a href="https://pinterest.com/pin/create/button/?url={{ url_for('recipe', recipe_id=current_recipe._id) }}/&media={{ current_recipe.image_url }}&description={{ current_recipe.description }}"
+                               count-layout="none" target="_blank"><i class="small fab fa-pinterest-square pin-col"></i><strong>pin
+                                it</strong></a>
+                        </li>
+
+                    </ul>
                 </div>
                 <div class="col s12 m6">
-                    <a class="waves-effect waves-light btn btn-flat recipe-social"><i
+                    <a class="waves-effect waves-light btn btn-flat recipe-social"
+                       onclick="window.print();return false;"><i
                             class="material-icons left">print</i>print</a>
                 </div>
             </div>
@@ -50,9 +90,9 @@
                         <!-- displays correct number of shaded/unshaded stars -->
                         {% for i in range(1,6) %}
                             {% if current_recipe.current_rating|int < i %}
-                                <i class="material-icons yellow-text left recipe-rating">star_border</i>
+                                <i class="material-icons blue-text text-darken-2 left recipe-rating">star_border</i>
                             {% else %}
-                                <i class="material-icons yellow-text left recipe-rating">star</i>
+                                <i class="material-icons  blue-text text-darken-2 left recipe-rating">star</i>
                             {% endif %}
                         {% endfor %}
                         <span class="left">({{ current_recipe.total_ratings }})</span>
@@ -62,7 +102,7 @@
         </div>
     </div>
     <!--Recipe image -->
-    <div class="section">
+    <div class="section print">
         <div class="row">
             <div class="col s12 m8 offset-m2">
                 <img class="main-recipe-img" src="{{ current_recipe.image_url }}" alt="Recipe image">
@@ -90,7 +130,7 @@
         </div>
     </div>
     <!--Recipe description -->
-    <div class="section">
+    <div class="section print">
         <div class="row">
             <div class="col s12 m8 offset-m2 ">
                 <p>{{ current_recipe.description }}</p>
@@ -98,7 +138,7 @@
         </div>
     </div>
     <!-- Ingredients -->
-    <div class="section">
+    <div class="section print">
         <div class="row">
             <div class="col s12 m8 offset-m2 ">
                 <h4>Ingredients</h4>
@@ -111,7 +151,7 @@
         </div>
     </div>
     <!-- Methods -->
-    <div class="section">
+    <div class="section print">
         <div class="row">
             <div class="col s12 m8 offset-m2 ">
                 <h4>Methods</h4>
@@ -124,9 +164,8 @@
             </div>
         </div>
     </div>
-
     <!-- Notes -->
-    <div class="section">
+    <div class="section print">
         <div class="row">
             <div class="col s12 m8 offset-m2">
                 <h5>Notes</h5>
@@ -136,5 +175,29 @@
             </div>
         </div>
     </div>
-
+    <!-- Rate modal -->
+    <div id="RateModal" class="modal">
+        <form method="POST" action="{{ url_for('rate_recipe', recipe_id=current_recipe._id) }}">
+            <div class=" modal-content modal-rating">
+                <p>How much do you like this recipe?</p>
+                <div class="rating">
+                    <input id="rating5" type="radio" name="rating" value="5">
+                    <label for="rating5">5</label>
+                    <input id="rating4" type="radio" name="rating" value="4">
+                    <label for="rating4">4</label>
+                    <input id="rating3" type="radio" name="rating" value="3">
+                    <label for="rating3">3</label>
+                    <input id="rating2" type="radio" name="rating" value="2">
+                    <label for="rating2">2</label>
+                    <input id="rating1" type="radio" name="rating" value="1" checked>
+                    <label for="rating1">1</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-close waves-effect waves-green btn-flat " type="submit"
+                        name="action">Rate
+                </button>
+            </div>
+        </form>
+    </div>
 {% endblock %}
