@@ -1,3 +1,9 @@
+/* Print CSS */
+/* Reference: https://www.thoughtco.com/how-to-add-a-print-button-4072006*/
+
+/* Hide all for print */
 body {visibility:hidden;}
+/* Show element for print */
 .print {visibility:visible;}
+/* Hide element for print */
 .skip-print {visibility:hidden;}
