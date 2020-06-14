@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
+
 {% block head_content %}
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/rating.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/recipe.css') }}">
+    <!-- Custom Print CSS -->
     <link rel="stylesheet" media="print" type="text/css"
           href="{{ url_for('static', filename='css/print-recipe.css') }}">
 {% endblock %}
+
 {% block content %}
     <!-- Recipe Title -->
     <div class="section print">
@@ -92,7 +95,7 @@
                             {% if current_recipe.current_rating|int < i %}
                                 <i class="material-icons blue-text text-darken-2 left recipe-rating">star_border</i>
                             {% else %}
-                                <i class="material-icons  blue-text text-darken-2 left recipe-rating">star</i>
+                                <i class="material-icons blue-text text-darken-2 left recipe-rating">star</i>
                             {% endif %}
                         {% endfor %}
                         <span class="left">({{ current_recipe.total_ratings }})</span>

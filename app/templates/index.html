@@ -1,104 +1,60 @@
 {% extends 'base.html' %}
 
+{% block head_content %}
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
 {% block content %}
     <!-- Slider Section -->
     <div class="section">
         <div class="slider">
             <ul class="slides">
-                <!-- random image 1 -->
-                <li>
-                    <img src="https://res.cloudinary.com/dajuujhvs/image/upload/v1590918265/homechopped/burger.jpg">
-                    <div class="caption center-align ">
-                        <h3>This is our big Tagline!</h3>
-                        <h5>Here's our small slogan.</h5>
-                    </div>
-                </li>
-                <!-- random image 2 -->
-                <li>
-                    <img src="https://res.cloudinary.com/dajuujhvs/image/upload/v1590918405/homechopped/japanese-food.jpg">
-                    <div class="caption center-align ">
-                        <h3>This is our big Tagline!</h3>
-                        <h5>Here's our small slogan.</h5>
-                    </div>
-                </li>
-                <!-- random image 3 -->
-                <li>
-                    <img src="https://res.cloudinary.com/dajuujhvs/image/upload/v1590918516/homechopped/good-food.jpg">
-                    <div class="caption center-align ">
-                        <h3>This is our big Tagline!</h3>
-                        <h5>Here's our small slogan.</h5>
-                    </div>
-                </li>
-                <!-- random image 4 -->
-                <li>
-                    <img src="https://res.cloudinary.com/dajuujhvs/image/upload/v1590918606/homechopped/french-patisserie.jpg">
-                    <div class="caption center-align ">
-                        <h3>This is our big Tagline!</h3>
-                        <h5>Here's our small slogan.</h5>
-                    </div>
-                </li>
+                <!-- random featured image -->
+                {% for recipe in random_recipes %}
+                    <li>
+                        <!-- link to recipe -->
+                        <a href="{{ url_for('recipe', recipe_id=recipe._id) }}">
+                            <!-- recipe image -->
+                            <img src={{ recipe.image_url }}>
+                        </a>
+                        <!-- recipe caption -->
+                        <div class="caption center-align ">
+                            <h3>{{ recipe.name }}</h3>
+                        </div>
+                    </li>
+                {% endfor %}
             </ul>
+        </div>
+        <div class="row">
+            <hr>
         </div>
     </div>
 
-    <hr class="divider">
-
     <!-- Recipe cards-->
     <div class="section">
-        <div class="row">
-            {% for recipe in all_recipes %}
-                <div class="col s12 m6 l4 xl3">
-                    <div class="card large">
+
+            <div class="row">
+        {% for recipe in all_recipes %}
+                <div class="col s3">
+                    <div class="card small">
                         <div class="card-image">
-                            <!-- display correct number of stars -->
-                            {% for i in range(1,6) %}
-                                {% if recipe.current_rating|int < i %}
-                                    <i class="far fa-star left rating-star"></i>
-                                {% else %}
-                                    <i class="fas fa-star left rating-star"></i>
-                                {% endif %}
-                            {% endfor %}
-                            <!-- add card image -->
-                            <span>
-                        <a href="{{ url_for('recipe', recipe_id=recipe._id) }}"><img src="{{ recipe.image_url }}" alt="{{ recipe.name }}"></a>
-                        </span>
+                            <img src="{{ recipe.image_url }}">
                         </div>
                         <div class="card-content">
-                            <!--recipe title-->
-                            <span class="card-title activator grey-text text-darken-4">{{ recipe.name|upper }}
-                                <i class="material-icons right">more_vert</i>
-                            </span>
-                            <!-- recipe info-->
-                            <div class="row">
-                                <div class="col s6 recipe-card-info-text">
-                                    <p>SERVES</p>
-                                    <i class="fas fa-utensils"></i>
-                                    <span> {{ recipe.serves }}</span>
-                                </div>
-                                <div class="col s6 recipe-card-info-text">
-                                    <p>PREP TIME</p>
-                                    <i class="fas fa-clock"></i>
-                                    <span> {{ recipe.preptime }}</span>
-                                </div>
-                                <div class="col s6 recipe-card-info-text">
-                                    <p>COOK TIME</p>
-                                    <i class="far fa-clock"></i>
-                                    <span> {{ recipe.cooktime }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-action">
-                            <a href="#">View Recipe</a>
+                        <span class="card-title activator ">{{ recipe.name }}<i
+                                class="material-icons right">more_vert</i></span>
                         </div>
                         <div class="card-reveal">
-                        <span class="card-title grey-text text-darken-4">{{ recipe.name|upper }}<i
-                                class="material-icons right">close</i></span>
-                            <p>{{ recipe.description }}</p>
-                            <a href="#">VIEW RECIPE</a>
+                            <i class="card-title material-icons right">close</i>
+                        <span class="card-title grey-text text-darken-4">{{ recipe.name }}</span>
+                            <p>Here is some more information about this product that is only revealed once clicked
+                                on.</p>
                         </div>
                     </div>
                 </div>
-            {% endfor %}
-        </div>
+        {% endfor %}
+            </div>
+
     </div>
 {% endblock %}
