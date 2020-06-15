@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block head_content %}
+    <!-- Error CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/errors.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col s12 m8 offset-m2 xl6 offset-xl3 center">
+            <!-- Error image src: https://www.drlinkcheck.com/blog/free-http-error-images -->
+            <img class="error-image"
+                 src="https://res.cloudinary.com/dajuujhvs/image/upload/v1592233767/errors/410-gone_qbvleg.png"
+                 alt="410 error image">
+            <p><a class="waves-effect waves-light btn grey lighten-1 grey-text text-darken-3"
+                  href="{{ url_for('index') }}">go somewhere nice</a>
+        </div>
+    </div>
+{% endblock %}
