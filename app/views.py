@@ -23,11 +23,7 @@ def index(pg, limit, sort):
     random_recipes = random.choices(featured_recipe_list, k=4)
 
     # sorting
-    if int(sort) == 1:
-        sort = 1
-    else:
-        sort = -1
-
+    sort = 1 if int(sort) == 1 else -1
     # pagination
     limit = int(limit)
     skip = 0 if int(pg) == 1 else (int(pg) - 1) * limit
@@ -71,20 +67,100 @@ def index_sort(pg, limit):
 #################
 # FEATURED VIEW #
 #################
-@app.route('/featured/<sortby>')
-def featured_sorted(sortby):
-    """Renders the featured view
-        :param
-        a-z : sort alphabetically a-z
-        z-a : sort alphabetically z-a
-        :return
-        featured.html with optional sort params
-    """
-    if sortby == 'z-a':
-        featured_recipes = MONGO.db.recipes.find({'featured': 'true'}).sort([('name', -1)])
-        a_to_z = 'z-a'
-    else:
-        featured_recipes = MONGO.db.recipes.find({'featured': 'true'}).sort([('name', 1)])
-        a_to_z = 'a-z'
+@app.route('/featured/', defaults={'pg': 1, 'limit': 8, 'sort': 1})
+@app.route('/featured/<pg>/<limit>/<sort>')
+def featured(pg, limit, sort):
+    # all recipes
+    all_recipes = DB_RECIPES.find()
+    # all featured recipes
+    featured_recipe_list = list(DB_RECIPES.find({'featured': 'true'}))
+    # sorting
+    sort = 1 if int(sort) == 1 else -1
+    # pagination
+    limit = int(limit)
+    skip = 0 if int(pg) == 1 else (int(pg) - 1) * limit
+    paginated_recipes = DB_RECIPES.find().sort([('name', sort)]).skip(skip).limit(limit)
 
-    return render_template('featured.html', recipes=featured_recipes, a_to_z=a_to_z)
+    return render_template('featured.html', all_recipes=all_recipes, paginated_recipes=paginated_recipes,
+                           limit=limit, current_pg=pg, sort=sort)
+
+
+#########################
+# FEATURED LIMIT AMOUNT #
+#########################
+@app.route('/featured_limit/', methods=['POST'])
+def featured_limit():
+    """Changes the number of recipes per page
+        :param
+        number selected
+        :return
+        featured with number per page
+    """
+    amount = int(request.form.get('amount'))
+    return redirect(url_for('featured', pg=1, limit=amount, sort=1))
+
+
+#################
+# FEATURED SORT #
+#################
+@app.route('/featured_sort/<pg>/<limit>/', methods=['POST'])
+def featured_sort(pg, limit):
+    """Sorts recipes on the featured page
+        :param
+        number selected
+        :return
+        index with number per page
+    """
+    sort = int(request.form.get('sort'))
+
+    return redirect(url_for('featured', pg=pg, limit=limit, sort=sort))
+
+
+#############
+# ALL VIEW #
+############
+@app.route('/all_recipes/', defaults={'pg': 1, 'limit': 8, 'sort': 1})
+@app.route('/all_recipes/<pg>/<limit>/<sort>')
+def all_recipes(pg, limit, sort):
+    # all recipes
+    all_recipes = DB_RECIPES.find()
+    # sorting
+    sort = 1 if int(sort) == 1 else -1
+    # pagination
+    limit = int(limit)
+    skip = 0 if int(pg) == 1 else (int(pg) - 1) * limit
+    paginated_recipes = DB_RECIPES.find().sort([('name', sort)]).skip(skip).limit(limit)
+
+    return render_template('all-recipes.html', all_recipes=all_recipes, paginated_recipes=paginated_recipes,
+                           limit=limit, current_pg=pg, sort=sort)
+
+
+####################
+# ALL LIMIT AMOUNT #
+####################
+@app.route('/all_recipes_limit/', methods=['POST'])
+def all_recipes_limit():
+    """Changes the number of recipes per page
+        :param
+        number selected
+        :return
+        all recipes with number per page
+    """
+    amount = int(request.form.get('amount'))
+    return redirect(url_for('all_recipes', pg=1, limit=amount, sort=1))
+
+
+############
+# ALL SORT #
+############
+@app.route('/all_recipes_sort/<pg>/<limit>/', methods=['POST'])
+def all_recipes_sort(pg, limit):
+    """Sorts recipes on the featured page
+        :param
+        number selected
+        :return
+        index with number per page
+    """
+    sort = int(request.form.get('sort'))
+
+    return redirect(url_for('all_recipes', pg=pg, limit=limit, sort=sort))

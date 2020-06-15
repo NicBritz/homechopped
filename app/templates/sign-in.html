@@ -64,6 +64,11 @@
             <p>Don't have an account? <a href="{{ url_for('register') }}">Sign up here.</a></p>
         </div>
     </div>
-
-
+    <!-- Custom JS -->
+    {% block script_content %}
+        <script>
+            let home = document.getElementById("login");
+            home.classList.add("active");
+        </script>
+    {% endblock %}
 {% endblock %}

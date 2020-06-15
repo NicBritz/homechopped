@@ -104,6 +104,13 @@
                class="modal-close waves-effect waves-green btn-flat red-text">DELETE</a>
         </div>
     </div>
+      <!-- Custom JS -->
+    {% block script_content %}
+        <script>
+            let home = document.getElementById("user");
+            home.classList.add("active");
+        </script>
+    {% endblock %}
 
 
 {% endblock %}

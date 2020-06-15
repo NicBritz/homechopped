@@ -24,29 +24,30 @@
 
 <body>
 <header>
-
     <nav>
         <div class="nav-wrapper grey lighten-1">
             <div class="container">
                 <a href="/" class="brand-logo"><span class="logo-home-text">HOME</span><span class="logo-chopped-text">chopped</span></a>
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i
                         class="fas fa-bars sidenav-menu-icon"></i></a>
+
                 <ul class="right hide-on-med-and-down nav-link-text ">
-                    <li class="active"><a href="/">HOME</a></li>
-                    <li><a href="{{ url_for('featured_sorted', sortby='a-z') }}">FEATURED</a></li>
-                    <li><a href="/">LATEST</a></li>
-                    <li><a href="/">RATED</a></li>
+                    <li id="home"><a href="/">HOME</a></li>
+                    <li id="featured"><a href="{{ url_for('featured') }}">FEATURED</a></li>
+                    <li id="all"><a href="{{ url_for('all_recipes') }}">ALL</a></li>
+
+
                     <li><a href="/"><i class="fas fa-search"></i></a></li>
                     <!-- If user is logged in display username and link to profile page else link to login page -->
                     {% if session['USERNAME'] %}
-                        <li><a href="{{ url_for('profile') }}"> {{ session['USERNAME']|upper }} <i
+                        <li id="user"><a href="{{ url_for('profile') }}"> {{ session['USERNAME']|upper }} &nbsp;<i
                                 class="fas fa-user"></i></a></li>
                     {% else %}
-                        <li><a href="{{ url_for('sign_in') }}"> {{ session['USERNAME']|upper }} <i
+                        <li id="login"><a href="{{ url_for('sign_in') }}"> login <i
                                 class="fas fa-user"></i></a></li>
                     {% endif %}
-
                 </ul>
+
                 <ul class="sidenav" id="mobile-demo">
                     <!-- If user is logged in display username and link to profile page else link to login page -->
                     {% if session['USERNAME'] %}
@@ -128,8 +129,11 @@
 <!-- Font Awesome -->
 <script src="https://kit.fontawesome.com/aca960b3f7.js" crossorigin="anonymous"></script>
 <!-- Custom JavaScript -->
-<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<script src="{{ url_for('static', filename='js/app.js') }}">
+</script>
 <!-- Custom script content per view -->
 {% block script_content %}{% endblock %}
+
+
 </body>
 </html>

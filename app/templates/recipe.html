@@ -62,18 +62,18 @@
                     <ul id='share-dropdown' class='dropdown-content'>
                         <li class="share-dd-link">
                             <!-- Share facebook -->
-                            <a href="https://www.facebook.com/sharer.php?u={{ url_for('recipe', recipe_id=current_recipe._id) }}"
+                            <a href="https://www.facebook.com/sharer.php?u=http://homechopped.herokuapp.com{{ url_for('recipe', recipe_id=current_recipe._id) }}"
                                target="_blank"><i class="small fab fa-facebook-square fb-col"></i><strong>share</strong></a>
                         </li>
                         <li class="share-dd-link">
                             <!-- Share twitter -->
-                            <a href="https://twitter.com/intent/tweet?url={{ url_for('recipe', recipe_id=current_recipe._id) }}"
+                            <a href="https://twitter.com/intent/tweet?url=http://homechopped.herokuapp.com{{ url_for('recipe', recipe_id=current_recipe._id) }}"
                                target="_blank"><i
                                     class="small fab fa-twitter-square tw-col"></i><strong>tweet</strong></a>
                         </li>
                         <li class="share-dd-link">
                             <!-- Pinterest  -->
-                            <a href="https://pinterest.com/pin/create/button/?url={{ url_for('recipe', recipe_id=current_recipe._id) }}/&media={{ current_recipe.image_url }}&description={{ current_recipe.description }}"
+                            <a href="https://pinterest.com/pin/create/button/?url=http://homechopped.herokuapp.com{{ url_for('recipe', recipe_id=current_recipe._id) }}/&media={{ current_recipe.image_url }}&description={{ current_recipe.description }}"
                                count-layout="none" target="_blank"><i class="small fab fa-pinterest-square pin-col"></i><strong>pin
                                 it</strong></a>
                         </li>

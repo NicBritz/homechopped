@@ -65,7 +65,11 @@ body {
     padding-bottom: 10px;
 }
 
-
+.recipe-edit{
+    position: relative;
+    bottom: -30px;
+    right: 10px;
+}
 
 /* Featured page */
 .filter-icon a {

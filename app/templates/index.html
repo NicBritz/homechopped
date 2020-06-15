@@ -162,14 +162,20 @@
                         <li class="disabled"><a><i class="material-icons">chevron_right</i></a></li>
                     {% else %}
                         <li class="waves-effect"><a
-                                href="
-
-                                        {{ url_for('index', pg=current_pg|int+1 , limit=limit, sort=sort, _anchor='recipe-list') }}"><i
+                                href="{{ url_for('index', pg=current_pg|int+1 , limit=limit, sort=sort,
+                                        _anchor='recipe-list') }}"><i
                                 class="material-icons">chevron_right</i></a></li>
                     {% endif %}
                 </ul>
             </div>
         </div>
     </div>
+    <!-- Custom JS -->
+    {% block script_content %}
+        <script>
+            let home = document.getElementById("home");
+            home.classList.add("active");
+        </script>
+    {% endblock %}
 
 {% endblock %}

@@ -28,6 +28,9 @@ def register():
 
     if request.method == 'POST':
 
+        if request.form.get('confirm-password') != request.form.get('password'):
+            return render_template('register.html', exists=False, mismatch_pw=True)
+
         # does user exist
         existing_user = DB_USERS.find_one({'username': request.form['username']})
 
