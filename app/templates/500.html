@@ -1,6 +1,17 @@
 {% extends 'base.html' %}
+
+{% block head_content %}
+    <!-- Error CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/errors.css') }}">
+{% endblock %}
+
 {% block content %}
-    <h1>500 - Server error</h1>
-    <p>What you were looking for is just not there.<p>
-    <a href="{{ url_for('index') }}">go somewhere nice</a>
+    <div class="row">
+        <div class="col s12 m8 offset-m2 xl6 offset-xl3 center">
+            <!-- Error image src: https://www.drlinkcheck.com/blog/free-http-error-images -->
+            <img class="error-image" src="https://res.cloudinary.com/dajuujhvs/image/upload/v1592233768/errors/500-internal-server-error_ami3tj.png"
+                 alt="500 error image">
+            <p><a class="waves-effect waves-light btn grey lighten-1 grey-text text-darken-3" href="{{ url_for('index') }}">go somewhere nice</a>
+        </div>
+    </div>
 {% endblock %}
