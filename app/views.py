@@ -19,9 +19,11 @@ def index(pg, limit, sort):
     all_recipes = DB_RECIPES.find()
     # all featured recipes
     featured_recipe_list = list(DB_RECIPES.find({'featured': 'true'}))
-    # randomly select 4 from the featured
-    random_recipes = random.choices(featured_recipe_list, k=4)
-
+    if featured_recipe_list:
+        # randomly select 4 from the featured
+        random_recipes = random.choices(featured_recipe_list, k=4)
+    else:
+        random_recipes = DB_RECIPES.find()
     # sorting
     sort = 1 if int(sort) == 1 else -1
     # pagination

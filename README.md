@@ -1,23 +1,122 @@
-# Home Chopped
 
-One or two paragraphs providing an overview of your project.
 
-Essentially, this part is your sales pitch.
- 
+[![alt text](docs/images/logo.PNG)](http://homechopped.herokuapp.com/)
+
+------
+
+## Overview
+
+Home chopped is a user driven recipe web site where you are able share your ideas for delicious dishes. You can also rate recipes offered by other users and even add recipes to your collection of favourites for easy recall at a later stage. 
+
+If your recipe is chosen to be one of our featured recipes there is a chance that it will be presented on the main page slider section. 
+
+Recipes are displayed in the form of cards with the main focus being the image and the recipe name. From there users are able to use the `more` icon to view some additional key information about your recipe. The user can either select the `VIEW` or select any of the pictures of your recipe to see the full recipe.
+
+The recipe section is easy to navigate and from this view your recipe can be shared or printed, this is also where a user is able to rate or favourite your recipe. 
+
+There is also a secure user profile area where you are able to add recipes as well as edit your existing recipes. From here you can also edit you user profile and even change your profile image.
+
+------
+
+## Table of Contents
+
+[TOC]
+
+
+
+----
+
+
+
 ## UX
- 
-Use this section to provide insight into your UX process, focusing on who this website is for, what it is that they want to achieve and how your project is the best way to help them achieve these things.
 
-In particular, as part of this section we recommend that you provide a list of User Stories, with the following general structure:
-- As a user type, I want to perform an action, so that I can achieve a goal.
+### User
 
-This section is also where you would share links to any wireframes, mockups, diagrams etc. that you created as part of the design process. These files should themselves either be included as a pdf file in the project itself (in an separate directory), or just hosted elsewhere online and can be in any format that is viewable inside the browser.
+As a user I would like...
+
+- to be able share my recipes with the world
+- to view other users recipes with easy ways to navigate an filter them
+- an application that is available on multiple platforms for ease of use
+- the application to be easy to navigate with icons and other visual ques
+- a rating system where others can rate my dish
+- to share my recipes to popular platforms i.e. - Facebook, twitter, Pinterest
+- a way to print my recipe to use when I am not able to get online
+- a login area that securely stores a hashed version of my password and shows my username in the navigation bar when I am logged in
+- a user profile area where I am able to manage my recipes, favourites and my user profile
+- to change my user profile image as well as write a small bio about me
+- a way to edit and delete recipes I have made
+- to be able to delete my profile and all associated recipes with one button
+
+### Design
+
+The goal of this project was the create a user driven recipe website that uses a MongoDB database in the backend to manage the core data. The site is neat, clean and responsive and makes use of the full CRUD functionality in various areas. 
+
+### Wireframes
+
+Before starting the project I used [Balsamiq](https://balsamiq.com/) to create the following wireframes. The licence for the software was provided by the Code Institute. Here You can find my [Balsamiq project file](docs\wireframes) as well as higher resolution images.
+
+#### Home page
+
+![](https://res.cloudinary.com/dajuujhvs/image/upload/v1592316322/homechopped/index_all_cdteer.png)
+
+#### Filtered pages
+
+![](https://res.cloudinary.com/dajuujhvs/image/upload/v1592316322/homechopped/pages_all_akmbkl.png)
+
+#### Recipe page
+
+![](https://res.cloudinary.com/dajuujhvs/image/upload/v1592316322/homechopped/recipe_all_xbl8mu.png)
+
+#### Edit pages
+
+![](https://res.cloudinary.com/dajuujhvs/image/upload/v1592316322/homechopped/edit_views_nvaemv.png)
+
+### Trello
+
+To keep track of the project I made use of a Trello board. The board was used to keep track of progress add ideas when they spring to mind and keep track of online recourses. You can view the board [here](https://trello.com/b/8o2Zv6LB/ci-milestone-3-homechopped)
+
+![](https://res.cloudinary.com/dajuujhvs/image/upload/c_scale,w_1024/v1592319213/homechopped/Trello_ggwwzf.png)
 
 ## Features
 
+### The  navigation bar
+
+I created a simple favicon ![favicon](C:\Users\nicoj\Documents\repos\homechopped\app\static\images\favicon.png)for the browser tab this was just to help make the site feel a bit more finished. In the navigation bar I have created a simple logo using CSS styling as this is a pretty simple logo. 
+
+There are some links to at the top of the page to different sections of the site that will highlight depending on the screen you are in. 
+
+I have also included an icon that will display the word 'login' if the user is not logged in and will display the username if the user is logged in.
+
+When browsing the site on a mobile device, the navbar will be replaced with a bars icon that will reveal a side navigation pane with icons and links to each section.
+
+### Main Slider
+
+At the top of my home page I have a large slider this is to create an eye-catching first impression. The slider will randomly choose four recipes from the pool of featured recipes each time the page is refreshed. the image for each recipe is accompanied by a banner with the recipe name that animates in from the top. If you select the image of any of the recipes you will be directed to that recipes page.
+
 In this section, you should go over the different parts of your project, and describe each in a sentence or so.
- 
+
+### View  filtering
+
+Above the list of recipe cards are filter options, this includes choosing the amount of cards to show at a time as well as some sorting options.
+
+### Pagination
+
+cards are displayed with pagination displayed at the bottom of the page, this changes depending on the number of cards set to display. this also highlights the page you are currently on. The pagination section have chevrons that can be used for next and previous page and will disable at either end. 
+
+### Recipe cards
+
+The recipe cards are designed to look simplistic with a large picture and the recipe title underneath. There is a 'more' icon that can be used to reveal some more key information about the recipe. You can get to the complete recipe either by clicking the `VIEW` link or the recipe image.
+
+
+
+
+
+---
+
+
+
 ### Existing Features
+
 - Feature 1 - allows users X to achieve Y, by having them fill out Z
 - ...
 
