@@ -35,8 +35,8 @@ jobs:
       run: |
         pytest
       env:
-        HC_MONGO_DBNAME: ${{ secrests.HC_MONGO_DBNAME }}
-        HC_MONGO_URI: ${{ secrests.HC_MONGO_URI }}
+        HC_MONGO_DBNAME: ${{ secrets.HC_MONGO_DBNAME }}
+        HC_MONGO_URI: ${{ secrets.HC_MONGO_URI }}
         IP: ${{ secrets.IP }}
         PORT: ${{ secrets.PORT }}
         CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
