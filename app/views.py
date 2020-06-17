@@ -46,8 +46,14 @@ def index(pg, limit, sort):
     skip = 0 if int(pg) == 1 else (int(pg) - 1) * limit
     paginated_recipes = DB_RECIPES.find().sort([('name', sort)]).skip(skip).limit(limit)
 
+    count = 0
+    # calculate the last page number if not evenely divisible by the limmit
+    for r_page in range(paginated_recipes.count()):
+        if r_page % limit == 0:
+            count += 1
+
     return render_template('index.html', all_recipes=all_recipes, paginated_recipes=paginated_recipes,
-                           random_recipes=random_recipes, limit=limit, current_pg=pg, sort=sort)
+                           random_recipes=random_recipes, limit=limit, current_pg=pg, sort=sort, lastpg=count)
 
 
 ######################
@@ -98,8 +104,14 @@ def featured(pg, limit, sort):
     skip = 0 if int(pg) == 1 else (int(pg) - 1) * limit
     paginated_recipes = DB_RECIPES.find({'featured': 'true'}).sort([('name', sort)]).skip(skip).limit(limit)
 
+    count = 0
+    # calculate the last page number if not evenely divisible by the limmit
+    for r_page in range(paginated_recipes.count()):
+        if r_page % limit == 0:
+            count += 1
+
     return render_template('featured.html', all_recipes=all_recipes, paginated_recipes=paginated_recipes,
-                           limit=limit, current_pg=pg, sort=sort)
+                           limit=limit, current_pg=pg, sort=sort, lastpg=count)
 
 
 #########################

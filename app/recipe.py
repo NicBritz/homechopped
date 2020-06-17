@@ -57,7 +57,11 @@ def add_temp_recipe(user_id):
             'current_rating': '0',
             'total_ratings': 0,
             'sum_ratings': 0,
-            'author_id': ObjectId(user_id)
+            'author_id': ObjectId(user_id),
+            'preptime_hrs': '0',
+            'preptime_min': '0',
+            'cooktime_hrs': '0',
+            'cooktime_min': '0'
         })
 
     return redirect(url_for('edit_recipe', user_id=user_id, recipe_id=temp_record.inserted_id))
