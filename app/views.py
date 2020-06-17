@@ -17,26 +17,40 @@ def index(pg, limit, sort):
     """
     # all recipes
     all_recipes = DB_RECIPES.find()
+    # all recipes count
+    all_count = DB_RECIPES.count_documents({})
     # all featured recipes
     featured_recipe_list = list(DB_RECIPES.find({'featured': 'true'}))
+
+    count = 0
+
     # Error handling
     try:
+        # limits user to a valid limit range
+        limit = int(limit)
+        if limit > all_count or limit < 2:
+            # raises a 404 error if fail
+            abort(404, description="Resource not found")
+
+        # calculate the last page
+        for r_page in range(all_count):
+            if r_page % limit == 0:
+                count += 1
+        # limits user to a valid page range
         page = int(pg)
-        if page > all_recipes.count() // 2 or page <= 0:
+        if page > count or page < 1:
+            # raises a 404 error if fail
             abort(404, description="Resource not found")
         # sorting
         sort = int(sort)
-        if sort < 1 or sort > 2:
+        if sort not in [1, 2]:
+            # raises a 404 error if fail
             abort(404, description="Resource not found")
         if sort == 2:
             sort = -1
 
-        limit = int(limit)
-        if limit > 30 or limit < 2:
-            abort(404, description="Resource not found")
-
     except:
-        # raises a 404 error
+        # raises a 404 error if any of these fail
         abort(404, description="Resource not found")
 
     # randomly select 4 from the featured
@@ -46,14 +60,9 @@ def index(pg, limit, sort):
     skip = 0 if int(pg) == 1 else (int(pg) - 1) * limit
     paginated_recipes = DB_RECIPES.find().sort([('name', sort)]).skip(skip).limit(limit)
 
-    count = 0
-    # calculate the last page number if not evenely divisible by the limmit
-    for r_page in range(paginated_recipes.count()):
-        if r_page % limit == 0:
-            count += 1
-
     return render_template('index.html', all_recipes=all_recipes, paginated_recipes=paginated_recipes,
-                           random_recipes=random_recipes, limit=limit, current_pg=pg, sort=sort, lastpg=count)
+                           random_recipes=random_recipes, limit=limit, current_pg=pg, sort=sort, lastpg=count,
+                           all_count=all_count)
 
 
 ######################
@@ -106,7 +115,7 @@ def featured(pg, limit, sort):
 
     count = 0
     # calculate the last page number if not evenely divisible by the limmit
-    for r_page in range(paginated_recipes.count()):
+    for r_page in range(DB_RECIPES.count_documents({'featured': 'true'})):
         if r_page % limit == 0:
             count += 1
 
