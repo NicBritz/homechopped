@@ -1,6 +1,6 @@
 from app import app
 from app.setup import MONGO, DB_RECIPES
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, abort
 import random
 
 
@@ -19,19 +19,41 @@ def index(pg, limit, sort):
     all_recipes = DB_RECIPES.find()
     # all featured recipes
     featured_recipe_list = list(DB_RECIPES.find({'featured': 'true'}))
+    # Error handling
+    try:
+        page = int(pg)
+        if page > all_recipes.count() // 2 or page <= 0:
+            abort(404, description="Resource not found")
+        # sorting
+        sort = int(sort)
+        if sort < 1 or sort > 2:
+            abort(404, description="Resource not found")
+        if sort == 2:
+            sort = -1
+
+        limit = int(limit)
+        if limit > 30 or limit < 2:
+            abort(404, description="Resource not found")
+
+    except:
+        # raises a 404 error
+        abort(404, description="Resource not found")
 
     # randomly select 4 from the featured
     random_recipes = random.sample(featured_recipe_list, k=4)
 
-    # sorting
-    sort = 1 if int(sort) == 1 else -1
     # pagination
-    limit = int(limit)
     skip = 0 if int(pg) == 1 else (int(pg) - 1) * limit
     paginated_recipes = DB_RECIPES.find().sort([('name', sort)]).skip(skip).limit(limit)
 
+    count = 0
+    # calculate the last page number if not evenely divisible by the limmit
+    for r_page in range(paginated_recipes.count()):
+        if r_page % limit == 0:
+            count += 1
+
     return render_template('index.html', all_recipes=all_recipes, paginated_recipes=paginated_recipes,
-                           random_recipes=random_recipes, limit=limit, current_pg=pg, sort=sort)
+                           random_recipes=random_recipes, limit=limit, current_pg=pg, sort=sort, lastpg=count)
 
 
 ######################
@@ -80,10 +102,16 @@ def featured(pg, limit, sort):
     # pagination
     limit = int(limit)
     skip = 0 if int(pg) == 1 else (int(pg) - 1) * limit
-    paginated_recipes = DB_RECIPES.find().sort([('name', sort)]).skip(skip).limit(limit)
+    paginated_recipes = DB_RECIPES.find({'featured': 'true'}).sort([('name', sort)]).skip(skip).limit(limit)
+
+    count = 0
+    # calculate the last page number if not evenely divisible by the limmit
+    for r_page in range(paginated_recipes.count()):
+        if r_page % limit == 0:
+            count += 1
 
     return render_template('featured.html', all_recipes=all_recipes, paginated_recipes=paginated_recipes,
-                           limit=limit, current_pg=pg, sort=sort)
+                           limit=limit, current_pg=pg, sort=sort, lastpg=count)
 
 
 #########################

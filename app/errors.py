@@ -6,7 +6,7 @@ from flask import render_template
 # 403 ERROR #
 #############
 @app.errorhandler(403)
-def page_not_found(e):
+def page_forbidden(e):
     """ Redirects to the error template
     :returns
         403 FORBIDDEN template page
@@ -30,7 +30,7 @@ def page_not_found(e):
 # 410 ERROR #
 #############
 @app.errorhandler(410)
-def page_not_found(e):
+def page_gone(e):
     """ Redirects to the error template
     :returns
         410 GONE template page
@@ -42,7 +42,7 @@ def page_not_found(e):
 # 500 ERROR #
 #############
 @app.errorhandler(500)
-def page_not_found(e):
+def server_error(e):
     """ Redirects to the error template
     :returns
         500 INTERNAL SERVER ERROR template page

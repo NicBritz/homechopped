@@ -16,12 +16,12 @@
                               action="{{ url_for('featured_limit') }}">
                             <div class="input-field">
                                 <select name="amount" onchange="this.form.submit()">
-                                    <option value="{{ limit }}" disabled selected>{{ limit }} recipes</option>
-                                    <option value="4">4 recipes</option>
-                                    <option value="8">8 recipes</option>
-                                    <option value="12">12 recipes</option>
-                                    <option value="16">16 recipes</option>
-                                    <option value="20">20 recipes</option>
+                                     <option value="{{ limit }}" disabled selected>{{ limit }}</option>
+                                    {% for num in range(1,paginated_recipes.count()+1) %}
+                                        {% if num % 2 == 0 %}
+                                            <option value="{{ num }}">{{ num }}</option>
+                                        {% endif %}
+                                    {% endfor %}
                                 </select>
                                 <label>SHOW</label>
                             </div>
@@ -102,22 +102,21 @@
             {% endfor %}
         </div>
     </div>
-    <!-- Pagination Section-->
+      <!-- Pagination Section -->
     <div class="section">
         <div class="row">
             <div class="col s12 center">
                 <ul class="pagination">
-                    <!-- Prev page-->
+                    <!-- Prev page chevron disable if at beginning -->
                     {% if current_pg|int == 1 %}
                         <li class="disabled"><a><i class="material-icons">chevron_left</i></a></li>
                     {% else %}
                         <li class="waves-effect"><a
-                                href="{{ url_for('index', pg=current_pg|int-1 , limit=limit, sort=sort, _anchor='recipe-list') }}"><i
+                                href="{{ url_for('featured', pg=current_pg|int-1 , limit=limit, sort=sort, _anchor='recipe-list') }}"><i
                                 class="material-icons">chevron_left</i></a></li>
                     {% endif %}
-
-                    {% for i in all_recipes %}
-                        <!-- Create the correct number of pages based on the limit -->
+                    <!-- Create the correct number of pages based on the limit -->
+                    {% for i in range(paginated_recipes.count()) %}
                         {% if loop.index % limit == 0 %}
                             <!-- Highlight the selected page -->
                             {% if loop.index//limit == current_pg | int %}
@@ -129,16 +128,34 @@
                                         href="{{ url_for('featured', pg=loop.index//limit , limit=limit, sort=sort, _anchor='recipe-list') }}">{{ loop.index // limit }}</a>
                                 </li>
                             {% endif %}
+                        {% else %}
                         {% endif %}
                     {% endfor %}
-
-                    <!-- next page-->
-                    {% if current_pg|int == all_recipes.count()//limit %}
-                        <li class="disabled"><a><i class="material-icons">chevron_right</i></a></li>
+                    <!-- Add a page if the pages are not evenly divisible by the limit -->
+                    {% if paginated_recipes.count()%limit != 0 %}
+                        {% if current_pg|int == lastpg %}
+                            <!-- Highlight the selected page -->
+                            <li class="active"><a
+                                    href="{{ url_for('featured', pg=lastpg , limit=limit, sort=sort, _anchor='recipe-list') }}">{{ lastpg }}</a>
+                            </li>
+                            <li class="disabled"><a><i class="material-icons">chevron_right</i></a></li>
+                        {% else %}
+                            <li><a href="{{ url_for('featured', pg=lastpg , limit=limit, sort=sort, _anchor='recipe-list') }}">{{ lastpg }}</a>
+                            </li>
+                            <li class="waves-effect"><a
+                                    href="{{ url_for('featured', pg=current_pg|int+1 , limit=limit, sort=sort,
+                                            _anchor='recipe-list') }}"><i class="material-icons">chevron_right</i></a></li>
+                        {% endif %}
                     {% else %}
-                        <li class="waves-effect"><a
-                                href="{{ url_for('featured', pg=current_pg|int+1 , limit=limit, sort=sort,
-                                        _anchor='recipe-list') }}"><i class="material-icons">chevron_right</i></a></li>
+                        <!-- Next page chevron disable if at end -->
+                        {% if current_pg|int == all_recipes.count()//limit %}
+                            <li class="disabled"><a><i class="material-icons">chevron_right</i></a></li>
+                        {% else %}
+                            <li class="waves-effect"><a
+                                    href="{{ url_for('featured', pg=current_pg|int+1 , limit=limit, sort=sort,
+                                            _anchor='recipe-list') }}"><i
+                                    class="material-icons">chevron_right</i></a></li>
+                        {% endif %}
                     {% endif %}
                 </ul>
             </div>
