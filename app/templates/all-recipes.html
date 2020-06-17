@@ -134,7 +134,7 @@
                     {% endfor %}
 
                     <!-- next page-->
-                    {% if current_pg|int == all_recipes.count()//limit %}
+                    {% if current_pg|int == all_count|int//limit %}
                         <li class="disabled"><a><i class="material-icons">chevron_right</i></a></li>
                     {% else %}
                         <li class="waves-effect"><a

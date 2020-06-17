@@ -119,8 +119,9 @@ def featured(pg, limit, sort):
         if r_page % limit == 0:
             count += 1
 
+    featured_count = DB_RECIPES.count_documents({'featured': 'true'})
     return render_template('featured.html', all_recipes=all_recipes, paginated_recipes=paginated_recipes,
-                           limit=limit, current_pg=pg, sort=sort, lastpg=count)
+                           limit=limit, current_pg=pg, sort=sort, lastpg=count, featured_count=featured_count)
 
 
 #########################
@@ -162,6 +163,8 @@ def featured_sort(pg, limit):
 def all_recipes(pg, limit, sort):
     # all recipes
     all_recipes = DB_RECIPES.find()
+    # all recipes count
+    all_count = DB_RECIPES.count_documents({})
     # sorting
     sort = 1 if int(sort) == 1 else -1
     # pagination
@@ -170,7 +173,7 @@ def all_recipes(pg, limit, sort):
     paginated_recipes = DB_RECIPES.find().sort([('name', sort)]).skip(skip).limit(limit)
 
     return render_template('all-recipes.html', all_recipes=all_recipes, paginated_recipes=paginated_recipes,
-                           limit=limit, current_pg=pg, sort=sort)
+                           limit=limit, current_pg=pg, sort=sort, all_count=all_count)
 
 
 ####################

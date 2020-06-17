@@ -32,3 +32,13 @@ def test_index_error():
 def test_featured_main():
     response = app.test_client().get('/featured/')
     assert response.status_code == 200
+
+
+################
+# ALL RECIPES #
+###############
+
+# test all_recipes root
+def test_all_recipes_main():
+    response = app.test_client().get('/all_recipes/')
+    assert response.status_code == 200
