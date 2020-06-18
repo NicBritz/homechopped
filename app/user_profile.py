@@ -30,8 +30,10 @@ def profile():
         # Fetch user and related recipes
         existing_user = DB_USERS.find_one({'username': username})
         users_recipes = DB_RECIPES.find({'author_id': existing_user['_id']})
+        favorites = DB_RECIPES.find({'_id': {'$in': existing_user['favorites']}})
 
-        return render_template('profile.html', user_data=existing_user, users_recipes=users_recipes)
+        return render_template('profile.html', user_data=existing_user, users_recipes=users_recipes,
+                               favorites=favorites)
     else:
         # User not signed in
         return redirect(url_for('sign_in'))
@@ -168,3 +170,23 @@ def add_favorite(recipe_id):
         updated_favorites = updated_user['favorites']
 
     return redirect(url_for('recipe', recipe_id=recipe_id, favorites=updated_favorites))
+
+
+####################
+# REMOVE FAVORITE  #
+###################
+@app.route('/remove_favorite/<user_id>/<recipe_id>')
+def remove_favorite(user_id, recipe_id):
+    """ Removes the recipe from the users favorites list in the users profile
+     :return
+         Redirect to profile view with updated favorites list
+    """
+
+    user = DB_USERS.find_one({'_id': ObjectId(user_id)})
+    current_favorites = user['favorites']
+    current_favorites.remove(ObjectId(recipe_id))
+
+    DB_USERS.update_one({'_id': user['_id']},
+                        {"$set": {'favorites': current_favorites, }}, upsert=True)
+
+    return redirect(url_for('profile'))

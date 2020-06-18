@@ -1,41 +1,38 @@
 {% extends 'base.html' %}
-
+<!-- Header content  -->
 {% block head_content %}
-    <!-- Custom view CSS -->
+    <!-- Index CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
     <!-- Card CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/card.css') }}">
 {% endblock %}
 
-<!-- page title block -->
+<!-- Page title -->
 {% block title %}Home{% endblock %}
 
-<!-- Navbar Block -->
+<!-- Navbar -->
 {% block navbar %}
     <li class="active"><a href="{{ url_for('index') }}">HOME</a></li>
     <li><a href="{{ url_for('featured') }}">FEATURED</a></li>
     <li><a href="{{ url_for('all_recipes') }}">ALL</a></li>
-    <li><a href="{{ url_for('search_recipes') }}"><i class="material-icons">search</i></a></li>
-    <!-- If user is logged in display username and link to profile page else link to login page -->
+    <li><a href="{{ url_for('search_recipes') }}" aria-label="search"><i class="material-icons">search</i></a></li>
+    <!-- display username or login -->
     {% if session['USERNAME'] %}
         <li id="user"><a href="{{ url_for('profile') }}"> {{ session['USERNAME']|upper }} &nbsp;<i
                 class="fas fa-user"></i></a></li>
     {% else %}
-        <li id="login"><a href="{{ url_for('sign_in') }}"> login <i
-                class="fas fa-user"></i></a></li>
+        <li id="login"><a href="{{ url_for('sign_in') }}"> login <i class="fas fa-user"></i></a></li>
     {% endif %}
 {% endblock %}
 
-<!-- Sidenav Block -->
+<!-- Sidenav -->
 {% block sidenav %}
-
-    <!-- If user is logged in display username and link to profile page else link to login page -->
+    <!-- display username or login -->
     {% if session['USERNAME'] %}
         <li><a href="{{ url_for('profile') }}"> {{ session['USERNAME']|upper }} <i
                 class="fas fa-user"></i></a></li>
     {% else %}
-        <li><a href="{{ url_for('sign_in') }}"> login <i
-                class="fas fa-user"></i></a></li>
+        <li><a href="{{ url_for('sign_in') }}"> login <i class="fas fa-user"></i></a></li>
     {% endif %}
     <li class="active"><a href="{{ url_for('index') }}"><i class="material-icons">home</i>HOME</a></li>
     <li><a href="{{ url_for('featured') }}"><i class="material-icons">stars</i>FEATURED</a></li>
@@ -43,6 +40,7 @@
     <li><a href="{{ url_for('search_recipes') }}"><i class="fas fa-search"></i>SEARCH</a></li>
 {% endblock %}
 
+<!-- main content -->
 {% block content %}
     <!-- Slider Section -->
     <div class="section">
@@ -50,13 +48,11 @@
             <ul class="slides">
                 <!-- random featured image -->
                 {% for recipe in random_recipes %}
+                    <!-- link to recipe and recipe image-->
                     <li>
-                        <!-- link to recipe -->
                         <a href="{{ url_for('recipe', recipe_id=recipe._id) }}">
-                            <!-- recipe image -->
-                            <img src="{{ recipe.image_url }}" alt="{{ recipe.name }} image">
-                        </a>
-                        <!-- recipe caption -->
+                            <img src="{{ recipe.image_url }}" alt="{{ recipe.name }} image"></a>
+                        <!-- recipe name -->
                         <div class="caption center-align ">
                             <h3>{{ recipe.name }}</h3>
                         </div>
@@ -72,27 +68,29 @@
         <div class="row">
             <div class="col s12 m8 offset-m2">
                 <div class="row">
-                    <div class="col s6 xl2 offset-xl4">
-                        <form class="  index-filter-area" method="POST"
-                              action="{{ url_for('index_limit') }}">
+                    <div class="col s6 m2 offset-m4 xl2 offset-xl4">
+                        <!-- show form  -->
+                        <form method="POST" action="{{ url_for('index_limit') }}">
                             <div class="input-field">
                                 <select id="amount_field" name="amount" onchange="this.form.submit()">
                                     <option value="{{ limit }}" disabled selected>{{ limit }}</option>
-                                    {% for num in range(1,all_count|int + 1) %}
+                                    <!-- number of availible pages calculation  -->
+                                    {% for num in range(1, all_count|int + 1) %}
                                         {% if num % 2 == 0 %}
                                             <option value="{{ num }}">{{ num }}</option>
                                         {% endif %}
                                     {% endfor %}
                                 </select>
-                            <label for="amount_field">SHOW</label>
+                                <label for="amount_field">SHOW</label>
                             </div>
                         </form>
                     </div>
-                    <div class="col s6 xl2 ">
-                        <form class=" index-filter-area" method="POST"
-                              action="{{ url_for('index_sort', pg=current_pg, limit=limit) }}">
+                    <div class="col s6 m2 xl2 ">
+                        <!-- sort form  -->
+                        <form method="POST" action="{{ url_for('index_sort', pg=current_pg, limit=limit) }}">
                             <div class="input-field">
                                 <select id="sort_field" name="sort" onchange="this.form.submit()">
+                                    <!-- choose display based on sorting option -->
                                     {% if sort|int == 1 %}
                                         <option value="{{ sort }}" disabled selected>A-Z</option>
                                     {% else %}
@@ -108,33 +106,57 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <hr>
-        </div>
     </div>
 
-    <!-- Recipe cards-->
+    <!-- Section Divider  -->
+    <div class="row">
+        <hr>
+    </div>
+
+    <!-- Cards section  -->
     <div class="section">
         <div class="row">
+            <!-- list cards  -->
             {% for recipe in paginated_recipes %}
                 <div class="col s12 m6 l4 xl3">
-                    <div class="card small">
+                    <div class="card medium">
+                        <!-- recipr image -->
                         <div class="card-image">
                             <a href="{{ url_for('recipe', recipe_id=recipe._id) }}">
                                 <img src="{{ recipe.image_url }}" alt="{{ recipe.name }} image">
                             </a>
                         </div>
                         <div class="card-content">
-                        <span class="card-title activator ">{{ recipe.name }}<i
-                                class="material-icons right">more_vert</i></span>
+                            <div class="row">
+                                <div class="col s12 card-title activator">
+                                    <div class="row">
+                                        <!-- recipe name -->
+                                        <div class="col s10">
+                                            <p class="card-title activator">{{ recipe.name }}</p>
+                                        </div>
+                                        <div class="col s2">
+                                            <i class="material-icons card-title activator right more-icon">more_vert</i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-reveal">
-                            <div class="card-title-box">
-                                <i class="card-title material-icons right">close</i>
-                                <h6 class="card-title grey-text text-darken-4 more-title">{{ recipe.name }} </h6>
-                                <hr>
+                            <div class="row">
+                                <div class="col s12">
+                                    <!-- Card reveal -->
+                                    <div class="card-title-box">
+                                        <div class="col s10">
+                                            <h6 class="card-title grey-text text-darken-4 more-title">{{ recipe.name }} </h6>
+                                        </div>
+                                        <div class="col s2">
+                                            <i class="card-title material-icons close-icon">close</i>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </div>
                             </div>
-                            <!--Recipe timings -->
+                            <!-- Recipe timings -->
                             <div class="row card-timings">
                                 <div class="col s12">
                                     <div class="col s4 center">
@@ -154,7 +176,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- recipe discriptuion -->
                             <p class="card-description">{{ recipe.description }}</p>
+                            <!-- link to recipe -->
                             <p class="card-link center"><a
                                     href="{{ url_for('recipe', recipe_id=(recipe._id)) }}">VIEW</a></p>
                         </div>
@@ -163,12 +187,18 @@
             {% endfor %}
         </div>
     </div>
+
+    <!-- Section Divider  -->
+    <div class="row">
+        <hr>
+    </div>
+
     <!-- Pagination Section -->
     <div class="section">
         <div class="row">
             <div class="col s12 center">
                 <ul class="pagination">
-                    <!-- Prev page chevron disable if at beginning -->
+                    <!-- Prev chevron enable/disable -->
                     {% if current_pg|int == 1 %}
                         <li class="disabled"><a><i class="material-icons">chevron_left</i></a></li>
                     {% else %}
@@ -176,7 +206,7 @@
                                 href="{{ url_for('index', pg=current_pg|int-1 , limit=limit, sort=sort, _anchor='recipe-list') }}"><i
                                 class="material-icons">chevron_left</i></a></li>
                     {% endif %}
-                    <!-- Create the correct number of pages based on the limit -->
+                    <!-- Create the correct number of pages based on the limit set -->
                     {% for i in range(all_count|int) %}
                         {% if loop.index % limit == 0 %}
                             <!-- Highlight the selected page -->
@@ -207,7 +237,8 @@
                             {% set pg_next = current_pg|int + 1 %}
                             <li class="waves-effect"><a
                                     href="{{ url_for('index', pg=pg_next , limit=limit, sort=sort,
-                                            _anchor='recipe-list') }}"><i class="material-icons">chevron_right</i></a>
+                                            _anchor='recipe-list') }}">
+                                <i class="material-icons">chevron_right</i></a>
                             </li>
                         {% endif %}
                     {% else %}
