@@ -1,6 +1,6 @@
 from bson.objectid import ObjectId
 from cloudinary.uploader import upload, destroy
-from flask import redirect, url_for, render_template, request, session
+from flask import redirect, url_for, render_template, request, session, abort
 
 from app import app
 from app.setup import DB_RECIPES, DB_INGREDIENTS, DB_METHODS, DB_USERS, TODAY_STR
@@ -17,10 +17,15 @@ def recipe(recipe_id):
          Renders recipe.html
 
     """
-    current_recipe = DB_RECIPES.find_one({'_id': ObjectId(recipe_id)})
-    current_recipe_author = DB_USERS.find_one({'_id': ObjectId(current_recipe['author_id'])})
-    current_recipe_ingredients = DB_INGREDIENTS.find({'recipe_id': ObjectId(recipe_id)})
-    current_recipe_methods = DB_METHODS.find({'recipe_id': ObjectId(recipe_id)})
+    try:
+        current_recipe = DB_RECIPES.find_one({'_id': ObjectId(recipe_id)})
+        current_recipe_author = DB_USERS.find_one({'_id': ObjectId(current_recipe['author_id'])})
+        current_recipe_ingredients = DB_INGREDIENTS.find({'recipe_id': ObjectId(recipe_id)})
+        current_recipe_methods = DB_METHODS.find({'recipe_id': ObjectId(recipe_id)})
+    except:
+        # raises a 404 error if any of these fail
+        abort(404, description="Resource not found")
+
     if session.get('USERNAME', None) is not None:
         username = session['USERNAME']
         user = DB_USERS.find_one({'username': username})

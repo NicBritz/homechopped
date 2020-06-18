@@ -1,0 +1,20 @@
+/* sign in page*/
+
+/* heading */
+.sign-in-header h4 {
+    font-weight: 600;
+    color: #424242;
+    background: #bdbdbd;
+    padding: 5px;
+    margin: 1em 0 0;
+}
+
+/* button*/
+.sign-in-btn {
+    width: 100%;
+}
+
+.btn {
+    font-weight: 500;
+    font-size: 1.3em;
+}

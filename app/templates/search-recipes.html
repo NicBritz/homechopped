@@ -22,7 +22,7 @@
         <li id="user"><a href="{{ url_for('profile') }}"> {{ session['USERNAME']|upper }} &nbsp;<i
                 class="fas fa-user"></i></a></li>
     {% else %}
-        <li id="login"><a href="{{ url_for('sign_in') }}"> login <i class="fas fa-user"></i></a></li>
+        <li id="login"><a href="{{ url_for('sign_in') }}"> LOGIN <i class="fas fa-user"></i></a></li>
     {% endif %}
 {% endblock %}
 
@@ -33,7 +33,7 @@
         <li><a href="{{ url_for('profile') }}"> {{ session['USERNAME']|upper }} <i
                 class="fas fa-user"></i></a></li>
     {% else %}
-        <li><a href="{{ url_for('sign_in') }}"> login <i class="fas fa-user"></i></a></li>
+        <li><a href="{{ url_for('sign_in') }}"> LOGIN <i class="fas fa-user"></i></a></li>
     {% endif %}
     <li><a href="{{ url_for('index') }}"><i class="material-icons">home</i>HOME</a></li>
     <li><a href="{{ url_for('featured') }}"><i class="material-icons">stars</i>FEATURED</a></li>
@@ -71,7 +71,7 @@
                                href="{{ url_for('search_recipes') }}" data-position="bottom"
                                data-tooltip="Clear Search"><i
                                     class="material-icons">clear</i></a>
-                            <em>Found <strong>{{ paginated_recipes.count() }}</strong> results for <strong>{{ showing }}</strong></em>
+                            <em>Found <strong>{{ search_count }}</strong> results for <strong>{{ showing }}</strong></em>
                         </div>
                     {% endif %}
                 </div>
