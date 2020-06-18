@@ -1,5 +1,6 @@
 import random
 
+import pymongo
 from flask import render_template, redirect, url_for, request, abort
 
 from app import app
@@ -209,3 +210,66 @@ def all_recipes_sort(pg, limit):
     sort = int(request.form.get('sort'))
 
     return redirect(url_for('all_recipes', pg=pg, limit=limit, sort=sort))
+
+
+###############
+# SEARCH VIEW #
+##############
+@app.route('/search_recipes/', defaults={'pg': 1, 'limit': 8, 'sort': 1}, methods=['POST', 'GET'])
+@app.route('/search_recipes/<pg>/<limit>/<sort>', methods=['POST', 'GET'])
+def search_recipes(pg, limit, sort):
+    # sorting
+    sort = 1 if int(sort) == 1 else -1
+    # pagination
+    limit = int(limit)
+    skip = 0 if int(pg) == 1 else (int(pg) - 1) * limit
+    all_count = DB_RECIPES.count_documents({})
+    count = 0
+    # calculate the last page number if not evenely divisible by the limmit
+    for r_page in range(DB_RECIPES.count_documents({})):
+        if r_page % limit == 0:
+            count += 1
+
+    if request.method == 'POST':
+        result = DB_RECIPES.create_index([('name', pymongo.TEXT)])
+        showing = request.form.get('search')
+        search = DB_RECIPES.find({"$text": {"$search": request.form.get('search')}})
+
+        return render_template('search-recipes.html', all_recipes=DB_RECIPES.find(),
+                               paginated_recipes=search, filtered=True, showing=showing)
+
+    # all recipes count
+    paginated_recipes = DB_RECIPES.find()
+
+    return render_template('search-recipes.html', all_recipes=DB_RECIPES.find(), paginated_recipes=paginated_recipes)
+
+
+####################
+# ALL LIMIT AMOUNT #
+####################
+@app.route('/search_recipes_limit/', methods=['POST'])
+def search_recipes_limit():
+    """Changes the number of recipes per page
+        :param
+        number selected
+        :return
+        all recipes with number per page
+    """
+    amount = int(request.form.get('amount'))
+    return redirect(url_for('search_recipes', pg=1, limit=amount, sort=1))
+
+
+############
+# ALL SORT #
+############
+@app.route('/search_recipes_sort/<pg>/<limit>/', methods=['POST'])
+def search_recipes_sort(pg, limit):
+    """Sorts recipes on the featured page
+        :param
+        number selected
+        :return
+        index with number per page
+    """
+    sort = int(request.form.get('sort'))
+
+    return redirect(url_for('search_recipes', pg=pg, limit=limit, sort=sort))

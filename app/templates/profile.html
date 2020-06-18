@@ -8,7 +8,7 @@
     <li><a href="{{ url_for('index') }}">HOME</a></li>
     <li><a href="{{ url_for('featured') }}">FEATURED</a></li>
     <li><a href="{{ url_for('all_recipes') }}">ALL</a></li>
-    <li><a href="/"><i class="fas fa-search"></i></a></li>
+    <li><a href="{{ url_for('search_recipes') }}"><i class="material-icons">search</i></a></li>
     <!-- If user is logged in display username and link to profile page else link to login page -->
     {% if session['USERNAME'] %}
         <li class="active" id="user"><a href="{{ url_for('profile') }}"> {{ session['USERNAME']|upper }} &nbsp;<i
@@ -20,10 +20,6 @@
 {% endblock %}
 <!-- Sidenav Block -->
 {% block sidenav %}
-    <li><a href="/">SEARCH<i class="fas fa-search"></i></a></li>
-    <li><a href="{{ url_for('index') }}"><i class="material-icons">home</i>HOME</a></li>
-    <li><a href="{{ url_for('featured') }}"><i class="material-icons">stars</i>FEATURED</a></li>
-    <li><a href="{{ url_for('all_recipes') }}"><i class="material-icons">format_list_bulleted</i>ALL</a></li>
     <!-- If user is logged in display username and link to profile page else link to login page -->
     {% if session['USERNAME'] %}
         <li class="active"><a href="{{ url_for('profile') }}"> {{ session['USERNAME'] }} <i
@@ -32,6 +28,10 @@
         <li class="active"><a href="{{ url_for('sign_in') }}"> {{ session['USERNAME'] }} <i
                 class="fas fa-user"></i></a></li>
     {% endif %}
+    <li><a href="{{ url_for('index') }}"><i class="material-icons">home</i>HOME</a></li>
+    <li><a href="{{ url_for('featured') }}"><i class="material-icons">stars</i>FEATURED</a></li>
+    <li><a href="{{ url_for('all_recipes') }}"><i class="material-icons">format_list_bulleted</i>ALL</a></li>
+    <li><a href="{{ url_for('search_recipes') }}">SEARCH<i class="fas fa-search"></i></a></li>
 {% endblock %}
 
 {% block content %}
