@@ -19,23 +19,22 @@
     {% block head_content %}{% endblock %}
     <!-- page title block -->
     <title>HOMEchopped | {% block title %}{% endblock %}</title>
-
 </head>
 
 <body>
+
 <header>
     <nav>
+        <!-- Navbar content -->
         <div class="nav-wrapper navbar-fill">
             <div class="container">
                 <a href="/" class="brand-logo"><span class="logo-home-text">HOME</span><span class="logo-chopped-text">chopped</span></a>
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i
                         class="fas fa-bars sidenav-menu-icon"></i></a>
-
                 <ul class="right hide-on-med-and-down nav-link-text ">
                     <!-- Navbar Block -->
                     {% block navbar %}{% endblock %}
                 </ul>
-
                 <ul class="sidenav" id="mobile-demo">
                 <li class="center navbar-fill sidenav-box"><img src="https://res.cloudinary.com/dajuujhvs/image/upload/v1592483678/logo_xs9pio.png" alt="logo"></li>
                     <!-- Sidenav Block -->
@@ -43,24 +42,19 @@
                 </ul>
             </div>
         </div>
-
-
     </nav>
-
-
 </header>
+
+<!-- main content block -->
 <div class="main">
     <div class="container">
-
         {% block content %}
         {% endblock %}
-
     </div>
 </div>
 
 <!-- Footer -->
 <footer class="page-footer grey lighten-1">
-
     <div class="container">
         <div class="row">
             <!-- Social links-->
@@ -99,9 +93,7 @@
                 <p>© 2020 Copyright Nic Britz (for educational purposes only)</p>
             </div>
         </div>
-
     </div>
-
 </footer>
 
 <!-- Compiled and minified materialize JavaScript -->
@@ -113,7 +105,5 @@
 </script>
 <!-- Custom script content per view -->
 {% block script_content %}{% endblock %}
-
-
 </body>
 </html>

@@ -8,7 +8,7 @@
 
 /* image setup */
 .card.small .card-image, .card.medium .card-image, .card.large .card-image {
-    max-height: 90%;
+    max-height: 70%;
 }
 
 .card-image img {

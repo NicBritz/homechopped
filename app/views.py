@@ -311,9 +311,11 @@ def search_recipes():
         result = DB_RECIPES.create_index([('name', pymongo.TEXT)])
         showing = request.form.get('search')
         search = DB_RECIPES.find({"$text": {"$search": request.form.get('search')}})
+        search_count = DB_RECIPES.count_documents({"$text": {"$search": request.form.get('search')}})
+
 
         return render_template('search-recipes.html', all_recipes=DB_RECIPES.find(),
-                               paginated_recipes=search, filtered=True, showing=showing)
+                               paginated_recipes=search, filtered=True, showing=showing, search_count=search_count)
 
     # all recipes count
     paginated_recipes = DB_RECIPES.find()

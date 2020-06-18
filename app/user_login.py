@@ -8,7 +8,7 @@ from app.setup import MONGO, DB_USERS
 #################
 # REGISTER VIEW #
 #################
-@app.route('/register', methods=['POST', 'GET'])
+@app.route('/register/', methods=['POST', 'GET'])
 def register():
     """ Renders the registration template and adds users credentials to the database
        :param
@@ -60,7 +60,7 @@ def register():
 ################
 # SIGN-IN VIEW #
 ################
-@app.route('/sign-in', methods=['POST', 'GET'])
+@app.route('/sign-in/', methods=['POST', 'GET'])
 def sign_in():
     """ Checks the username and password against the database and returns the appropriate html template
     :param

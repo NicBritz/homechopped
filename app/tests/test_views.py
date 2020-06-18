@@ -142,9 +142,9 @@ def test_all_recipes_sort():
     response = app.test_client().post('/all_recipes_sort/1/2', data={'sort': 'a'}, follow_redirects=True)
     assert response.status_code == 404
 
-##############
-# SEARCH VIEW#
-##############
+###############
+# SEARCH VIEW #
+###############
 
 def test_search_recipes_main():
     # test page link
