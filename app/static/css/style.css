@@ -34,6 +34,10 @@ body {
     background-color: #c3c3c3;
 }
 
+.sidenav-box{
+    line-height: normal!important;
+}
+
 .nav-link-text a {
     color: #212121;
     font-weight: 500;
@@ -98,6 +102,17 @@ body {
     font-size: 1.3em;
 }
 
+/* edit recipe */
+/* save button */
+.save-recipe-btn {
+    position: absolute;
+    margin-top: 1em;
+}
+
+.del-recipe-button {
+    margin-top: 10px;
+}
+
 /* Profile page */
 .profile-img-lg {
     width: 160px;
@@ -124,8 +139,8 @@ body {
 }
 
 .folder-btn2 {
-    height: 50px !important;
-    width: 50px !important;
+    height: 40px !important;
+    width: 40px !important;
 }
 
 .recipe-tab {
@@ -139,8 +154,7 @@ body {
 }
 
 .done-btn {
-    position: absolute !important;
-    top: 80px !important;
+   margin-top: 10px;
 }
 
 .recipe-tab a {
