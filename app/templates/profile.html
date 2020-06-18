@@ -40,7 +40,7 @@
         <div class="row">
             <div class="col s12 lx6">
                 <!-- Sign out -->
-                <a class="btn-floating btn-large waves-effect waves-light orange right tooltipped"
+                <a class="btn-floating btn waves-effect waves-light orange right tooltipped"
                    href="{{ url_for('sign_out') }}" data-position="left" data-tooltip="Sign out"><i
                         class="material-icons">exit_to_app</i></a>
             </div>
@@ -65,7 +65,7 @@
         <div class="row">
             <!-- Edit profile -->
             <div class="col s12 xl8 offset-xl2">
-                <a class="btn-floating btn-large waves-effect waves-light cyan tooltipped"
+                <a class="btn-floating btn waves-effect waves-light cyan tooltipped"
                    href="{{ url_for('edit_profile', user_id=user_data._id) }}" data-position="left"
                    data-tooltip="Edit profile"><i class="material-icons">edit</i></a>
             </div>
@@ -73,15 +73,15 @@
         <hr>
     </div>
 
+    <!-- Users recipe area -->
     <div class="row">
-        <!-- Users recipe area -->
         <div class="col s12 ">
             <!-- Heading -->
             <h4>My Recipes</h4>
         </div>
         <!-- Add Recipe -->
         <div class="col s12 left">
-            <a class="btn-floating btn-large waves-effect waves-light green tooltipped"
+            <a class="btn-floating btn waves-effect waves-light green tooltipped"
                href="{{ url_for('add_temp_recipe', user_id=user_data._id) }}" data-position="right"
                data-tooltip="Add Recipe"><i class="material-icons">add</i></a>
         </div>
@@ -98,6 +98,72 @@
                            href="{{ url_for('edit_recipe', user_id=user_data._id, recipe_id=recipe._id) }}"
                            data-position="bottom"
                            data-tooltip="Edit"><i class="material-icons">edit</i></a>
+
+                        <div class="card small">
+                            <div class="card-image">
+                                <a href="{{ url_for('recipe', recipe_id=recipe._id) }}">
+                                    <img src="{{ recipe.image_url }}" alt="{{ recipe.name }} image">
+                                </a>
+                            </div>
+                            <div class="card-content">
+                        <span class="card-title activator ">{{ recipe.name }}<i
+                                class="material-icons right">more_vert</i></span>
+                            </div>
+                            <div class="card-reveal">
+                                <div class="card-title-box">
+                                    <i class="card-title material-icons right">close</i>
+                                    <h6 class="card-title grey-text text-darken-4 more-title">{{ recipe.name }} </h6>
+                                    <hr>
+                                </div>
+                                <!--Recipe timings -->
+                                <div class="row card-timings">
+                                    <div class="col s12">
+                                        <div class="col s4 center">
+                                            <i class="material-icons">query_builder</i>
+                                            <p class="card-recipe-time">{{ recipe.preptime_hrs }}h{{ recipe.preptime_min }}m</p>
+                                            <p class="card-recipe-time-heading">PREP</p>
+                                        </div>
+                                        <div class="col s4 center">
+                                            <i class="material-icons">hourglass_empty</i>
+                                            <p class="card-recipe-time">{{ recipe.cooktime_hrs }}h{{ recipe.cooktime_min }}m</p>
+                                            <p class="card-recipe-time-heading">COOK</p>
+                                        </div>
+                                        <div class="col s4 center">
+                                            <i class="material-icons">restaurant</i>
+                                            <p class="card-recipe-time">{{ recipe.serves }}</p>
+                                            <p class="card-recipe-time-heading">SERVES</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="card-description">{{ recipe.description }}</p>
+                                <p class="card-link center"><a
+                                        href="{{ url_for('recipe', recipe_id=(recipe._id)) }}">VIEW</a></p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <hr>
+    <!-- Users favorites area -->
+    <div class="row">
+        <div class="col s12 ">
+            <!-- Heading -->
+            <h4>My Favourites</h4>
+        </div>
+
+        <div class="section">
+            <div class="row">
+                <!-- List Cards -->
+                {% for recipe in favorites %}
+
+                    <div class="col s12 m6 l4 xl3">
+
+                        <a class="btn-floating btn-small waves-effect waves-light red tooltipped recipe-edit"
+                           href="{{ url_for('remove_favorite', user_id=user_data._id, recipe_id=recipe._id) }}"
+                           data-position="bottom"
+                           data-tooltip="remove"><i class="material-icons">close</i></a>
 
                         <div class="card small">
                             <div class="card-image">
