@@ -1,7 +1,8 @@
+import bcrypt
+from flask import render_template, session, request, redirect, url_for
+
 from app import app
 from app.setup import MONGO, DB_USERS
-from flask import render_template, session, request, redirect, url_for
-import bcrypt
 
 
 #################
@@ -40,9 +41,8 @@ def register():
             hashpass = bcrypt.hashpw(request.form.get('password').encode('utf-8'), bcrypt.gensalt())
             # Add the user to the database
             DB_USERS.insert({'username': request.form.get('username'), 'password': hashpass,
-                             'profile_image': 'https://res.cloudinary.com/dajuujhvs/image/upload/v1591443059'
-                                              '/xbv453shlvxycy399dcc.png',
-                             'profile_image_id': 'xbv453shlvxycy399dcc',
+                             'profile_image': 'https://res.cloudinary.com/dajuujhvs/image/upload/v1592417238/xmt2q3ttok9cwjlux8j2.png',
+                             'profile_image_id': 'xmt2q3ttok9cwjlux8j2',
                              'favorites': []})
             # create a session cookie
             session['USERNAME'] = request.form.get('username')

@@ -1,8 +1,9 @@
-from app import app
-from app.setup import DB_RECIPES, DB_INGREDIENTS, DB_METHODS, DB_USERS, TODAY_STR
-from flask import redirect, url_for, render_template, request, session
 from bson.objectid import ObjectId
 from cloudinary.uploader import upload, destroy
+from flask import redirect, url_for, render_template, request, session
+
+from app import app
+from app.setup import DB_RECIPES, DB_INGREDIENTS, DB_METHODS, DB_USERS, TODAY_STR
 
 
 ####################
@@ -45,8 +46,8 @@ def add_temp_recipe(user_id):
     """
 
     # Default recipe image
-    image_url = 'https://res.cloudinary.com/dajuujhvs/image/upload/v1591442613/pa9cybxloavqafbrktlf.png'
-    image_url_id = 'pa9cybxloavqafbrktlf'
+    image_url = 'https://res.cloudinary.com/dajuujhvs/image/upload/v1591896759/gi5h7ejymbig1yybptcy.png'
+    image_url_id = 'gi5h7ejymbig1yybptcy'
 
     temp_record = DB_RECIPES.insert_one(
         {
@@ -137,7 +138,8 @@ def update_recipe_image(user_id, recipe_id):
         # get the current recipe record
         current_recipe = DB_RECIPES.find_one({'_id': ObjectId(recipe_id)})
         # delete the current recipe image on cloudinary
-        destroy(current_recipe['image_url_id'], invalidate=True)
+        if current_recipe['image_url_id'] != 'gi5h7ejymbig1yybptcy':
+            destroy(current_recipe['image_url_id'], invalidate=True)
         # upload the new image
         upload_result = upload(file_to_upload)
 

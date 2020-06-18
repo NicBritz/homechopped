@@ -1,8 +1,9 @@
-from app import app
-from app.setup import DB_USERS, DB_RECIPES, DB_METHODS, DB_INGREDIENTS, DB_FAVORITES
-from flask import render_template, session, redirect, url_for, abort, request
 from bson.objectid import ObjectId
 from cloudinary.uploader import upload, destroy
+from flask import render_template, session, redirect, url_for, abort, request
+
+from app import app
+from app.setup import DB_USERS, DB_RECIPES, DB_METHODS, DB_INGREDIENTS
 
 
 ################
@@ -87,8 +88,9 @@ def update_profile(user_id):
         # Current user record
         current_user = DB_USERS.find_one({'_id': ObjectId(user_id)})
 
-        # Remove current profile image
-        destroy(current_user['profile_image_id'], invalidate=True)
+        if current_user['profile_image_id'] != 'xmt2q3ttok9cwjlux8j2':
+            # Remove current profile image
+            destroy(current_user['profile_image_id'], invalidate=True)
 
         # Upload new image to cloudinary
         upload_result = upload(file_to_upload)

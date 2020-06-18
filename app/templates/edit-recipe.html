@@ -1,5 +1,39 @@
 {% extends 'base.html' %}
 
+<!-- page title block -->
+{% block title %}Edit Recipe{% endblock %}
+
+<!-- Navbar Block -->
+{% block navbar %}
+    <li><a href="{{ url_for('index') }}">HOME</a></li>
+    <li><a href="{{ url_for('featured') }}">FEATURED</a></li>
+    <li><a href="{{ url_for('all_recipes') }}">ALL</a></li>
+    <li><a href="/"><i class="fas fa-search"></i></a></li>
+    <!-- If user is logged in display username and link to profile page else link to login page -->
+    {% if session['USERNAME'] %}
+        <li class="active" id="user"><a href="{{ url_for('profile') }}"> {{ session['USERNAME']|upper }} &nbsp;<i
+                class="fas fa-user"></i></a></li>
+    {% else %}
+        <li class="active" id="login"><a href="{{ url_for('sign_in') }}"> login <i
+                class="fas fa-user"></i></a></li>
+    {% endif %}
+{% endblock %}
+<!-- Sidenav Block -->
+{% block sidenav %}
+    <li><a href="/">SEARCH<i class="fas fa-search"></i></a></li>
+    <li><a href="{{ url_for('index') }}"><i class="material-icons">home</i>HOME</a></li>
+    <li><a href="{{ url_for('featured') }}"><i class="material-icons">stars</i>FEATURED</a></li>
+    <li><a href="{{ url_for('all_recipes') }}"><i class="material-icons">format_list_bulleted</i>ALL</a></li>
+    <!-- If user is logged in display username and link to profile page else link to login page -->
+    {% if session['USERNAME'] %}
+        <li class="active"><a href="{{ url_for('profile') }}"> {{ session['USERNAME'] }} <i
+                class="fas fa-user"></i></a></li>
+    {% else %}
+        <li class="active"><a href="{{ url_for('sign_in') }}"> {{ session['USERNAME'] }} <i
+                class="fas fa-user"></i></a></li>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
     <div class="col s12">
         <br>
@@ -67,13 +101,14 @@
                                     <div class="col s1 ">
                                         <div class="btn-floating btn-large waves-effect waves-light blue folder-btn2 tooltipped"
                                              data-position="bottom" data-tooltip="Upload Image">
-                                            <i class="material-icons" type="file" name="file">folder</i>
+                                            <i class="material-icons">folder</i>
                                             <input type="file" name="file" accept="image/png, image/jpeg"></div>
                                     </div>
                                     <!-- filename -->
                                     <div class="col s8 offset-s2 file-path-wrapper ">
-                                        <input class="file-path validate" type="text" placeholder="Choose image"
+                                        <input id="recipe-image" class="file-path validate" type="text"
                                                onchange="this.form.submit()">
+                                        <label for="recipe-image">Choose an image</label>
                                     </div>
                                 </div>
                             </div>
@@ -82,7 +117,6 @@
                 </div>
             </div>
         </form>
-
         <div id="overview" class="col s12">
             <form action="{{ url_for('update_recipe', user_id=user_id, recipe_id=recipe_id) }}" method="POST">
                 <!-- Recipe Info Section Title -->
@@ -112,62 +146,62 @@
                     </div>
                     <!--Hours-->
                     <div class="input-field col s6">
-                        <select name="prep-hours">
+                        <select id="prep-hrs" name="prep-hours">
                             <option value="{{ current_recipe.preptime_hrs }}"
                                     selected>{{ current_recipe.preptime_hrs }}</option>
                             {% for i in range(24) %}
                                 <option value="{{ i }}">{{ i }}</option>
                             {% endfor %}
                         </select>
-                        <label>Hours</label>
+                        <label for="prep-hrs">Hours</label>
                     </div>
                     <!--Minutes-->
                     <div class="input-field col s6">
-                        <select name="prep-minutes">
+                        <select id="prep-min" name="prep-minutes">
                             <option value="{{ current_recipe.preptime_min }}"
                                     selected>{{ current_recipe.preptime_min }}</option>
                             {% for i in range(60) %}
                                 <option value="{{ i }}">{{ i }}</option>
                             {% endfor %}
                         </select>
-                        <label>Minutes</label>
+                        <label for="prep-min">Minutes</label>
                     </div>
                     <div class="col s12">
                         <h6> Cook-Time </h6>
                     </div>
                     <!--Hours-->
                     <div class="input-field col s6">
-                        <select name="cook-hours">
+                        <select id="cook-hrs" name="cook-hours">
                             <option value="{{ current_recipe.cooktime_hrs }}"
                                     selected>{{ current_recipe.cooktime_hrs }}</option>
                             {% for i in range(24) %}
                                 <option value="{{ i }}">{{ i }}</option>
                             {% endfor %}
                         </select>
-                        <label>Hours</label>
+                        <label for="cook-hrs">Hours</label>
                     </div>
                     <!--Minutes-->
                     <div class="input-field col s6">
-                        <select name="cook-minutes">
+                        <select id="cook-min" name="cook-minutes">
                             <option value="{{ current_recipe.cooktime_min }}"
                                     selected>{{ current_recipe.cooktime_min }}</option>
                             {% for i in range(60) %}
                                 <option value="{{ i }}">{{ i }}</option>
                             {% endfor %}
                         </select>
-                        <label>Minutes</label>
+                        <label for="cook-min">Minutes</label>
                     </div>
                 </div>
                 <!--Serves-->
                 <div class="row">
                     <div class="input-field col s6">
-                        <select name="serves">
+                        <select id="serves" name="serves">
                             <option value="{{ current_recipe.serves }}" selected>{{ current_recipe.serves }}</option>
                             {% for i in range(11) %}
                                 <option value="{{ i }}">{{ i }}</option>
                             {% endfor %}
                         </select>
-                        <label>Serves</label>
+                        <label for="serves">Serves</label>
                     </div>
                 </div>
                 <!-- Recipe Notes -->
@@ -192,7 +226,6 @@
                 </div>
             </form>
         </div>
-
 
         <!-- INGREDIENTS -->
         <div id="ingredients" class="col s12">
@@ -234,7 +267,6 @@
         <!-- METHODS -->
         <div id="method" class="col s12">
 
-
             <ul class="collection with-header">
                 <li class="collection-header center grey lighten-1"><h4>METHODS</h4></li>
                 <!-- Current methods -->
@@ -249,8 +281,6 @@
                     </li>
                 {% endfor %}
             </ul>
-
-
             <!-- Form -->
             <div class="row">
                 <form method="POST" action="{{ url_for('add_method_item',user_id=user_id, recipe_id=recipe_id) }}"
@@ -258,9 +288,9 @@
                     <div class="row">
                         <!-- method-->
                         <div class="input-field col s12">
-                            <input id="icon_username" type="text" class="validate" name="method_name" minlength="3"
+                            <input id="icon_method" type="text" class="validate" name="method_name" minlength="3"
                                    required>
-                            <label for="icon_username">Method</label>
+                            <label for="icon_method">Method</label>
                         </div>
                         <!-- ADD button -->
                         <div class="col s12 center">

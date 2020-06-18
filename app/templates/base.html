@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Description" content="A recipe site that is completelty driven but its users.">
     <!-- fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap"
           rel="stylesheet">
@@ -18,50 +17,28 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <!-- Custom head content per view -->
     {% block head_content %}{% endblock %}
+    <!-- page title block -->
+    <title>HOMEchopped | {% block title %}{% endblock %}</title>
 
-    <title>HOMEchopped</title>
 </head>
 
 <body>
 <header>
     <nav>
-        <div class="nav-wrapper grey lighten-1">
+        <div class="nav-wrapper navbar-fill">
             <div class="container">
                 <a href="/" class="brand-logo"><span class="logo-home-text">HOME</span><span class="logo-chopped-text">chopped</span></a>
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i
                         class="fas fa-bars sidenav-menu-icon"></i></a>
 
                 <ul class="right hide-on-med-and-down nav-link-text ">
-                    <li id="home"><a href="/">HOME</a></li>
-                    <li id="featured"><a href="{{ url_for('featured') }}">FEATURED</a></li>
-                    <li id="all"><a href="{{ url_for('all_recipes') }}">ALL</a></li>
-
-
-                    <li><a href="/"><i class="fas fa-search"></i></a></li>
-                    <!-- If user is logged in display username and link to profile page else link to login page -->
-                    {% if session['USERNAME'] %}
-                        <li id="user"><a href="{{ url_for('profile') }}"> {{ session['USERNAME']|upper }} &nbsp;<i
-                                class="fas fa-user"></i></a></li>
-                    {% else %}
-                        <li id="login"><a href="{{ url_for('sign_in') }}"> login <i
-                                class="fas fa-user"></i></a></li>
-                    {% endif %}
+                    <!-- Navbar Block -->
+                    {% block navbar %}{% endblock %}
                 </ul>
 
                 <ul class="sidenav" id="mobile-demo">
-                    <!-- If user is logged in display username and link to profile page else link to login page -->
-                    {% if session['USERNAME'] %}
-                        <li><a href="{{ url_for('profile') }}"> {{ session['USERNAME'] }} <i
-                                class="fas fa-user"></i></a></li>
-                    {% else %}
-                        <li><a href="{{ url_for('sign_in') }}"> {{ session['USERNAME'] }} <i
-                                class="fas fa-user"></i></a></li>
-                    {% endif %}
-                    <li><a href="/">SEARCH<i class="fas fa-search"></i></a></li>
-                    <li class="active"><a href="/">HOME<i class="fas fa-home"></i></a></li>
-                    <li><a href="/">FEATURED<i class="fas fa-award"></i></a></li>
-                    <li><a href="/">LATEST<i class="material-icons">fiber_new</i></a></li>
-                    <li><a href="/">RATED<i class="far fa-star"></i></a></li>
+                    <!-- Sidenav Block -->
+                    {% block sidenav %}{% endblock %}
                 </ul>
             </div>
         </div>
@@ -89,25 +66,27 @@
             <div class="col s12 center">
                 <!-- facebook -->
                 <span>
-                    <a class="grey-text text-lighten-4 " href="https://www.facebook.com/">
+                    <a class="grey-text text-lighten-4 " href="https://www.facebook.com/" aria-label="link to facebook">
                         <i class="fab fa-facebook-f social-footer-icon"></i>
                     </a>
                 </span>
                 <!-- twitter -->
                 <span>
-                    <a class="grey-text text-lighten-4 " href="https://twitter.com/">
+                    <a class="grey-text text-lighten-4 " href="https://twitter.com/" aria-label="link to twitter">
                         <i class="fab fa-twitter social-footer-icon"></i>
                     </a>
                 </span>
                 <!-- instagram -->
                 <span>
-                    <a class="grey-text text-lighten-4 " href="https://www.instagram.com/">
+                    <a class="grey-text text-lighten-4 " href="https://www.instagram.com/"
+                       aria-label="link to instagram">
                         <i class="fab fa-instagram social-footer-icon"></i>
                     </a>
                 </span>
                 <!-- pinterest -->
                 <span>
-                    <a class="grey-text text-lighten-4 " href="https://www.pinterest.co.uk/">
+                    <a class="grey-text text-lighten-4 " href="https://www.pinterest.co.uk/"
+                       aria-label="link to pinterest">
                         <i class="fab fa-pinterest-p social-footer-icon"></i>
                     </a>
                 </span>

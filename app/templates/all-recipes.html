@@ -4,6 +4,40 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/card.css') }}">
 {% endblock %}
 
+<!-- page title block -->
+{% block title %}All Recipes{% endblock %}
+
+<!-- Navbar Block -->
+{% block navbar %}
+    <li><a href="{{ url_for('index') }}">HOME</a></li>
+    <li><a href="{{ url_for('featured') }}">FEATURED</a></li>
+    <li class="active"><a href="{{ url_for('all_recipes') }}">ALL</a></li>
+    <li><a href="/"><i class="fas fa-search"></i></a></li>
+    <!-- If user is logged in display username and link to profile page else link to login page -->
+    {% if session['USERNAME'] %}
+        <li id="user"><a href="{{ url_for('profile') }}"> {{ session['USERNAME']|upper }} &nbsp;<i
+                class="fas fa-user"></i></a></li>
+    {% else %}
+        <li id="login"><a href="{{ url_for('sign_in') }}"> login <i
+                class="fas fa-user"></i></a></li>
+    {% endif %}
+{% endblock %}
+<!-- Sidenav Block -->
+{% block sidenav %}
+    <li><a href="/">SEARCH<i class="fas fa-search"></i></a></li>
+    <li><a href="{{ url_for('index') }}"><i class="material-icons">home</i>HOME</a></li>
+    <li><a href="{{ url_for('featured') }}"><i class="material-icons">stars</i>FEATURED</a></li>
+    <li class="active"><a href="{{ url_for('all_recipes') }}"><i class="material-icons">format_list_bulleted</i>ALL</a>
+    </li>
+    <!-- If user is logged in display username and link to profile page else link to login page -->
+    {% if session['USERNAME'] %}
+        <li><a href="{{ url_for('profile') }}"> {{ session['USERNAME'] }} <i
+                class="fas fa-user"></i></a></li>
+    {% else %}
+        <li><a href="{{ url_for('sign_in') }}"> {{ session['USERNAME'] }} <i
+                class="fas fa-user"></i></a></li>
+    {% endif %}
+{% endblock %}
 
 {% block content %}
 
@@ -16,15 +50,15 @@
                         <form class="  index-filter-area" method="POST"
                               action="{{ url_for('all_recipes_limit') }}">
                             <div class="input-field">
-                                <select name="amount" onchange="this.form.submit()">
-                                    <option value="{{ limit }}" disabled selected>{{ limit }} recipes</option>
-                                    <option value="4">4 recipes</option>
-                                    <option value="8">8 recipes</option>
-                                    <option value="12">12 recipes</option>
-                                    <option value="16">16 recipes</option>
-                                    <option value="20">20 recipes</option>
+                                <select id="all-amount" name="amount" onchange="this.form.submit()">
+                                    <option value="{{ limit }}" disabled selected>{{ limit }}</option>
+                                    {% for num in range(1,all_count|int + 1) %}
+                                        {% if num % 2 == 0 %}
+                                            <option value="{{ num }}">{{ num }}</option>
+                                        {% endif %}
+                                    {% endfor %}
                                 </select>
-                                <label>SHOW</label>
+                                <label for="all-amount">SHOW</label>
                             </div>
                         </form>
                     </div>
@@ -32,7 +66,7 @@
                         <form class=" index-filter-area" method="POST"
                               action="{{ url_for('all_recipes_sort', pg=current_pg, limit=limit) }}">
                             <div class="input-field">
-                                <select name="sort" onchange="this.form.submit()">
+                                <select id="all-sort" name="sort" onchange="this.form.submit()">
                                     {% if sort|int == 1 %}
                                         <option value="{{ sort }}" disabled selected>A-Z</option>
                                     {% else %}
@@ -41,7 +75,7 @@
                                     <option value="1">A-Z</option>
                                     <option value="2">Z-A</option>
                                 </select>
-                                <label>SORT</label>
+                                <label for="all-sort">SORT</label>
                             </div>
                         </form>
                     </div>
@@ -61,7 +95,7 @@
                     <div class="card small">
                         <div class="card-image">
                             <a href="{{ url_for('recipe', recipe_id=recipe._id) }}">
-                                <img src="{{ recipe.image_url }}">
+                                <img src="{{ recipe.image_url }}" alt="{{ recipe.name }} image">
                             </a>
                         </div>
                         <div class="card-content">
@@ -137,21 +171,15 @@
                     {% if current_pg|int == all_count|int//limit %}
                         <li class="disabled"><a><i class="material-icons">chevron_right</i></a></li>
                     {% else %}
+                        {% set pg_next = current_pg|int + 1 %}
                         <li class="waves-effect"><a
                                 href="
 
-                                        {{ url_for('all_recipes', pg=current_pg|int+1 , limit=limit, sort=sort, _anchor='recipe-list') }}"><i
+                                        {{ url_for('all_recipes', pg=pg_next , limit=limit, sort=sort, _anchor='recipe-list') }}"><i
                                 class="material-icons">chevron_right</i></a></li>
                     {% endif %}
                 </ul>
             </div>
         </div>
     </div>
-    <!-- Custom JS -->
-    {% block script_content %}
-        <script>
-            let home = document.getElementById("all");
-            home.classList.add("active");
-        </script>
-    {% endblock %}
 {% endblock %}

@@ -7,11 +7,13 @@
 }
 
 /* indicators */
+/*noinspection ALL*/
 .slider .indicators .indicator-item {
     background-color: #bdbdbd;
     box-shadow: inset 0 0 3px #424242;
 }
 
+/*noinspection ALL*/
 .slider .indicators .indicator-item.active {
     background-color: #424242;
     box-shadow: inset 0 0 10px #9e9e9e;

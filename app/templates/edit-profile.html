@@ -1,5 +1,39 @@
 {% extends 'base.html' %}
 
+<!-- page title block -->
+{% block title %}Edit Profile{% endblock %}
+
+<!-- Navbar Block -->
+{% block navbar %}
+    <li><a href="{{ url_for('index') }}">HOME</a></li>
+    <li><a href="{{ url_for('featured') }}">FEATURED</a></li>
+    <li><a href="{{ url_for('all_recipes') }}">ALL</a></li>
+    <li><a href="/"><i class="fas fa-search"></i></a></li>
+    <!-- If user is logged in display username and link to profile page else link to login page -->
+    {% if session['USERNAME'] %}
+        <li class="active" id="user"><a href="{{ url_for('profile') }}"> {{ session['USERNAME']|upper }} &nbsp;<i
+                class="fas fa-user"></i></a></li>
+    {% else %}
+        <li class="active" id="login"><a href="{{ url_for('sign_in') }}"> login <i
+                class="fas fa-user"></i></a></li>
+    {% endif %}
+{% endblock %}
+<!-- Sidenav Block -->
+{% block sidenav %}
+    <li><a href="/">SEARCH<i class="fas fa-search"></i></a></li>
+    <li><a href="{{ url_for('index') }}"><i class="material-icons">home</i>HOME</a></li>
+    <li><a href="{{ url_for('featured') }}"><i class="material-icons">stars</i>FEATURED</a></li>
+    <li><a href="{{ url_for('all_recipes') }}"><i class="material-icons">format_list_bulleted</i>ALL</a></li>
+    <!-- If user is logged in display username and link to profile page else link to login page -->
+    {% if session['USERNAME'] %}
+        <li class="active"><a href="{{ url_for('profile') }}"> {{ session['USERNAME'] }} <i
+                class="fas fa-user"></i></a></li>
+    {% else %}
+        <li class="active"><a href="{{ url_for('sign_in') }}"> {{ session['USERNAME'] }} <i
+                class="fas fa-user"></i></a></li>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
     <div class="section">
         <br>
@@ -31,14 +65,14 @@
                                             <!-- Icon -->
                                             <div class="col s1 xl1">
                                                 <div class="btn-floating btn-large waves-effect waves-light blue folder-btn">
-                                                    <i class="material-icons" type="file" name="file">folder</i>
+                                                    <i class="material-icons">folder</i>
                                                     <input type="file" name="file" accept="image/png, image/jpeg"></div>
                                             </div>
                                             <!-- File Path -->
                                             <div class="col s8 offset-s2 xl10 offset-xl1">
                                                 <div class="file-path-wrapper">
-                                                    <input class="file-path validate" type="text"
-                                                           placeholder="Upload profile picture">
+                                                    <input id="profile_pic" class="file-path validate" type="text">
+                                                    <label for="profile_pic">Upload a profile picture</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -60,10 +94,10 @@
                                 <div class="col s12">
                                     <div class="input-field">
                                         <i class="material-icons prefix">mode_edit</i>
-                                        <textarea id="textarea1" class="materialize-textarea t-counter ar-text"
+                                        <textarea id="about-text" class="materialize-textarea t-counter ar-text"
                                                   name="bio" data-length="250"
                                                   maxlength="250" autofocus>{{ user_data.bio }}</textarea>
-                                        <label for="textarea1 " class="edit-textarea-label">About me</label>
+                                        <label for="about-text" class="edit-textarea-label">About me</label>
                                     </div>
                                 </div>
                             </div>
@@ -104,13 +138,4 @@
                class="modal-close waves-effect waves-green btn-flat red-text">DELETE</a>
         </div>
     </div>
-      <!-- Custom JS -->
-    {% block script_content %}
-        <script>
-            let home = document.getElementById("user");
-            home.classList.add("active");
-        </script>
-    {% endblock %}
-
-
 {% endblock %}

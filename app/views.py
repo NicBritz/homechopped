@@ -1,12 +1,15 @@
-from app import app
-from app.setup import MONGO, DB_RECIPES
-from flask import render_template, redirect, url_for, request, abort
 import random
+
+from flask import render_template, redirect, url_for, request, abort
+
+from app import app
+from app.setup import DB_RECIPES
 
 
 ##############
 # INDEX VIEW #
 ##############
+# noinspection PyBroadException
 @app.route('/', defaults={'pg': 1, 'limit': 8, 'sort': 1})
 @app.route('/<pg>/<limit>/<sort>')
 def index(pg, limit, sort):
@@ -15,8 +18,6 @@ def index(pg, limit, sort):
     index.html from the render templates directory passing in all the recipes from the recipe database
     random recipes are generated for the feature slider
     """
-    # all recipes
-    all_recipes = DB_RECIPES.find()
     # all recipes count
     all_count = DB_RECIPES.count_documents({})
     # all featured recipes
@@ -60,7 +61,7 @@ def index(pg, limit, sort):
     skip = 0 if int(pg) == 1 else (int(pg) - 1) * limit
     paginated_recipes = DB_RECIPES.find().sort([('name', sort)]).skip(skip).limit(limit)
 
-    return render_template('index.html', all_recipes=all_recipes, paginated_recipes=paginated_recipes,
+    return render_template('index.html', all_recipes=DB_RECIPES.find(), paginated_recipes=paginated_recipes,
                            random_recipes=random_recipes, limit=limit, current_pg=pg, sort=sort, lastpg=count,
                            all_count=all_count)
 
@@ -102,8 +103,7 @@ def index_sort(pg, limit):
 @app.route('/featured/', defaults={'pg': 1, 'limit': 8, 'sort': 1})
 @app.route('/featured/<pg>/<limit>/<sort>')
 def featured(pg, limit, sort):
-    # all recipes
-    all_recipes = DB_RECIPES.find()
+
     # all featured recipes
     featured_recipe_list = list(DB_RECIPES.find({'featured': 'true'}))
     # sorting
@@ -120,7 +120,7 @@ def featured(pg, limit, sort):
             count += 1
 
     featured_count = DB_RECIPES.count_documents({'featured': 'true'})
-    return render_template('featured.html', all_recipes=all_recipes, paginated_recipes=paginated_recipes,
+    return render_template('featured.html', all_recipes=DB_RECIPES.find(), paginated_recipes=paginated_recipes,
                            limit=limit, current_pg=pg, sort=sort, lastpg=count, featured_count=featured_count)
 
 
@@ -161,8 +161,6 @@ def featured_sort(pg, limit):
 @app.route('/all_recipes/', defaults={'pg': 1, 'limit': 8, 'sort': 1})
 @app.route('/all_recipes/<pg>/<limit>/<sort>')
 def all_recipes(pg, limit, sort):
-    # all recipes
-    all_recipes = DB_RECIPES.find()
     # all recipes count
     all_count = DB_RECIPES.count_documents({})
     # sorting
@@ -172,8 +170,14 @@ def all_recipes(pg, limit, sort):
     skip = 0 if int(pg) == 1 else (int(pg) - 1) * limit
     paginated_recipes = DB_RECIPES.find().sort([('name', sort)]).skip(skip).limit(limit)
 
-    return render_template('all-recipes.html', all_recipes=all_recipes, paginated_recipes=paginated_recipes,
-                           limit=limit, current_pg=pg, sort=sort, all_count=all_count)
+    count = 0
+    # calculate the last page number if not evenely divisible by the limmit
+    for r_page in range(DB_RECIPES.count_documents({})):
+        if r_page % limit == 0:
+            count += 1
+
+    return render_template('all-recipes.html', all_recipes=DB_RECIPES.find(), paginated_recipes=paginated_recipes,
+                           limit=limit, current_pg=pg, sort=sort, all_count=all_count, lastpg=count)
 
 
 ####################
