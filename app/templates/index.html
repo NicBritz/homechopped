@@ -73,6 +73,7 @@
                         <form method="POST" action="{{ url_for('index_limit') }}">
                             <div class="input-field">
                                 <select id="amount_field" name="amount" onchange="this.form.submit()">
+
                                     <option value="{{ limit }}" disabled selected>{{ limit }}</option>
                                     <!-- number of availible pages calculation  -->
                                     {% for num in range(1, all_count|int + 1) %}
@@ -80,6 +81,7 @@
                                             <option value="{{ num }}">{{ num }}</option>
                                         {% endif %}
                                     {% endfor %}
+
                                 </select>
                                 <label for="amount_field">SHOW</label>
                             </div>
