@@ -66,7 +66,6 @@
                     <p><em>updated {{ current_recipe.date_updated }}</em></p>
                 </div>
             </div>
-
             <!-- Socials -->
             <div class="col s12 m6 skip-print">
                 <div class="col s12 m6">
@@ -74,18 +73,26 @@
                             class="material-icons left">stars</i>rate</a>
                 </div>
                 <div class="col s12 m6">
-                    <!-- add to favorites, display red if in your favorites -->
-                    {% if current_recipe._id in favorites %}
-                        <a class="waves-effect waves-light btn btn-flat recipe-social"
-                           href="{{ url_for('add_favorite', recipe_id=current_recipe._id) }}"><i
-                                class="material-icons left red-text">
-                            favorite</i>favourite</a>
+                    {% if loged_in == True %}
+                        <!-- add to favorites, display red if in your favorites if logged in-->
+                        {% if current_recipe._id in favorites %}
+                            <a class="waves-effect waves-light btn btn-flat recipe-social"
+                               href="{{ url_for('add_favorite', recipe_id=current_recipe._id) }}"><i
+                                    class="material-icons left red-text">
+                                favorite</i>favourite</a>
+                        {% else %}
+                            <a class="waves-effect waves-light btn btn-flat recipe-social"
+                               href="{{ url_for('add_favorite', recipe_id=current_recipe._id) }}"><i
+                                    class="material-icons left">
+                                favorite</i>favourite</a>
+                        {% endif %}
                     {% else %}
-                        <a class="waves-effect waves-light btn btn-flat recipe-social"
-                           href="{{ url_for('add_favorite', recipe_id=current_recipe._id) }}"><i
+                        <a class="waves-effect waves-light btn btn-flat recipe-social modal-trigger"
+                           href="#favourite-modal"><i
                                 class="material-icons left">
                             favorite</i>favourite</a>
                     {% endif %}
+
                 </div>
                 <div class="col s12 m6">
                     <a class="waves-effect waves-light btn btn-flat dropdown-trigger recipe-social"
@@ -231,10 +238,21 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="modal-close waves-effect waves-green btn-flat " type="submit"
+                <button class="modal-close waves-effect waves-blue btn-flat blue-text" type="submit"
                         name="action">Rate
                 </button>
             </div>
         </form>
+    </div>
+    <!-- favourite Modal -->
+    <div id='favourite-modal' class="modal">
+        <div class="modal-content center favourite-modal-text">
+            <p>Sign-in to add to favourites</p>
+        </div>
+        <div class="modal-footer">
+            <a href="{{ url_for('sign_in') }}"
+               class="modal-close waves-effect waves-green btn-flat green-text">Sign-in</a>
+            <a href="#" class="modal-close waves-effect waves-red btn-flat red-text">Cancel</a>
+        </div>
     </div>
 {% endblock %}

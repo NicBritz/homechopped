@@ -4,18 +4,34 @@
 * {
     font-family: 'Montserrat', sans-serif;
     margin: 0;
+    padding: 0;
 }
 
 body {
     background-color: #eeeeee;
 }
 
+/* container defaults */
 .container {
     margin: 0 6rem 0 6rem;
     max-width: none;
     width: auto;
 }
 
+/* modal defaults */
+.modal {
+    width: 35%;
+}
+
+/* button defaults*/
+.btn-flat {
+    font-size: 1em;
+}
+
+/* form labels*/
+.input-field > label {
+    color: #424242 !important;
+}
 
 /* Header */
 .logo-home-text {
@@ -46,10 +62,6 @@ body {
     color: #424242;
 }
 
-/* form labels*/
-.input-field > label {
-    color: #424242 !important;
-}
 
 /* Footer */
 
@@ -75,152 +87,11 @@ body {
     padding-bottom: 10px;
 }
 
-.recipe-edit {
-    position: relative;
-    bottom: -30px;
-    right: 10px;
-}
-
-/* edit recipe */
-/* save button */
-.save-recipe-btn {
-    position: absolute;
-    margin-top: 1em;
-}
-
-.del-recipe-button {
-    margin-top: 10px;
-}
-
-/* Profile page */
-.profile-img-lg {
-    width: 160px;
-    height: 160px;
-    position: relative;
-    left: 0;
-    border-radius: 50%;
-    box-shadow: -2px 2px 10px #757575;
-}
-
-
-
-.profile-title-text h4 {
-    font-weight: 600;
-    margin: 0;
-    position: relative;
-}
-
-.folder-btn {
-    position: absolute !important;
-    height: 40px !important;
-    width: 40px !important;
-    left: 20px;
-}
-
-.folder-btn2 {
-    height: 40px !important;
-    width: 40px !important;
-}
-
-.recipe-tab {
-    background: #bdbdbd;
-}
-
-.recipe-tab i {
-    font-size: 2.5em;
-    position: relative;
-    top: 5px;
-}
-
-.done-btn {
-   margin-top: 10px;
-}
-
-.recipe-tab a {
-    color: #424242 !important;
-    font-weight: 500;
-}
-
-
-.tabs .indicator {
-    background: #fafafa !important;
-}
-
-.tabs .tab a:focus, .tabs .tab a:focus.active {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-
-.edit-profile-icon i {
-    line-height: 50px !important;
-}
-
-.profile-bio-text p {
-    padding: 1em;
-    font-size: 1em;
-    background: #e0e0e0;
-    border-radius: 5px;
-    border: 1px solid #bdbdbd;
-    font-weight: 500;
-}
-
-.save-recipe button {
-    position: absolute;
-    left: 36px;
-    top: 100px;
-}
-
-/* edit recipe image*/
-.edit-recipe-img {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
-    box-shadow: -2px 2px 10px #757575;
-}
-
-
-.profile-link-btn {
-    font-size: 1.6em;
-    font-weight: 500;
-    font-family: 'Montserrat', sans-serif;
-    transition: all 0.3s linear;
-}
-
-.profile-link-btn :hover {
-    text-shadow: 2px 2px 5px #bdbdbd;
-    transition: all 0.3s linear;
-}
-
-.btn-flat {
-    font-size: 1em;
-}
-
-/* Edit profile */
-
-.edit-textarea-label {
-    font-size: 1.5em !important;
-}
-
-
-.del-profile i {
-    color: #e0e0e0;
-}
-
-.profile-link-btn span {
-    font-weight: 500;
-    color: #e0e0e0;
-    font-size: 0.9em;
-}
-
-.modal {
-    width: 35%;
-}
 
 
 /* Media Queries */
 
 /* Small */
-/*noinspection ALL*/
 @media (max-width: 991px) {
     /* globals*/
     .container {

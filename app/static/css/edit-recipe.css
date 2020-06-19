@@ -1,0 +1,53 @@
+/* folder button */
+.folder-btn2 {
+    height: 40px !important;
+    width: 40px !important;
+}
+
+/* Tabs */
+
+.recipe-tab {
+    background: #bdbdbd;
+}
+
+.recipe-tab i {
+    font-size: 2.5em;
+    position: relative;
+    top: 5px;
+}
+
+.recipe-tab a {
+    color: #424242 !important;
+    font-weight: 500;
+}
+
+.tabs .indicator {
+    background: #fafafa !important;
+}
+
+.tabs .tab a:focus, .tabs .tab a:focus.active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+
+/* buttons */
+.save-recipe-btn {
+    position: absolute;
+    margin-top: 1em;
+}
+
+.del-recipe-button {
+    margin-top: 10px;
+}
+
+.done-btn {
+    margin-top: 10px;
+}
+
+/* edit recipe image*/
+.edit-recipe-img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: -2px 2px 10px #757575;
+}
