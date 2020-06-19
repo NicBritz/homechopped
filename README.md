@@ -337,11 +337,45 @@ I tested all the CSS files in the project using W3C CSS validator with no errors
 
 After finishing up my CSS and before the validation of CSS I used this tool to make sure I had not left out any prefixing in my code.
 
+#### Unit Testing
+
+I used [pytest](https://docs.pytest.org/en/stable/) for unit testing, you can fins a copy of my tests in the tests folder in the main app. I only wrote the basic response tests but they ended up helping me a lot when I was developing error handling. To manually run the tests you can run the command ``py.test``. You can find all my unit tests [here](app/tests).
+
+<img src="https://res.cloudinary.com/dajuujhvs/image/upload/v1592601487/homechopped/Pytest_a8tv6f.png" style="zoom:50%;" alt="pytest results "/>
+
+#### CI/CD
+
+As an extra test I used [github actions](https://github.com/features/actions) to set up continuous integration tests when ever I create a pull request. This was just in case I broke something. It was good to check before merging to the master branch.
+
+<img src="https://res.cloudinary.com/dajuujhvs/image/upload/v1592601810/homechopped/CICD_yhio1h.png" style="zoom:60%;" alt="ci/cd picture"/>
+
+<img src="https://res.cloudinary.com/dajuujhvs/image/upload/v1592601947/homechopped/cicd2_c5xjzm.png" style="zoom:50%;" alt="github actions screenshot" />
+
+#### Google Lighthouse
+
+I used google lighthouse in the chrome browser to help improve performance and catch errors, I fins this a very useful tool to catch small mistakes like forgetting an alt tag for images. 
+
+<img src="https://res.cloudinary.com/dajuujhvs/image/upload/v1592602983/homechopped/chrome_lighthouse_e63o78.png" style="zoom:60%;" alt="google lighthouse results" />
+
+#### Browser and Device Testing
+
+| **Browser**      | **Device** | **Compatibility**                                            | **Version**            |
+| :--------------- | :--------- | :----------------------------------------------------------- | :--------------------- |
+| Google Chrome    | PC         | Excellent                                                    | Version 83.0.4103.106  |
+| Firefox          | PC         | Excellent                                                    | Version 77.0.1         |
+| Microsoft Edge   | PC         | Excellent                                                    | Version 83.0.478.54    |
+| IE 11            | PC         | Good - slight styling differences, some share links are not supported | Version 11.900.18362.0 |
+| Brave            | PC         | Excellent                                                    | Version 1.10.93        |
+| Samsung Internet | Galaxy S8  | Excellent                                                    | Version 11.2.2.3       |
+| Safari           | iPhone 8   | Excellent                                                    | Version 13.1           |
+
+#### User Testing
+
+This was probably the most useful of all, I had a number of friends and family test the application. This helped me get feedback and find bugs I had missed. some included styling issues on different devices to some UX ideas to make it a bit more intuitive. Unfortunately I could not implement all the suggested features in time but the feedback was invaluable.
+
 ------
 
-In this section, you need to convince the assessor that you have conducted enough testing to legitimately believe that the site works well. Essentially, in this part you will want to go over all of your user stories from the UX section and ensure that they all work as intended, with the project providing an easy and straightforward way for the users to achieve their goals.
 
-Whenever it is feasible, prefer to automate your tests, and if you've done so, provide a brief explanation of your approach, link to the test file(s) and explain how to run them.
 
 For any scenarios that have not been automated, test the user stories manually and provide as much detail as is relevant. A particularly useful form for describing your testing process is via scenarios, such as:
 
