@@ -77,6 +77,8 @@ def index_limit():
         :return
         index with number of recipes per page
     """
+    amount = None
+
     try:
         # attempts to convert amount to an intiger
         amount = int(request.form.get('amount'))
@@ -95,6 +97,8 @@ def index_sort(pg, limit):
     """Sorts recipes on the index page
 
     """
+    sort = None
+
     try:
         # attempts to convert sort to an intiger
         sort = int(request.form.get('sort'))
@@ -171,6 +175,8 @@ def featured_limit():
         :return
         featured with number per page
     """
+    amount = None
+
     try:
         # attempts to convert amount to an intiger
         amount = int(request.form.get('amount'))
@@ -192,6 +198,8 @@ def featured_sort(pg, limit):
         :return
         index with number per page
     """
+    sort = None
+
     try:
         # attempts to convert sort to an intiger
         sort = int(request.form.get('sort'))
@@ -267,6 +275,9 @@ def all_recipes_limit():
         :return
         all recipes with number per page
     """
+
+    amount = None
+
     try:
         # attempts to convert amount to an intiger
         amount = int(request.form.get('amount'))
@@ -286,6 +297,7 @@ def all_recipes_sort(pg, limit):
         :return
         redirects to allrecipe
     """
+    sort = None
 
     try:
         # attempts to convert sort to an intiger

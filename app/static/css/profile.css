@@ -1,0 +1,45 @@
+/* Profile image */
+.profile-img-lg {
+    width: 160px;
+    height: 160px;
+    position: relative;
+    left: 0;
+    border-radius: 50%;
+    box-shadow: -2px 2px 10px #757575;
+}
+
+/* profile text */
+.profile-title-text h4 {
+    font-weight: 600;
+    margin: 0;
+    position: relative;
+}
+
+/* folder button */
+.folder-btn {
+    position: absolute !important;
+    height: 40px !important;
+    width: 40px !important;
+    left: 20px;
+}
+
+/* aboutme text */
+.profile-bio-text p {
+    padding: 1em;
+    font-size: 1em;
+    background: #e0e0e0;
+    border-radius: 5px;
+    border: 1px solid #bdbdbd;
+    font-weight: 500;
+}
+
+/* aboutme label */
+.edit-textarea-label {
+    font-size: 1.5em !important;
+}
+
+.recipe-edit {
+    position: relative;
+    bottom: -30px;
+    right: 10px;
+}

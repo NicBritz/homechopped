@@ -11,7 +11,7 @@ app = Flask(__name__)
 #####################
 from app import setup
 from app import views
-from app import user_login
-from app import user_profile
+from app import login
+from app import profile
 from app import recipe
 from app import errors
