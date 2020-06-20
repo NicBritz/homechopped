@@ -41,8 +41,8 @@ There is also a secure user profile area where you are able to add recipes as we
   - [Sign-in](#Sign-in)
   - [Registration](#Registration)
   - [Profile page](#Profile-page)
-  - [Edit profile](#Edit profile)
-  - [Create / Edit recipe](#Create-/-Edit recipe)
+  - [Edit profile](#Edit-profile)
+  - [Edit recipe](#Edit-recipe)
    - [Image tab](#Image-tab)
    - [Recipe info tab](#Recipe-info-tab)
    - [Ingredient and Method tabs](#Ingredient-and-Method-tabs)
@@ -211,7 +211,7 @@ Editing your profile could not be easier, with intuitive icons and tooltips. In 
 
 This is also where you will delete your profile. Deleting your profile will also delete all your recipes and images so you will be asked to confirm before the delete is executed.
 
-### Create / Edit recipe
+### Edit recipe
 
 #### Image tab
 
