@@ -20,9 +20,63 @@ There is also a secure user profile area where you are able to add recipes as we
 
 ## Table of Contents
 
-[TOC]
-
-
+- [Overview](#Overview)
+- [UX](#ux)
+  - [user](#User)
+  - [design](#design)
+  - [Wireframes](#wireframes)
+    - [Home page](#Home page)
+    - [Filtered pages](#Filtered pages)
+    - [Recipe page](#Recipe page)
+    - [Edit pages](#Edit pages)
+  - [Trello](#Trello)
+  - [Database Schema](#Database Schema)
+- [Features](#Features)
+  - [The navigation bar](#The navigation bar)
+  - [Main Slider](#Main Slider)
+  - [View  filtering](#View  filtering)
+  - [Recipe cards](#Recipe cards)
+  - [Pagination](#Pagination)
+  - [Footer](#Footer)
+  - [Sign-in](#Sign-in)
+  - [Registration](#Registration)
+  - [Profile page](#Profile page)
+  - [Edit profile](#Edit profile)
+  - [Create / Edit recipe](#Create / Edit recipe)
+    - [Image tab](#Image tab)
+    - [Recipe info tab](#Recipe info tab)
+    - [Ingredient and Method tabs](#Ingredient and Method tabs)
+  - [Recipe view](#Recipe view)
+  - [Error handling](#Error handling)
+  - [Code structure](#Code structure)
+  - [Features Left to Implement](#Features Left to Implement)
+- [Technologies Used](#Technologies Used)
+  - [Other Tools](#Other Tools)
+- [Testing](#Testing)
+ - [W3C Markup](#W3C Markup)
+ - [W3C CSS](#W3C CSS)
+ - [Autoprefixer](#Autoprefixer)
+ - [Unit Testing](#Unit Testing)
+ - [CI/CD](#CI/CD)
+ - [Google Lighthouse](#Google Lighthouse)
+ - [Browser and Device Testing](#Browser and Device Testing)
+ - [User Testing](#User Testing)
+- [Deployment](#Deployment)
+ - [Prerequisites](#Prerequisites)
+ - [Development](#Development)
+ - [Cloning](#Cloning)
+ - [Requirements](#Requirements)
+ - [Environment Variables](#Environment Variables)
+ - [Contribution](#Contribution)
+- [Deployment](#Deployment)
+ - [Credits](#Credits)
+   - [Content](#Content)
+   - [Media](#Media)
+     - [Images](#Images)
+     - [Name](#Name)
+ - [Acknowledgements](#Acknowledgements)
+   - [Inspiration](#Inspiration)
+   - [code](#code)
 
 ----
 
@@ -203,6 +257,14 @@ If you are in need pf a printed version of the recipe there is a print button se
 
 The ingredient and methods are styled accordingly, for example the methods have numbered steps where the ingredients do not. These step numbers are created using jinja templating.
 
+### Error handling
+
+I have added some custom error pages to make it look a bit more professional when encountering an error, images are from [Drlinkcheck](https://www.drlinkcheck.com/blog/free-http-error-images).
+
+<img src="https://res.cloudinary.com/dajuujhvs/image/upload/v1592653729/homechopped/Capture_dbywps.png" style="zoom:50%;" alt="error message"/>
+
+
+
 ### Code structure
 
 After some time of adding features to the project I decided to split the Code into more manageable files. this helped a lot as the project grew in scale. below is an outline of this file / folder structure.
@@ -256,10 +318,14 @@ After some time of adding features to the project I decided to split the Code in
 
 ### Features Left to Implement
 
+As with all software, this is a very organic site and there are so many features i would like to implement here is a list of some of them.
+
 - multiple ingredient lists for a complex recipe
 - more sorting and filtering options
 - recipe categories
 - About the author section
+
+[Contents](#Table of Contents)
 
 ---
 
@@ -320,6 +386,8 @@ The following is a list of tools and technologies I used to create this website:
   - Used to validate JavaScript.
 - [Autoprefixer](https://autoprefixer.github.io/)
   - I used this tool to make sure I did not miss any prefixing in my code.
+
+[Contents](#Table of Contents)
 
 ------
 
@@ -405,7 +473,7 @@ This was probably the most useful of all, I had a number of friends and family t
 
 <img src="https://res.cloudinary.com/dajuujhvs/image/upload/v1592642702/homechopped/user_tests_xl6tsr.png" style="zoom:50%;" alt=" user feedback image" />
 
-
+[Contents](#Table of Contents)
 
 ------
 
@@ -474,6 +542,8 @@ You will need to setup the following environment variables on your system.
 
 The easiest way to deploy the project to Heroku is to set your connect method to GitHub and link the repository master branch. If you set the project up for automatic deploys it will deploy once the master branch is updated.
 
+[Contents](#Table of Contents)
+
 ------
 
 ## Credits
@@ -503,7 +573,7 @@ Along the development process I saved all references I used to the References ar
 
 #### Inspiration
 
-- used to help with ideas for web design
+- Used to help with ideas for web design
   - [Food Gawker](https://foodgawker.com/post/category/beef/)
   - [BBC Food](https://www.bbc.co.uk/food)
 
@@ -518,3 +588,5 @@ Along the development process I saved all references I used to the References ar
 - [Social links](https://css-tricks.com/simple-social-sharing-links/)
 - [Project structure](https://pythonise.com/series/learning-flask/flask-application-structure)
 - General queries [Stack overflow](https://stackoverflow.com/)
+
+[Contents](#Table of Contents)
