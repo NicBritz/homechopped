@@ -209,10 +209,6 @@ After some time of adding features to the project I decided to split the Code in
 
 ```bash
 .
-├── __init__.py
-├── errors.py
-├── recipe.py
-├── setup.py
 ├── static
 │   ├── css
 │   │   ├── card.css
@@ -242,10 +238,20 @@ After some time of adding features to the project I decided to split the Code in
 │   ├── recipe.html
 │   ├── register.html
 │   └── sign-in.html
-├── test_views.py
+├── tests
+│   ├── ./tests/__init__.py
+│   ├── ./tests/test_login.py
+│   ├── ./tests/test_profile.py
+│   ├── ./tests/test_recipe.py
+│   └── ./tests/test_views.py
+├── __init__.py
+├── errors.py
+├── recipe.py
+├── setup.py
 ├── user_login.py
 ├── user_profile.py
 └── views.py
+
 ```
 
 ### Features Left to Implement
@@ -317,7 +323,7 @@ The following is a list of tools and technologies I used to create this website:
 
 ------
 
-## 
+
 
 ## Testing
 
@@ -364,53 +370,151 @@ I used google lighthouse in the chrome browser to help improve performance and c
 | Google Chrome    | PC         | Excellent                                                    | Version 83.0.4103.106  |
 | Firefox          | PC         | Excellent                                                    | Version 77.0.1         |
 | Microsoft Edge   | PC         | Excellent                                                    | Version 83.0.478.54    |
-| IE 11            | PC         | Good - slight styling differences, some share links are not supported | Version 11.900.18362.0 |
+| IE 11            | PC         | Good - slight styling differences, some share links are not supported due to depreciated browser | Version 11.900.18362.0 |
 | Brave            | PC         | Excellent                                                    | Version 1.10.93        |
 | Samsung Internet | Galaxy S8  | Excellent                                                    | Version 11.2.2.3       |
 | Safari           | iPhone 8   | Excellent                                                    | Version 13.1           |
 
+- [x] Test links to all pages
+- [x] Test errors by typing in random page redirects
+- [x] Try to access the user area without signing in
+- [x] Test filtering dropdowns
+- [x] Test searching
+- [x] Test clear search
+- [x] Tests card reveals
+- [x] Test social links
+- [x] Test recipe rating system
+- [x] Test recipe share links
+- [x] Test print option
+- [x] Test account registration
+- [x] Test add to favourites 
+- [x] Test remove from favourites
+- [x] Test update profile picture
+- [x] Test update profile info
+- [x] Test create recipe forms
+- [x] Test add / del ingredients
+- [x] Test add recipe image
+- [x] Test delete recipe 
+- [x] Test sign out 
+- [x] Test sign in
+- [x] Test delete profile 
+
 #### User Testing
 
-This was probably the most useful of all, I had a number of friends and family test the application. This helped me get feedback and find bugs I had missed. some included styling issues on different devices to some UX ideas to make it a bit more intuitive. Unfortunately I could not implement all the suggested features in time but the feedback was invaluable.
+This was probably the most useful of all, I had a number of friends and family test the application. This helped me get feedback and find bugs I had missed. some included styling issues on different devices to some UX ideas to make it a bit more intuitive. Unfortunately I could not implement all the suggested features in time but the feedback was invaluable.  Below are some of the feedback images I received and consequently fixed.
+
+<img src="https://res.cloudinary.com/dajuujhvs/image/upload/v1592642702/homechopped/user_tests_xl6tsr.png" style="zoom:50%;" alt=" user feedback image" />
+
+
 
 ------
 
 
 
-For any scenarios that have not been automated, test the user stories manually and provide as much detail as is relevant. A particularly useful form for describing your testing process is via scenarios, such as:
+### Deployment
 
-1. Contact form:
-    1. Go to the "Contact Us" page
-    2. Try to submit the empty form and verify that an error message about the required fields appears
-    3. Try to submit the form with an invalid email address and verify that a relevant error message appears
-    4. Try to submit the form with all inputs valid and verify that a success message appears.
+The repository for this project is hosted on [GitHub](https://github.com/) and uses [Heroku](https://www.heroku.com/) to serve the site to the world. If you would like to contribute to this project or run it locally you would need to first have some sort of code editor installed like [VS Code](https://code.visualstudio.com/) and some version control software like [Git](https://git-scm.com/), you will also need a GitHub account.
 
-In addition, you should mention in this section how your project looks and works on different browsers and screen sizes.
+#### Prerequisites
 
-You should also mention in this section any interesting bugs or problems you discovered during your testing, even if you haven't addressed them yet.
+In order to contribute to this repository you will need to have the following installed:
 
-If this section grows too long, you may want to split it off into a separate file and link to it from here.
+- Python 3.8.3 or higher
+- Git version control
+- Code editor - [Pycharm](https://www.jetbrains.com/pycharm/) or [VS Code](https://code.visualstudio.com/)  is recommended
 
-## Deployment
+#### Development
 
-This section should describe the process you went through to deploy the project to a hosting platform (e.g. GitHub Pages or Heroku).
+There are a number of steps required to deploy a local version of this project. 
 
-In particular, you should provide all details of the differences between the deployed version and the development version, if any, including:
-- Different values for environment variables (Heroku Config Vars)?
-- Different configuration files?
-- Separate git branch?
+##### Cloning
 
-In addition, if it is not obvious, you should also describe how to run your code locally.
+- At the top of the repository click on the `Clone or download button`
+- Copy the path to the repo `https://github.com/Frozenaught/homechopped.git`
+- In your command-line, navigate to the folder where you would like to make a copy of this repository -`c:\MyRepos> `.
+- Type the following to clone the repo `c:\MyRepos> git clone https://github.com/Frozenaught/homechopped.git`
+- Now you can navigate to the newly created directory `c:\MyRepos\homechopped>`
 
+##### Requirements
+
+Next you will need to install all the projects dependencies type `pip install -r requirements.txt`. If you add or update any new packages to the project use `pip freeze --local > requirements.txt ` to update the [requirements.txt](requirements.txt) file with the new dependencies.
+
+##### Environment Variables
+
+You will need to setup the following environment variables on your system.
+
+| Variable name         | Used for                 | Notes                                                        |
+| --------------------- | ------------------------ | ------------------------------------------------------------ |
+| CLOUDINARY_CLOUD_NAME | Cloudinary Image package | Found in your Clouinary account dashboard                    |
+| CLOUDINARY_API_KEY    | Cloudinary Image package | Found in your Clouinary account dashboard                    |
+| CLOUDINARY_API_SECRET | Cloudinary Image package | Found in your Clouinary account dashboard                    |
+| HC_MONGO_DBNAME       | Mongo DB                 | This is the name of your database collection eg: `homechoped` |
+| HC_MONGO_URI          | Mongo DB                 | Found in the connect button on the database cluster          |
+| SESSION_SECRET        | Session Variables        | This is a unique secret used for cookie encryption,  you can use any random string for this |
+| IP                    | Flask                    | You can use `0.0.0.0` here to indicate a local IP address    |
+| PORT                  | Flask                    | You can use the default port `5000`                          |
+
+
+
+> Note: you will need to add these environment variable to your GitHub repo in `settings -> secrets` and Heroku  in `settings -> config vars` 
+
+##### Contribution
+
+- If you chose to make changes to the website I would recommend using separate branches so that you can go back to the original master branch if the changes don't work as expected.
+- Use `git checkout -b <brancname>` to create a new branch and edit the files accordingly.
+- If you are happy with the changes to use `git commit -m "my commit message of changes I have made"` to commit the changes.
+- Use `git push `to push the changes to the repository.
+- As these changes are on a different branch they will not be available on the deployed site until you merge them to the master branch.
+- To merge the new branch to the master branch switch to the new branch on GitHub using the branch selector dropdown menu.
+- create a new pull request and state what changes were made in the comment section.
+- submit the pull request and switch back to the master branch.
+- now you will have the option to merge the pull request and you will be done.
+
+##### Deployment
+
+The easiest way to deploy the project to Heroku is to set your connect method to GitHub and link the repository master branch. If you set the project up for automatic deploys it will deploy once the master branch is updated.
+
+------
 
 ## Credits
 
+The bulk of the credits should really go to the documentation of the various technologist I used, I managed to get most of what I needed from there.
+
 ### Content
-- The text for section Y was copied from the [Wikipedia article Z](https://en.wikipedia.org/wiki/Z)
+
+The recipes on the site are all real recipes taken from [BBC Food](https://www.bbc.co.uk/food), all the text was copied from the links in [this trello card](https://trello.com/c/cSwtE1RE/71-recipes)
 
 ### Media
-- The photos used in this site were obtained from ...
+
+#### Images
+
+- Placeholder images - [Icon Library](http://icon-library.com/)
+- Placeholder profile picture - [PNG Item](https://www.pngitem.com/)
+- Error Images - [Drlinkcheck](https://www.drlinkcheck.com/blog/free-http-error-images)
+- Recipe images - [Pixabay](https://pixabay.com/)
+
+#### Name
+
+- The name was generated using - [Biz name wiz](https://biznamewiz.com/)
 
 ### Acknowledgements
 
-- I received inspiration for this project from X
+Along the development process I saved all references I used to the References area in my [Trello Board](https://trello.com/b/8o2Zv6LB/ci-milestone-3-homechopped)
+
+#### Inspiration
+
+- used to help with ideas for web design
+  - [Food Gawker](https://foodgawker.com/post/category/beef/)
+  - [BBC Food](https://www.bbc.co.uk/food)
+
+#### Code
+
+- Help with login system - [Login System](https://www.youtube.com/watch?v=vVx1737auSE)
+- Cloudinary image upload 
+  - [Image Widgets](https://cloudinary.com/documentation/upload_widget#create_upload_widget_methods)
+  - [Sample Repo](https://github.com/cloudinary/pycloudinary/blob/master/samples/basic/basic.py)
+- [Rate system](https://www.cssscript.com/five-star-rating-system-with-pure-css-and-radio-button-hack/)
+- [Print Button](https://www.thoughtco.com/how-to-add-a-print-button-4072006)
+- [Social links](https://css-tricks.com/simple-social-sharing-links/)
+- [Project structure](https://pythonise.com/series/learning-flask/flask-application-structure)
+- General queries [Stack overflow](https://stackoverflow.com/)
