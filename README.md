@@ -325,7 +325,7 @@ As with all software, this is a very organic site and there are so many features
 - recipe categories
 - About the author section
 
-[Contents](#Table of Contents)
+[Contents](#Table-of-Contents)
 
 ---
 
@@ -387,7 +387,7 @@ The following is a list of tools and technologies I used to create this website:
 - [Autoprefixer](https://autoprefixer.github.io/)
   - I used this tool to make sure I did not miss any prefixing in my code.
 
-[Contents](#Table of Contents)
+[Contents](#Table-of-Contents)
 
 ------
 
@@ -473,7 +473,7 @@ This was probably the most useful of all, I had a number of friends and family t
 
 <img src="https://res.cloudinary.com/dajuujhvs/image/upload/v1592642702/homechopped/user_tests_xl6tsr.png" style="zoom:50%;" alt=" user feedback image" />
 
-[Contents](#Table of Contents)
+[Contents](#Table-of-Contents)
 
 ------
 
@@ -542,7 +542,7 @@ You will need to setup the following environment variables on your system.
 
 The easiest way to deploy the project to Heroku is to set your connect method to GitHub and link the repository master branch. If you set the project up for automatic deploys it will deploy once the master branch is updated.
 
-[Contents](#Table of Contents)
+[Contents](#Table-of-Contents)
 
 ------
 
@@ -589,4 +589,4 @@ Along the development process I saved all references I used to the References ar
 - [Project structure](https://pythonise.com/series/learning-flask/flask-application-structure)
 - General queries [Stack overflow](https://stackoverflow.com/)
 
-[Contents](#Table of Contents)
+[Contents](#Table-of-Contents)
