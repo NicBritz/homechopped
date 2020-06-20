@@ -6,7 +6,7 @@
 
 ## Overview
 
-Home chopped is a user driven recipe web site where you are able share your ideas for delicious dishes. You can also rate recipes offered by other users and even add recipes to your collection of favourites for easy recall at a later stage. 
+[HomeChopped](http://homechopped.herokuapp.com/) is a user driven recipe web site where you are able share your ideas for delicious dishes. You can also rate recipes offered by other users and even add recipes to your collection of favourites for easy recall at a later stage. 
 
 If your recipe is chosen to be one of our featured recipes there is a chance that it will be presented on the main page slider section. 
 
