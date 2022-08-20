@@ -15,8 +15,11 @@ cloudinary.config(
 app.config["MONGO_DBNAME"] = os.environ.get('HC_MONGO_DBNAME')
 app.config["MONGO_URI"] = os.environ.get('HC_MONGO_URI')
 
+
+
 # secret key
 app.config["SECRET_KEY"] = os.environ.get('SESSION_SECRET')
+
 
 ######################
 # CONSTANT VARIABLES #
