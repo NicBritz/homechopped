@@ -1,0 +1,68 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v7.0.29,
+* Autoprefixer: v9.7.6
+* Browsers: last 4 version
+*/
+
+/* flickity - main slider */
+
+/* Main container */
+.main-slider {
+    text-align: center;
+    text-align: -webkit-center;
+    position: relative;
+    top: -35px;
+}
+
+/* position dots up a bit */
+.flickity-page-dots {
+    bottom: -15px;
+}
+
+/* dots are small */
+.flickity-page-dots .dot {
+    height: 5px;
+    width: 5px;
+    margin: 5px;
+    background: #cdcdcd;
+}
+
+/* slider image */
+.slider-img {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+}
+
+/* slider text */
+.slider-text {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 50%;
+}
+
+/* restrict container */
+.container {
+    max-width: 1152px;
+}
+
+/* image container */
+.carousel-cell {
+    display: block;
+    width: 100%;
+    margin-right: 10px;
+    text-align: inherit;
+}
+
+/* image */
+.carousel-cell img {
+    display: block;
+}
+
+/* slider arrows */
+.flickity-button {
+    background: none;
+}

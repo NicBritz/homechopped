@@ -1,0 +1,415 @@
+/* Global styles */
+* {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    /* main font */
+    font-family: 'Montserrat', serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* smooth scroll*/
+html {
+    scroll-behavior: smooth;
+}
+
+/* ------------> NAVIGATION MENUS <------------  */
+/* logo setup */
+.main-logo-image {
+    max-height: 2.3rem !important;
+}
+
+/* Dropdown menu styling */
+
+/* remove borders */
+.navbar-dropdown {
+    border: none;
+}
+
+/* set image sizing */
+.navbar-item img {
+    max-height: none;
+}
+
+.image-small {
+    max-width: 300px;
+}
+
+/* handle text wrapping and container styling */
+.navbar-basket {
+    white-space: normal !important;
+}
+
+.dropdown-content {
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
+    max-width: 250px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+/* hover on basket items */
+.basket-menu-item:hover > .dropdown-item {
+    background-color: #f3f2f2;
+}
+
+.fixed-position {
+    position: fixed;
+}
+
+/* change dropdown arrow color on navbar */
+.navbar-link:not(.is-arrowless)::after {
+    border-color: #242424;
+}
+
+/* back to top button */
+.top-button {
+    position: fixed;
+    bottom: 80px;
+    right: 10px;
+    z-index: 60;
+}
+
+/* position remember me checkbox */
+#id_remember {
+    position: relative;
+    left: 162px;
+    top: 48px;
+}
+
+
+/* site background */
+.cover {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: #0a0a0a;
+    margin: 0;
+    z-index: -1;
+}
+
+/* Sale Ribbon src: https://www.cssportal.com/css-ribbon-generator/ */
+.ribbon-box {
+    position: relative;
+}
+
+.ribbon {
+    position: absolute;
+    right: -17px;
+    top: -250px;
+    z-index: 1;
+    overflow: hidden;
+    width: 75px;
+    height: 75px;
+    text-align: right;
+}
+
+.ribbon span {
+    font-size: 16px;
+    font-weight: bold;
+    color: #FFF;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 21px;
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    width: 100px;
+    display: block;
+    background: #79A70A;
+    background: -webkit-gradient(linear, left top, left bottom, from(#9BC90D), to(#79A70A));
+    background: -o-linear-gradient(#9BC90D 0%, #79A70A 100%);
+    background: linear-gradient(#9BC90D 0%, #79A70A 100%);
+    -webkit-box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+    box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+    position: absolute;
+    top: 19px;
+    right: -21px;
+}
+
+.ribbon span::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: -1;
+    border-left: 3px solid #79A70A;
+    border-right: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    border-top: 3px solid #79A70A;
+}
+
+.ribbon span::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 100%;
+    z-index: -1;
+    border-left: 3px solid transparent;
+    border-right: 3px solid #79A70A;
+    border-bottom: 3px solid transparent;
+    border-top: 3px solid #79A70A;
+}
+
+/* game detail page ribbon */
+.ribbon-detail {
+    right: -6px;
+    top: -6px;
+}
+
+/* game card ribbon */
+.ribbon-card {
+    right: -5px;
+    top: -6px;
+}
+
+/* slider ribbon */
+.ribbon-slider {
+    right: -12px;
+    top: -245px;
+}
+
+/* Form Styles */
+.invalid-feedback strong {
+    color: #f14668;
+}
+
+.asteriskField {
+    color: #f14668;
+}
+
+.is-google {
+    background-color: #de5246;
+}
+
+/* FOOTER */
+
+/* Discord social link (brand colors)*/
+.discord-hover:hover span, .discord-hover {
+    background-color: #242424 !important;
+    color: #7289da !important;
+}
+
+/* Instagram social link (brand colors)*/
+.insta-hover:hover span, .insta-hover {
+    background-color: #242424 !important;
+    color: #8a3ab9 !important;
+}
+
+/* Facebook social link (brand colors)*/
+.fb-hover:hover span, .fb-hover {
+    background-color: #242424 !important;
+    color: #3b5998 !important;
+}
+
+/* Twitch social link (brand colors)*/
+.twitch-hover:hover span, .twitch-hover {
+    background-color: #242424 !important;
+    color: #6441a5 !important;
+}
+
+/* hide account and cart buttons in body*/
+.button-section {
+    display: none;
+    padding-top: 100px;
+}
+
+/* show account and cart buttons in navbar */
+.button-navbar {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+}
+
+
+/* hide on non mobile / tablet */
+#mobile-search-and-buttons-bar, #social-buttons-bar {
+    display: none;
+}
+
+/* Card Styles */
+
+.card-title {
+    font-size: 0.85em;
+}
+
+.card:hover, .box:hover {
+    -webkit-box-shadow: 0 0 8px 4px #393939;
+    box-shadow: 0 0 8px 4px #393939;
+    -webkit-transform: scale(1.01);
+    -ms-transform: scale(1.01);
+    transform: scale(1.01);
+}
+
+.old-price {
+    position: absolute;
+    bottom: -5px;
+}
+
+/* Helper Classes */
+.has-text-shadow-3 {
+    text-shadow: 3px 3px black;
+}
+
+.is-justified-center {
+    -webkit-box-pack: center !important;
+    -ms-flex-pack: center !important;
+    justify-content: center !important;
+}
+
+.mx-auto {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.is-line-1 {
+    line-height: 1.5;
+}
+
+.is-z-60 {
+    z-index: 60;
+}
+
+.is-z-70 {
+    z-index: 70;
+}
+
+.is-z-1000 {
+    z-index: 1000;
+}
+
+.is-max-500 {
+    max-width: 500px;
+}
+
+.section {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+
+.discount {
+    position: relative;
+    top: -1em;
+    left: -1em;
+}
+
+.has-line-through {
+    text-decoration: line-through;
+}
+
+/* hide mobile */
+.hide-desktop {
+    display: none;
+}
+
+/* show block mobile */
+.show-desktop-block {
+    display: block;
+}
+
+/* tabel styles */
+.table td, .table th {
+    border-color: #1a1a1a;
+}
+
+.table {
+    border-radius: 4px;
+}
+
+/* Media Queries */
+
+/* to handle some edge cases */
+@media (max-width: 1220px) {
+    .minify {
+        display: none;
+    }
+}
+
+@media (max-width: 1023px) {
+
+
+    /* hide account and cart buttons in navbar */
+    .button-navbar {
+        display: none;
+    }
+
+    /* show account and cart buttons in body*/
+    .button-section {
+        display: block;
+    }
+
+    /* enable mobile search form */
+    #mobile-search-and-buttons-bar, #social-buttons-bar {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+    }
+
+}
+
+@media (max-width: 991px) {
+    /* hide mobile */
+    .hide-mobile {
+        display: none;
+    }
+
+    /* show block mobile */
+    .show-mobile-block {
+        display: block;
+    }
+
+    /* padding for account and cart buttons*/
+    .button-section {
+        padding-top: 130px;
+    }
+
+    #nav-buttons, #search-bar {
+        display: none;
+    }
+
+    .navbar-item {
+        padding-left: 0;
+    }
+
+    .menu-button-group {
+        -webkit-box-pack: normal !important;
+        -ms-flex-pack: normal !important;
+        justify-content: normal !important;
+    }
+
+    .menu-button {
+        font-size: 0.75rem;
+        padding: 0 1em;
+    }
+
+    .dropdown.is-right .dropdown-menu {
+        left: 0;
+        right: 0;
+    }
+
+    .game-selection-container {
+        position: relative;
+        top: -35px;
+    }
+
+    .top-button {
+        position: fixed;
+        bottom: 10px;
+        right: 20px;
+        z-index: 29;
+    }
+
+    .flickity-button {
+        display: none;
+    }
+
+    .main-slider {
+        padding: 0;
+        margin: 0;
+    }
+}
+
